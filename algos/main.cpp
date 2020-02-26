@@ -1,12 +1,13 @@
 #include <iostream>
-#include <stack>
-#include <queue>
+#include "TestClass.h"
 
 using namespace std;
 
-int main() {
+int main(void) {
     std::cout << "Ta mere !\n" << std::endl;
-    stack<int> s;
-    queue<bool> q;
+    
+    TestClass t;
+    t.print();
+    t.print("Coucou !\n");
     return 0;
 }
