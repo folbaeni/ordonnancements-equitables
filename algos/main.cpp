@@ -1,60 +1,50 @@
 #include <iostream>
-#include <queue>
+#include <new>
 
-#include "Job.h"
+#include "job.h"
+#include "jobelem.h"
+#include "joblist.h"
 
 using namespace std;
 
-void Hogdson(Job jobs[], int n) {
-    Job onTime[n];
-    Job late[n];
-    int C = 0, i = 0, j = 0;
+void Hogdson(job jobs[], int n) {
+    joblist ontime = joblist();
+    joblist late = joblist();
+    int C = 0;
 
     for (int k = 0; k < n; k++) {
+        cout << "--------- " + to_string(k + 1) + " ---------\n";
+        ontime.add_job(jobs[k]);
         C += jobs[k].getTime();
-        onTime[i++] = jobs[k];
 
-        if (C > jobs[i].getDeadline()) {
-            int l = 1, imax = 0, timemax = onTime[imax].getTime();
-            while (l < i) {
-                if (onTime[i].getTime() > timemax) {
-                    imax = l;
-                    timemax = onTime[imax].getTime();
-                } 
-                l++;
-            }
-            late[j++] = onTime[imax];
-            onTime[imax] = onTime[i--];
+        if (C > jobs[k].getDeadline()) {
+            jobelem *je = ontime.pop_biggest();
+            C -= je->getTime();
+            late.add_job(je);
         }
-    }
 
-
-    cout << "On time Jobs:\n";
-    for (int k = 0; k < i; k++) {
-        onTime[k].print();
-    }
-    cout << "Late Jobs:\n";
-    for (int k = 0; k < i; k++) {
-        late[k].print();
+        ontime.print();
+        late.print();
     }
 }
 
 int main() {
 
     int n = 6;
-    Job jobs[] = {
-        Job(6, 8),
-        Job(4, 9),
-        Job(7, 15),
-        Job(8, 20),
-        Job(3, 21),
-        Job(5, 22)
+    job jobs[] = {
+        job(6, 8),
+        job(4, 9),
+        job(7, 15),
+        job(8, 20),
+        job(3, 21),
+        job(5, 22)
     };
 
     for (int i = 0; i < n; i++) {
-        jobs[i].print();
+        cout << string(jobs[i]);
     }
 
+    cout << endl << endl;
     Hogdson(jobs, n);
     
 
