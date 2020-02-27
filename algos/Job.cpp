@@ -4,8 +4,8 @@
 using namespace std;
 
 Job::Job(){
-    this->time = 0; 
-    this->deadline = 0;
+    this->time = -1; 
+    this->deadline = -1;
 }
 
 
