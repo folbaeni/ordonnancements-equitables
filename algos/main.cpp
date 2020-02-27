@@ -8,6 +8,6 @@ int main(void) {
     
     TestClass t;
     t.print();
-    t.print("Coucou !\n");
+    t.print("Coucou ali!\n");
     return 0;
 }
