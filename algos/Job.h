@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class job {
+class Job {
     private:
         int static cpt;
         int id, time, deadline;
@@ -15,8 +15,8 @@ class job {
         int getId();
         int getTime();
         int getDeadline();
-        job();
-        job(int time, int deadline);
+        Job();
+        Job(int time, int deadline);
         operator std::string() const;
 };
 

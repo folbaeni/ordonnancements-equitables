@@ -1,22 +1,22 @@
 #include <iostream>
-#include "job.h"
-#include "jobelem.h"
-#include "joblist.h"
+#include "Job.h"
+#include "JobElem.h"
+#include "JobList.h"
 
 
-joblist::joblist() {
+JobList::JobList() {
     this->je = nullptr;
 }
 
-joblist::joblist(jobelem *je) {
+JobList::JobList(JobElem *je) {
     this->je = je;
 }
 
-jobelem* joblist::remove(jobelem *rm) {
+JobElem* JobList::remove(JobElem *rm) {
     if (rm == this->je) {
         this->je = this->je->getNext();
     } else {
-        jobelem* tmp = this->je;
+        JobElem* tmp = this->je;
         while (tmp->getNext() != nullptr && tmp->getNext() != rm)
             tmp = tmp->getNext();
         
@@ -27,9 +27,9 @@ jobelem* joblist::remove(jobelem *rm) {
     return rm;
 }
 
-jobelem* joblist::pop_biggest() {
-    jobelem* tmp = this->je;
-    jobelem* biggest = this->je;
+JobElem* JobList::pop_biggest() {
+    JobElem* tmp = this->je;
+    JobElem* biggest = this->je;
     while (tmp != nullptr) {
         if (tmp->getTime() > biggest->getTime())
             biggest = tmp;
@@ -38,26 +38,34 @@ jobelem* joblist::pop_biggest() {
     return remove(biggest);
 }
 
-void joblist::add_job(job j) {
-    this->add_job(new jobelem(j));
+void JobList::add_job(Job j) {
+    this->add_job(new JobElem(j));
 }
 
-void joblist::add_job(jobelem *newje) {
+void JobList::add_job(JobElem *newje) {
     if (this->je == nullptr) {
         this->je = newje;
         return;
     }
-    jobelem *tmp = this->je;
+    JobElem *tmp = this->je;
     while (tmp->getNext() != nullptr)
         tmp = tmp->getNext();
     tmp->setNext(newje);
 }
 
-void joblist::print() {
-    jobelem *tmp = this->je;
+void JobList::print() {
+    JobElem *tmp = this->je;
     while (tmp != nullptr) {
         (*tmp).print();
         tmp = tmp->getNext();
     }
-    cout << endl;
+    //cout << endl;
+}
+
+void JobList::free() {
+    while (this->je != nullptr) {
+        JobElem *tmp = this->je->getNext();
+        delete this->je;
+        this->je = tmp;
+    }
 }
