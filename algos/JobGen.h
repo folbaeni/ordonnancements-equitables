@@ -9,7 +9,9 @@
 class JobGen : public Job {
     //Job génerique
     public:
-        const string label, owner;
+        string label, owner;
+        JobGen();
+        JobGen(int time, int deadline);
 
     private:
         typedef Job inherited;

@@ -5,14 +5,14 @@
 
 using namespace std;
 
-JobGen::JobGen() : Job(){
+JobGen::JobGen() : Job() {
     this->label = to_string(inherited::get_id());
     this->owner = "def";
 }
 
-JobGen::JobGen(int time, int deadline) : Job(time, deadline) {
-    Job::set_time(time); 
-    this->deadline = deadline;
+JobGen::JobGen(int time, int deadline) : Job(time,deadline) {
+    this->label = to_string(inherited::get_id());
+    this->owner = "def";
 }
 
 int Job::get_id(){
