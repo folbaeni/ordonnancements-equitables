@@ -26,6 +26,7 @@ int Job::get_time(){
 }
 
 int Job::get_deadline(){
+
     return deadline;
 }
 
@@ -39,4 +40,5 @@ void Job::set_time(int time) {
 }
 void Job::set_deadline(int deadline) {
     this->deadline = deadline;
+
 }

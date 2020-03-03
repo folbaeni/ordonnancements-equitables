@@ -24,6 +24,7 @@ JobElem* JobList::remove(JobElem *rm) {
             tmp->set_next(tmp->get_next()->get_next());
     }
     rm->set_next(nullptr);
+
     return rm;
 }
 
@@ -59,5 +60,12 @@ void JobList::print() {
         (*tmp).print();
         tmp = tmp->get_next();
     }
-    cout << endl;
+}
+
+void JobList::free() {
+    while (this->je != nullptr) {
+        JobElem *tmp = this->je->get_next();
+        delete this->je;
+        this->je = tmp;
+    }
 }

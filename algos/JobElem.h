@@ -20,6 +20,7 @@ class JobElem {
         void set_job(Job j);
         JobElem* get_next();
         void set_next(JobElem *next);
+
         void print();
 };
 

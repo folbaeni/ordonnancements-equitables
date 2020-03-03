@@ -12,6 +12,7 @@ JobElem::JobElem(Job j) {
     this->next = nullptr;
 }
 
+
 Job JobElem::get_job() {
     return this->j;
 }
@@ -29,6 +30,7 @@ JobElem* JobElem::get_next() {
 }
 
 void JobElem::set_next(JobElem* jl) {
+
     this->next = jl;
 }
 

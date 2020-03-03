@@ -19,6 +19,7 @@ class JobList {
         JobElem* pop_biggest();
         void add_job(JobElem *je);
         void add_job(Job j);
+        void free();
         void print();
 };
 

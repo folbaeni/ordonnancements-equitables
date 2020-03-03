@@ -20,6 +20,7 @@ class Job {
         int get_id();
         int get_time();
         int get_deadline();
+
         Job();
         Job(int time, int deadline);
         operator std::string() const;
