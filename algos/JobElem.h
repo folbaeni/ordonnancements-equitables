@@ -15,11 +15,12 @@ class JobElem {
     public:
         JobElem();
         JobElem(Job j);
-        Job getJob();
-        int getTime();
-        void setJob(Job j);
-        JobElem* getNext();
-        void setNext(JobElem *next);
+        Job get_job();
+        int get_time();
+        void set_job(Job j);
+        JobElem* get_next();
+        void set_next(JobElem *next);
+
         void print();
 };
 

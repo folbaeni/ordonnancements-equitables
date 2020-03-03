@@ -17,18 +17,28 @@ Job::Job(int time, int deadline){
     this->deadline = deadline;
 }
 
-int Job::getId(){
+int Job::get_id(){
     return id;
 }
 
-int Job::getTime(){
+int Job::get_time(){
     return time;
 }
 
-int Job::getDeadline(){
+int Job::get_deadline(){
+
     return deadline;
 }
 
 Job::operator std::string() const{
     return "Job(id: " + to_string(id) + ", time: " + to_string(time) + ", dl: " + to_string(deadline) + ")\n";
+}
+
+
+void Job::set_time(int time) {
+    this->time = time;
+}
+void Job::set_deadline(int deadline) {
+    this->deadline = deadline;
+
 }

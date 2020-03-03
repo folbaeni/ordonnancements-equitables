@@ -2,7 +2,6 @@
 #include "Job.h"
 #include "JobElem.h"
 
-
 JobElem::JobElem() {
     this->j = Job();
     this->next = nullptr;
@@ -13,23 +12,25 @@ JobElem::JobElem(Job j) {
     this->next = nullptr;
 }
 
-Job JobElem::getJob() {
+
+Job JobElem::get_job() {
     return this->j;
 }
 
-int JobElem::getTime() {
-    return this->j.getTime();
+int JobElem::get_time() {
+    return this->j.get_time();
 }
 
-void JobElem::setJob(Job j) {
+void JobElem::set_job(Job j) {
     this->j = j;
 }
 
-JobElem* JobElem::getNext() {
+JobElem* JobElem::get_next() {
     return this->next;
 }
 
-void JobElem::setNext(JobElem* jl) {
+void JobElem::set_next(JobElem* jl) {
+
     this->next = jl;
 }
 

@@ -14,16 +14,17 @@ JobList::JobList(JobElem *je) {
 
 JobElem* JobList::remove(JobElem *rm) {
     if (rm == this->je) {
-        this->je = this->je->getNext();
+        this->je = this->je->get_next();
     } else {
         JobElem* tmp = this->je;
-        while (tmp->getNext() != nullptr && tmp->getNext() != rm)
-            tmp = tmp->getNext();
+        while (tmp->get_next() != nullptr && tmp->get_next() != rm)
+            tmp = tmp->get_next();
         
-        if (tmp->getNext() != nullptr)
-            tmp->setNext(tmp->getNext()->getNext());
+        if (tmp->get_next() != nullptr)
+            tmp->set_next(tmp->get_next()->get_next());
     }
-    rm->setNext(nullptr);
+    rm->set_next(nullptr);
+
     return rm;
 }
 
@@ -31,9 +32,9 @@ JobElem* JobList::pop_biggest() {
     JobElem* tmp = this->je;
     JobElem* biggest = this->je;
     while (tmp != nullptr) {
-        if (tmp->getTime() > biggest->getTime())
+        if (tmp->get_time() > biggest->get_time())
             biggest = tmp;
-        tmp = tmp->getNext();
+        tmp = tmp->get_next();
     }
     return remove(biggest);
 }
@@ -48,23 +49,22 @@ void JobList::add_job(JobElem *newje) {
         return;
     }
     JobElem *tmp = this->je;
-    while (tmp->getNext() != nullptr)
-        tmp = tmp->getNext();
-    tmp->setNext(newje);
+    while (tmp->get_next() != nullptr)
+        tmp = tmp->get_next();
+    tmp->set_next(newje);
 }
 
 void JobList::print() {
     JobElem *tmp = this->je;
     while (tmp != nullptr) {
         (*tmp).print();
-        tmp = tmp->getNext();
+        tmp = tmp->get_next();
     }
-    //cout << endl;
 }
 
 void JobList::free() {
     while (this->je != nullptr) {
-        JobElem *tmp = this->je->getNext();
+        JobElem *tmp = this->je->get_next();
         delete this->je;
         this->je = tmp;
     }
