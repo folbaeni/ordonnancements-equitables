@@ -47,7 +47,7 @@ int main() {
     };
 
     for (int i = 0; i < n; i++) {
-        cout << string(Jobs[i]);
+        cout << string(jobs[i]);
     }
 
     cout << endl << endl;
