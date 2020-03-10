@@ -36,7 +36,6 @@ void Hogdson(JobDL jobs[], int n) {
 }
 
 int main() {
-
     int n = 6;
     JobDL jobs[] = {
         JobDL(6, 8),
