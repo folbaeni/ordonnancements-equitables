@@ -2,12 +2,13 @@
 #include <new>
 
 #include "Job.h"
+#include "JobDL.h"
 #include "JobElem.h"
 #include "JobList.h"
 
 using namespace std;
 
-void Hogdson(Job jobs[], int n) {
+void Hogdson(JobDL jobs[], int n) {
 
     JobList ontime = JobList();
     JobList late = JobList();
@@ -37,17 +38,17 @@ void Hogdson(Job jobs[], int n) {
 int main() {
 
     int n = 6;
-    Job jobs[] = {
-        Job(6, 8),
-        Job(4, 9),
-        Job(7, 15),
-        Job(8, 20),
-        Job(3, 21),
-        Job(5, 22)
+    JobDL jobs[] = {
+        JobDL(6, 8),
+        JobDL(4, 9),
+        JobDL(7, 15),
+        JobDL(8, 20),
+        JobDL(3, 21),
+        JobDL(5, 22)
     };
 
     for (int i = 0; i < n; i++) {
-        cout << string(jobs[i]);
+        cout << jobs[i].to_string();
     }
 
     cout << endl << endl;
