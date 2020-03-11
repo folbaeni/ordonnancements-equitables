@@ -3,8 +3,6 @@
 #include "Job.h"
 #include "JobDL.h"
 
-using namespace std;
-
 JobDL::JobDL() : Job() {
 }
 
@@ -16,5 +14,5 @@ int JobDL::get_deadline(){
 }
 
 std::string JobDL::to_string() {
-    return "JobDL(id: " + std::to_string(id) + ", time: " + std::to_string(time) + ", dl: " + std::to_string(this->deadline) + ")\n";
+    return "JobDL(id: " + std::to_string(id) + ", time: " + std::to_string(time) + ", dl: " + std::to_string(this->deadline) + ")";
 }

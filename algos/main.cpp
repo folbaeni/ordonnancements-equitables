@@ -16,7 +16,7 @@ void Hogdson(JobDL jobs[], int n) {
 
     for (int k = 0; k < n; k++) {
         cout << "--------- " + to_string(k + 1) + " ---------\n";
-        ontime.add_job(jobs[k]);
+        ontime.add_job(jobs + k);
         C += jobs[k].get_time();
 
         if (C > jobs[k].get_deadline()) {
@@ -30,9 +30,6 @@ void Hogdson(JobDL jobs[], int n) {
     ontime.print();
     cout << "\nLate:\n";
     late.print();
-
-    ontime.free();
-    late.free();
 }
 
 int main() {
@@ -47,7 +44,7 @@ int main() {
     };
 
     for (int i = 0; i < n; i++) {
-        cout << jobs[i].to_string();
+        cout << jobs[i].to_string() << endl;
     }
 
     cout << endl << endl;

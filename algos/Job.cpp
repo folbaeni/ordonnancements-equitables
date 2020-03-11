@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Job.h"
 
-using namespace std;
 
 int Job::cpt = 0;
 
@@ -24,5 +23,5 @@ void Job::set_time(int time) {
 }
 
 std::string Job::to_string(){
-    return "Job(id: " + std::to_string(id) + ", time: " + std::to_string(time) + ")\n";
+    return "Job(id: " + std::to_string(id) + ", time: " + std::to_string(time) + ")";
 }

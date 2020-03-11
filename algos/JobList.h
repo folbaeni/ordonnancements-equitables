@@ -15,11 +15,11 @@ class JobList {
     public:
         JobList();
         JobList(JobElem *je);
+        ~JobList();
         JobElem* remove(JobElem* je);
         JobElem* pop_biggest();
         void add_job(JobElem *je);
-        void add_job(Job j);
-        void free();
+        void add_job(Job *j);
         void print();
 };
 

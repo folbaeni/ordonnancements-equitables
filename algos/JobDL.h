@@ -9,13 +9,13 @@
 class JobDL : public Job {
     protected:
         int deadline;
-    //Job génerique
+        
     public:
         JobDL();
         JobDL(int time, int deadline);
         int get_deadline();
         void set_deadline(int deadline);
-        virtual std::string to_string();
+        std::string to_string();
 };
 
 #endif

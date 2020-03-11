@@ -39,7 +39,7 @@ JobElem* JobList::pop_biggest() {
     return remove(biggest);
 }
 
-void JobList::add_job(Job j) {
+void JobList::add_job(Job *j) {
     this->add_job(new JobElem(j));
 }
 
@@ -62,7 +62,7 @@ void JobList::print() {
     }
 }
 
-void JobList::free() {
+JobList::~JobList() {
     while (this->je != nullptr) {
         JobElem *tmp = this->je->get_next();
         delete this->je;
