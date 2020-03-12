@@ -32,7 +32,7 @@ void Hogdson(JobDL jobs[], int n) {
     late.print();
 }
 
-int main() {
+void hogdson_helper() {
     int n = 6;
     JobDL jobs[] = {
         JobDL(6, 8),
@@ -49,6 +49,14 @@ int main() {
 
     cout << endl << endl;
     Hogdson(jobs, n);
+}
+
+int main() {
+    //POUR ALI
+
+
+
+
 
     return 0;
 }

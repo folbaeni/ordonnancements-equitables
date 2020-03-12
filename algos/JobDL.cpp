@@ -14,5 +14,10 @@ int JobDL::get_deadline(){
 }
 
 std::string JobDL::to_string() {
-    return "JobDL(id: " + std::to_string(id) + ", time: " + std::to_string(time) + ", dl: " + std::to_string(this->deadline) + ")";
+    std::string res = "JobDL(id: " + std::to_string(id);
+    if (time != 1)
+        res += ", time: " + std::to_string(time);
+    res += ", dl: " + std::to_string(this->deadline) + ")";
+
+    return res;
 }

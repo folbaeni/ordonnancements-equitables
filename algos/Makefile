@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -Wall -ggdb
 EXE = job
-CPP = main.o Job.o JobDL.o JobList.o JobElem.o
+CPP = main.o Job.o JobDL.o JobList.o JobElem.o JobP.o
 
 all : $(EXE)
 
