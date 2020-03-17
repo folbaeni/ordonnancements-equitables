@@ -51,6 +51,55 @@ void hogdson_helper() {
     Hogdson(jobs, n);
 }
 
+JobList tri_par_profit(JobList* l){
+    JobList lr = JobList();
+    while (l->get_elem()->get_job() != nullptr)
+    {
+        lr.add_job(l->pop_biggest());
+    }
+    return lr;
+
+}
+
+JobList tri_malin(JobList* l){
+    JobList lr = JobList();
+    JobList* bis = l;
+    while (l->get_elem()->get_job() != nullptr)
+    {
+        bis = l;
+        Job *k = bis->get_elem()->get_job();
+        JobElem* pop;
+        while (bis->get_elem()->get_job() != nullptr)
+        {
+           Job *j = bis->get_elem()->get_job(); 
+           if(j->get_profit()/j->get_deadline() >= k->get_profit()/k->get_deadline()){
+               k = j;
+               pop = bis->get_elem();
+           } 
+           bis->get_elem() = bis->get_elem()->get_next();
+        }
+        lr.add_job(pop->get_job());
+        l->remove(pop);
+    }
+
+    return lr;
+}
+
+int gloutonParProfits(JobList* jl){ //mettre en parametre la fonction de tri serait cool
+    int tps = 0;
+    int profit = 0;
+
+    while (jl->get_elem()->get_job() != nullptr)
+    {
+        tps += jl->get_elem()->get_time();
+        if(tps <= jl->get_elem()->get_job()->get_deadline()){
+            profit += jl->get_elem()->get_job()->get_profit();
+        }
+        jl->get_elem() = jl->get_elem()->get_next();
+    }
+    return profit;
+}
+
 int main() {
     //POUR ALI
 

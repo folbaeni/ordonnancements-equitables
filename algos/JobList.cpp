@@ -69,3 +69,7 @@ JobList::~JobList() {
         this->je = tmp;
     }
 }
+
+JobElem* JobList::get_elem(){
+    return this->je;
+}

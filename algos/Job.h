@@ -17,6 +17,7 @@ class Job {
         int get_id();
         int get_time();
         int get_deadline();
+        int get_profit(); // a coder, il faudrait faire une uniqu eclass job
 
         Job();
         Job(int time);

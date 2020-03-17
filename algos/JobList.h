@@ -18,6 +18,7 @@ class JobList {
         ~JobList();
         JobElem* remove(JobElem* je);
         JobElem* pop_biggest();
+        JobElem* get_elem();
         void add_job(JobElem *je);
         void add_job(Job *j);
         void print();
