@@ -11,16 +11,17 @@ class Job {
         
     protected:
         int time;
+        int deadline;
         int id;
 
     public:
         int get_id();
         int get_time();
         int get_deadline();
-        int get_profit(); // a coder, il faudrait faire une uniqu eclass job
-
+        
         Job();
-        Job(int time);
+        Job(int deadline);
+        Job(int time, int deadline);
         virtual std::string to_string();
 };
 

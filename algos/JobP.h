@@ -9,17 +9,14 @@
 class JobP : public Job {
     protected:
         int profit;
-        int deadline;
         
     public:
         JobP();
+        JobP(int profit);
         JobP(int profit, int deadline);
         JobP(int time, int profit, int deadline);
         int get_profit();
-        void set_profit(int profit);
-        int get_deadline();
-        int set_deadline(int deadline);
-        std::string to_string();
+        virtual std::string to_string();
 };
 
 #endif

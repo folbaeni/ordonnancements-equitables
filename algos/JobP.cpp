@@ -6,15 +6,17 @@
 JobP::JobP() : Job() {
 }
 
-JobP::JobP(int time, int profit, int deadline) : Job(time), profit(profit), deadline(deadline) {
+JobP::JobP(int profit) : Job(), profit(profit) {
+}
+
+JobP::JobP(int profit, int deadline) : Job(deadline), profit(profit) {
+}
+
+JobP::JobP(int time, int profit, int deadline) : Job(time, deadline), profit(profit) {
 }
 
 int JobP::get_profit(){
     return profit;
-}
-
-int JobP::get_deadline(){
-    return deadline;
 }
 
 std::string JobP::to_string() {

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void Hogdson(JobP jobs[], int n) {
+void Hogdson(Job jobs[], int n) {
 
     JobList ontime = JobList();
     JobList late = JobList();
@@ -34,13 +34,13 @@ void Hogdson(JobP jobs[], int n) {
 
 void hogdson_helper() {
     int n = 6;
-    JobP jobs[] = {
-        JobP(6, 0, 8),
-        JobP(4, 0, 9),
-        JobP(7, 0, 15),
-        JobP(8, 0, 20),
-        JobP(3, 0, 21),
-        JobP(5, 0, 22)
+    Job jobs[] = {
+        Job(6, 8),
+        Job(4, 9),
+        Job(7, 15),
+        Job(8, 20),
+        Job(3, 21),
+        Job(5, 22)
     };
 
     for (int i = 0; i < n; i++) {
@@ -52,7 +52,7 @@ void hogdson_helper() {
 }
 
 
-int gloutonParProfits(JobP* job, int taille){ 
+int gloutonParProfits(JobP* jobs, int taille){ 
     int time = 0;
     int profit = 0;
     JobP tmp;
@@ -60,21 +60,22 @@ int gloutonParProfits(JobP* job, int taille){
     for(int i(0); i < taille; i++){ /* boucle pour faire avancer le tps */
         time++;
         for(int j(i); j < taille; j++){ /* parcours de tableau */
-            if( job[j].get_deadline() < time && job[j].get_deadline() < job[i].get_deadline()){
-                tmp = job[i];
-                job[i] = job[j];
-                job[j] = tmp;
+            if( jobs[j].get_deadline() < time && jobs[j].get_deadline() < jobs[i].get_deadline()){
+                tmp = jobs[i];
+                jobs[i] = jobs[j];
+                jobs[j] = tmp;
             }
         }/* on a ordonnancé selon le principe glouton par profit */
 
-        if(job[i].get_deadline() < time){
-            profit += job[i].get_profit();
+        if(jobs[i].get_deadline() < time){
+            profit += jobs[i].get_profit();
         }
     }
     return profit;
 }
 
-int main() {
+void gpp_helper() {
+    int n = 8;
     JobP jobs[] = {
         JobP(1, 12, 4),
         JobP(1, 10, 3),
@@ -86,13 +87,15 @@ int main() {
         JobP(1, 3, 5),
     };
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < n; i++) {
         cout << jobs[i].to_string() << endl;
     }
     
-    int resultat = gloutonParProfits(jobs,8);
-    cout << "Profit : ";
-    cout << resultat ;
-    cout << "\n" ;
+    int resultat = gloutonParProfits(jobs, n);
+    cout << "Profit : " << resultat << endl;
+}
+
+int main() {
+    gpp_helper();
     return 0;
 }
