@@ -56,20 +56,21 @@ int gloutonParProfits(JobP* jobs, int taille){
     int time = 0;
     int profit = 0;
     JobP tmp;
-
     for(int i(0); i < taille; i++){ /* boucle pour faire avancer le tps */
-        time++;
         for(int j(i); j < taille; j++){ /* parcours de tableau */
-            if( jobs[j].get_deadline() < time && jobs[j].get_deadline() < jobs[i].get_deadline()){
+            if(jobs[j].get_deadline() < jobs[i].get_deadline() && jobs[j].get_deadline() < jobs[i].get_deadline()){
                 tmp = jobs[i];
                 jobs[i] = jobs[j];
                 jobs[j] = tmp;
             }
         }/* on a ordonnancé selon le principe glouton par profit */
+        cout << jobs[i].to_string() ;
+        cout << "\n";
 
-        if(jobs[i].get_deadline() < time){
+        if(jobs[i].get_deadline() > time){
             profit += jobs[i].get_profit();
         }
+        time++;
     }
     return profit;
 }
@@ -90,6 +91,8 @@ void gpp_helper() {
     for (int i = 0; i < n; i++) {
         cout << jobs[i].to_string() << endl;
     }
+
+    cout << "\n\n";
     
     int resultat = gloutonParProfits(jobs, n);
     cout << "Profit : " << resultat << endl;
