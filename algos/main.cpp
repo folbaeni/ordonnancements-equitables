@@ -2,13 +2,13 @@
 #include <new>
 
 #include "Job.h"
-#include "JobDL.h"
+#include "JobP.h"
 #include "JobElem.h"
 #include "JobList.h"
 
 using namespace std;
 
-void Hogdson(JobDL jobs[], int n) {
+void Hogdson(JobP jobs[], int n) {
 
     JobList ontime = JobList();
     JobList late = JobList();
@@ -34,13 +34,13 @@ void Hogdson(JobDL jobs[], int n) {
 
 void hogdson_helper() {
     int n = 6;
-    JobDL jobs[] = {
-        JobDL(6, 8),
-        JobDL(4, 9),
-        JobDL(7, 15),
-        JobDL(8, 20),
-        JobDL(3, 21),
-        JobDL(5, 22)
+    JobP jobs[] = {
+        JobP(6, 0, 8),
+        JobP(4, 0, 9),
+        JobP(7, 0, 15),
+        JobP(8, 0, 20),
+        JobP(3, 0, 21),
+        JobP(5, 0, 22)
     };
 
     for (int i = 0; i < n; i++) {
@@ -51,61 +51,48 @@ void hogdson_helper() {
     Hogdson(jobs, n);
 }
 
-JobList tri_par_profit(JobList* l){
-    JobList lr = JobList();
-    while (l->get_elem()->get_job() != nullptr)
-    {
-        lr.add_job(l->pop_biggest());
-    }
-    return lr;
 
-}
-
-JobList tri_malin(JobList* l){
-    JobList lr = JobList();
-    JobList* bis = l;
-    while (l->get_elem()->get_job() != nullptr)
-    {
-        bis = l;
-        Job *k = bis->get_elem()->get_job();
-        JobElem* pop;
-        while (bis->get_elem()->get_job() != nullptr)
-        {
-           Job *j = bis->get_elem()->get_job(); 
-           if(j->get_profit()/j->get_deadline() >= k->get_profit()/k->get_deadline()){
-               k = j;
-               pop = bis->get_elem();
-           } 
-           bis->get_elem() = bis->get_elem()->get_next();
-        }
-        lr.add_job(pop->get_job());
-        l->remove(pop);
-    }
-
-    return lr;
-}
-
-int gloutonParProfits(JobList* jl){ //mettre en parametre la fonction de tri serait cool
-    int tps = 0;
+int gloutonParProfits(JobP* job, int taille){ 
+    int time = 0;
     int profit = 0;
+    JobP tmp;
 
-    while (jl->get_elem()->get_job() != nullptr)
-    {
-        tps += jl->get_elem()->get_time();
-        if(tps <= jl->get_elem()->get_job()->get_deadline()){
-            profit += jl->get_elem()->get_job()->get_profit();
+    for(int i(0); i < taille; i++){ /* boucle pour faire avancer le tps */
+        time++;
+        for(int j(i); j < taille; j++){ /* parcours de tableau */
+            if( job[j].get_deadline() < time && job[j].get_deadline() < job[i].get_deadline()){
+                tmp = job[i];
+                job[i] = job[j];
+                job[j] = tmp;
+            }
+        }/* on a ordonnancé selon le principe glouton par profit */
+
+        if(job[i].get_deadline() < time){
+            profit += job[i].get_profit();
         }
-        jl->get_elem() = jl->get_elem()->get_next();
     }
     return profit;
 }
 
 int main() {
-    //POUR ALI
+    JobP jobs[] = {
+        JobP(1, 12, 4),
+        JobP(1, 10, 3),
+        JobP(1, 8, 1),
+        JobP(1, 7, 6),
+        JobP(1, 6, 1),
+        JobP(1, 5, 6),
+        JobP(1, 4, 6),
+        JobP(1, 3, 5),
+    };
 
-
-
-
-
+    for (int i = 0; i < 8; i++) {
+        cout << jobs[i].to_string() << endl;
+    }
+    
+    int resultat = gloutonParProfits(jobs,8);
+    cout << "Profit : ";
+    cout << resultat ;
+    cout << "\n" ;
     return 0;
 }
