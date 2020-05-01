@@ -23,6 +23,15 @@ namespace OrdonnancementsEquitables
         public MainWindow()
         {
             InitializeComponent();
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            selAlgo.Items.Add("Algo 1");
+            selAlgo.Items.Add("Algo 2");
+            selAlgo.Items.Add("Algo 3");
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
 
         public void Hogdson(Job[] jobs)
