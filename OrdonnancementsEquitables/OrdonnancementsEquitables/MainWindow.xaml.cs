@@ -27,6 +27,9 @@ namespace OrdonnancementsEquitables
             selAlgo.Items.Add("Algo 1");
             selAlgo.Items.Add("Algo 2");
             selAlgo.Items.Add("Algo 3");
+            Hogdson_helper();
+            gpp_helper();
+
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

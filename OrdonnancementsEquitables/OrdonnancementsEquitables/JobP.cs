@@ -14,6 +14,6 @@ namespace OrdonnancementsEquitables
             Profit = profit;
         }
 
-        protected override string Prefixe() => base.Prefixe() + $", Profit: {Profit})"; 
+        protected override string Prefixe() => base.Prefixe() + $", Profit: {Profit}"; 
     }
 }
