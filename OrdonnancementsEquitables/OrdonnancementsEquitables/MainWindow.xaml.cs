@@ -23,6 +23,6 @@ namespace OrdonnancementsEquitables
         public MainWindow()
         {
             InitializeComponent();
-        }
+        }   
     }
 }
