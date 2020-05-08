@@ -60,13 +60,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Algorithmes.cs" />
+    <Compile Include="Algos\Algorithmes.cs" />
+    <Compile Include="Algos\IMultipleDevices.cs" />
+    <Compile Include="Algos\IMultipleUsers.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GloutonParProfits.cs" />
-    <Compile Include="Hogdson.cs" />
+    <Compile Include="Algos\GloutonParProfits.cs" />
+    <Compile Include="Algos\Hogdson.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="JobP.cs" />
     <Compile Include="MainWindow.xaml.cs">
