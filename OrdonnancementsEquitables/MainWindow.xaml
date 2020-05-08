@@ -55,9 +55,8 @@
             <CheckBox Content="CheckBox" VerticalAlignment="Top"/>
             <CheckBox Content="CheckBox" VerticalAlignment="Top"/>
         </StackPanel>
-        <Button Content="START" Grid.Column="1" HorizontalAlignment="Left" Margin="499,51,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"
-                Background="Red"
-                />
+        <Button Content="START" Grid.Column="1" HorizontalAlignment="Right" Margin="10" Grid.Row="1" VerticalAlignment="Center" Width="75"
+                Background="Red"/>
 
 
     </Grid>
