@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrdonnancementsEquitables.Jobs;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace OrdonnancementsEquitables.Algos
 {
 
-    public class GloutonParProfits : Algorithmes<JobP>, IMultipleDevices
+    public class GloutonParProfits : Algorithme<JobP>, IMultipleDevices
     {
         private int Time;
         private int Profit;
@@ -55,6 +56,6 @@ namespace OrdonnancementsEquitables.Algos
             return Jobs;
         }
 
-        public override string ToString() => base.ToString() + "\nGlouton Par Profit:\n" + Prefixe + Separation + "Liste triée:\n" + FormattedJobs + Separation + "Profit obtenu = " + Profit +End;
+        public override string ToString() => base.ToString() + "Glouton Par Profit\nListe triée:\n" + FormattedJobs + "\nProfit obtenu = " + Profit + Separation;
     }
 }

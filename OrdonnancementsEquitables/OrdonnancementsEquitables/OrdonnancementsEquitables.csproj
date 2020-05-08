@@ -63,7 +63,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Algos\Algorithmes.cs" />
+    <Compile Include="Algos\Algorithme.cs" />
     <Compile Include="Algos\IMultipleDevices.cs" />
     <Compile Include="Algos\IMultipleUsers.cs" />
     <Compile Include="App.xaml.cs">
@@ -72,8 +72,8 @@
     </Compile>
     <Compile Include="Algos\GloutonParProfits.cs" />
     <Compile Include="Algos\Hogdson.cs" />
-    <Compile Include="Job.cs" />
-    <Compile Include="JobP.cs" />
+    <Compile Include="Jobs\Job.cs" />
+    <Compile Include="Jobs\JobP.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

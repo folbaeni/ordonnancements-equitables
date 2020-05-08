@@ -23,26 +23,35 @@ namespace OrdonnancementsEquitables
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const string HOGDSON = "Hogdson";
+        private List<string> allAlgos = new List<string>() { "Hogdson", "Glouton par Profit" };
+
         public MainWindow()
         {
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            new List<string>() { "Hogdson", "Glouton par Profit" }.ForEach(s => selAlgo.Items.Add(s));
+            allAlgos.ForEach(s => selAlgo.Items.Add(s));
 
 
             var hog = new Hogdson();
             var jobs = hog.ExecuteDefault();
             Console.WriteLine(hog);
 
+
             var gpp = new GloutonParProfits();
             var jobs2 = gpp.ExecuteDefault();
             Console.WriteLine(gpp);
-           
         }
+
+        /*private void OnFileLoaded()
+        {
+            Type t = Parser.Parse();
+            typeof(Algorithmes<t>).Assembly.GetTypes().ForEach(t => selAlgo.Items.Add(t.ToString()));
+        }
+        private void OnStartButtonClicked() => Execute();*/
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
     }
 }

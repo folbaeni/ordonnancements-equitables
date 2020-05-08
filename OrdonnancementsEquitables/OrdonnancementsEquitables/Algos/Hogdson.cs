@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrdonnancementsEquitables.Jobs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public class Hogdson : Algorithmes<Job>
+    public class Hogdson : Algorithme<Job>
     {
         public string FormattedOnTime => string.Join("\n", OnTime.Select(j => j.ToString()));
         public string FormattedLate => string.Join("\n", Late.Select(j => j.ToString()));
@@ -52,6 +53,6 @@ namespace OrdonnancementsEquitables.Algos
             return Jobs;
         }
 
-        public override string ToString() => base.ToString() + "Hogdson\n" + Prefixe + FormattedJobs + Separation + "On time:\n" + FormattedOnTime + Separation + "Late:\n" + FormattedLate + End;
+        public override string ToString() => base.ToString() + "Hogdson\n\nOn time:\n" + FormattedOnTime + "\nLate:\n" + FormattedLate + Separation;
     }
 }
