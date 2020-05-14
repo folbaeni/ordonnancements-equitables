@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrdonnancementsEquitables.Jobs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    interface IMultipleDevices
+    public interface IMultipleDevices<TJob> where TJob : Job
     {
-
+        TJob[] Execute(int nbDevices);
     }
 }

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public interface IMultipleUsers<TJob> where TJob : Job
+    public interface IMultipleDevicesAndUsers<TJob> : IMultipleDevices<TJob>, IMultipleUsers<TJob> where TJob : Job
     {
-        TJob[] Execute(User[] user);
+        TJob[] Execute(User[] users, int nbDevices);
     }
 }
