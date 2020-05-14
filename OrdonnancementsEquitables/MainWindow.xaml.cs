@@ -31,15 +31,11 @@ namespace OrdonnancementsEquitables
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             allAlgos.ForEach(s => selAlgo.Items.Add(s));
-
-            /*var a = Parser.ParseFromResource(@"OrdonnancementsEquitables.Assets.Jobs.GloutonParProfits.json");
-            var b = Parser.ParseFromResource(@"OrdonnancementsEquitables.Assets.Jobs.Hogdson.json");*/
-
+            selAlgo.SelectedIndex = 0;
 
             var hog = new Hogdson();
             var jobs = hog.ExecuteDefault();
             Console.WriteLine(hog);
-
 
             var gpp = new GloutonParProfits();
             var jobs2 = gpp.ExecuteDefault();
