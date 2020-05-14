@@ -1,4 +1,5 @@
 ﻿using OrdonnancementsEquitables.Jobs;
+using OrdonnancementsEquitables.Parsers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,16 +21,7 @@ namespace OrdonnancementsEquitables.Algos
             Profit = 0;
         }
 
-        /*public override JobP[] ExecuteDefault() => Execute(new JobP[] {
-            new JobP(1, 12, 4),
-            new JobP(1, 10, 3),
-            new JobP(1, 8, 1),
-            new JobP(1, 7, 6),
-            new JobP(1, 6, 1),
-            new JobP(1, 5, 6),
-            new JobP(1, 4, 6),
-            new JobP(1, 3, 5)
-        });*/
+        public override JobP[] ExecuteDefault() => Execute(Parser<JobP>.ParseFromContent(Properties.Resources.GloutonParProfits));
 
         public override JobP[] Execute(JobP[] jobs)
         {

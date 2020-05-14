@@ -26,7 +26,16 @@ namespace OrdonnancementsEquitables.Parsers
             return arr;
         }
 
-        public static TJob[] ParseFromContent<TJob>(string content) where TJob : Job
+        public static Job[] ParseFromFile(string filePath)
+        {
+            string content = File.ReadAllText(filePath);
+            return ParseFromContent(content);
+        }
+    }
+
+    public class Parser<TJob> where TJob : Job
+    {
+        public static TJob[] ParseFromContent(string content)
         {
             JObject obj = JObject.Parse(content);
 
@@ -44,38 +53,10 @@ namespace OrdonnancementsEquitables.Parsers
             return arr;
         }
 
-        public static Job[] ParseFromFile(string filePath)
+        public static TJob[] ParseFromFile(string filePath)
         {
             string content = File.ReadAllText(filePath);
             return ParseFromContent(content);
-        }
-
-        public static TJob[] ParseFromFile<TJob>(string filePath) where TJob : Job
-        {
-            string content = File.ReadAllText(filePath);
-            return ParseFromContent<TJob>(content);
-        }
-
-        public static Job[] ParseFromResource(string filePath)
-        {
-            using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(filePath);
-            using StreamReader reader = new StreamReader(stream);
-            string content = reader.ReadToEnd();
-            reader.Dispose();
-            stream.Dispose();
-
-            return ParseFromContent(content);
-        }
-
-        public static TJob[] ParseFromResource<TJob>(string filePath) where TJob : Job
-        {
-            using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(filePath);
-            using StreamReader reader = new StreamReader(stream);
-            string content = reader.ReadToEnd();
-            reader.Dispose();
-            stream.Dispose();
-
-            return ParseFromContent<TJob>(content);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using OrdonnancementsEquitables.Jobs;
+using OrdonnancementsEquitables.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +24,7 @@ namespace OrdonnancementsEquitables.Algos
             Late = new List<Job>();
         }
 
-        /*public override Job[] ExecuteDefault() => Execute(new Job[] { 
-            new Job(6, 8),
-            new Job(4, 9),
-            new Job(7, 15),
-            new Job(8, 20),
-            new Job(3, 21),
-            new Job(5, 22)
-        });*/
+        public override Job[] ExecuteDefault() => Execute(Parser<Job>.ParseFromContent(Properties.Resources.Hogdson));
 
         public override Job[] Execute(Job[] jobs)
         {
