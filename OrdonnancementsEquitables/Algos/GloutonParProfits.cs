@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace OrdonnancementsEquitables.Algos
 {
 
-    public class GloutonParProfits : Algorithme<JobP>, IMultipleDevices
+    public class GloutonParProfits : Algorithme<JobP>
     {
         private int Time;
         private int Profit;
@@ -20,7 +20,7 @@ namespace OrdonnancementsEquitables.Algos
             Profit = 0;
         }
 
-        public override JobP[] ExecuteDefault() => Execute(new JobP[] {
+        /*public override JobP[] ExecuteDefault() => Execute(new JobP[] {
             new JobP(1, 12, 4),
             new JobP(1, 10, 3),
             new JobP(1, 8, 1),
@@ -29,7 +29,7 @@ namespace OrdonnancementsEquitables.Algos
             new JobP(1, 5, 6),
             new JobP(1, 4, 6),
             new JobP(1, 3, 5)
-        });
+        });*/
 
         public override JobP[] Execute(JobP[] jobs)
         {

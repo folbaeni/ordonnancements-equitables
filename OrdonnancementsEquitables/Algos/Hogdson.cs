@@ -23,14 +23,14 @@ namespace OrdonnancementsEquitables.Algos
             Late = new List<Job>();
         }
 
-        public override Job[] ExecuteDefault() => Execute(new Job[] { 
+        /*public override Job[] ExecuteDefault() => Execute(new Job[] { 
             new Job(6, 8),
             new Job(4, 9),
             new Job(7, 15),
             new Job(8, 20),
             new Job(3, 21),
             new Job(5, 22)
-        });
+        });*/
 
         public override Job[] Execute(Job[] jobs)
         {

@@ -14,6 +14,7 @@ namespace OrdonnancementsEquitables.Jobs
             Profit = profit;
         }
 
+        protected override string JobType() => "JobP";
         protected override string Prefixe() => base.Prefixe() + $", Profit: {Profit}";
     }
 }

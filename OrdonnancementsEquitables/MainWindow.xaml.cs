@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Controls.DataVisualization;
-
+using OrdonnancementsEquitables.Parsers;
 
 namespace OrdonnancementsEquitables
 {
@@ -31,6 +31,9 @@ namespace OrdonnancementsEquitables
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             allAlgos.ForEach(s => selAlgo.Items.Add(s));
+
+            /*var a = Parser.ParseFromResource(@"OrdonnancementsEquitables.Assets.Jobs.GloutonParProfits.json");
+            var b = Parser.ParseFromResource(@"OrdonnancementsEquitables.Assets.Jobs.Hogdson.json");*/
 
 
             var hog = new Hogdson();

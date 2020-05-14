@@ -64,6 +64,7 @@
     </ApplicationDefinition>
     <Compile Include="Devices\Device.cs" />
     <Compile Include="Parsers\Parser.cs" />
+    <Compile Include="Parsers\ParserTypeException.cs" />
     <Compile Include="Users\User.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -103,6 +104,12 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\Jobs\GloutonParProfits.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\Jobs\Hogdson.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

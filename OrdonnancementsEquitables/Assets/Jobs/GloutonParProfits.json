@@ -1,0 +1,45 @@
+﻿{
+  "job_type": "JobP",
+  "job_list": [
+    {
+      "time": "1",
+      "deadline": "12",
+      "profit": "4"
+    },
+    {
+      "time": "1",
+      "deadline": "10",
+      "profit": "3"
+    },
+    {
+      "time": "1",
+      "deadline": "8",
+      "profit": "1"
+    },
+    {
+      "time": "1",
+      "deadline": "7",
+      "profit": "6"
+    },
+    {
+      "time": "1",
+      "deadline": "6",
+      "profit": "1"
+    },
+    {
+      "time": "1",
+      "deadline": "5",
+      "profit": "6"
+    },
+    {
+      "time": "1",
+      "deadline": "4",
+      "profit": "6"
+    },
+    {
+      "time": "1",
+      "deadline": "3",
+      "profit": "5"
+    }
+  ]
+}

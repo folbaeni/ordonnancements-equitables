@@ -1,4 +1,5 @@
 ﻿using OrdonnancementsEquitables.Jobs;
+using OrdonnancementsEquitables.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,13 @@ namespace OrdonnancementsEquitables.Algos
         public TJob[] Jobs => (TJob[])currentJobs.Clone();
         protected TJob[] currentJobs;
 
-        public abstract TJob[] ExecuteDefault();
+        public TJob[] ExecuteDefault()
+        {
+            var res = new string(GetType().FullName.Replace("Algos", "Assets.Jobs").Concat(".json").ToArray());
+            var jobs = Parser.ParseFromResource<TJob>(res);
+            return Execute(jobs);
+        }
+
         public abstract TJob[] Execute(TJob[] jobs);
 
         public override string ToString() => "Resultat de l'algorithme: ";
