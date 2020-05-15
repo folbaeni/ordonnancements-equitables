@@ -13,8 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Controls.DataVisualization;
 using OrdonnancementsEquitables.Parsers;
+using OrdonnancementsEquitables.Outils;
+using OrdonnancementsEquitables.Jobs;
+using System.Reflection;
 
 namespace OrdonnancementsEquitables
 {
@@ -23,31 +25,46 @@ namespace OrdonnancementsEquitables
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string HOGDSON = "Hogdson";
-        private List<string> allAlgos = new List<string>() { "Hogdson", "Glouton par Profit" };
-
         public MainWindow()
         {
             InitializeComponent();
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            allAlgos.ForEach(s => selAlgo.Items.Add(s));
-            selAlgo.SelectedIndex = 0;
-
-            var hog = new Hogdson();
-            var jobs = hog.ExecuteDefault();
-            Console.WriteLine(hog);
-
-            var gpp = new GloutonParProfits();
-            var jobs2 = gpp.ExecuteDefault();
-            Console.WriteLine(gpp);
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
-        /*private void OnFileLoaded()
+        private void OnFileLoaded(string filename)
         {
-            Type t = Parser.Parse();
-            typeof(Algorithmes<t>).Assembly.GetTypes().ForEach(t => selAlgo.Items.Add(t.ToString()));
+            filePath.Text = filename;
+            Job[] content = Parser.ParseFromFile(filename, out Type jobType);
+
+            var assembly = Assembly.GetAssembly(typeof(Algorithme<>)).GetTypes().ToList();
+            var children = assembly.Where(t => t.IsClass && t.Namespace == typeof(Algorithme<>).Namespace && t.IsPublic).ToList();
+            var typed = children.Where(t => t.BaseType.IsGenericType && t.BaseType.GetGenericArguments().FirstOrDefault() == jobType).ToList();
+
+            if (typed.Count > 0)
+            {
+                SelAlgo.Items.Clear();
+                typed.ForEach(t => SelAlgo.Items.Add(t.Name.SystToAff()));
+                //SelAlgo.SelectedIndex = 0;
+                SelAlgo.Focus();
+            }
         }
-        private void OnStartButtonClicked() => Execute();*/
+
+
+        private void SelectionFile(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                DefaultExt = ".json",
+                Filter = "JSON Files (*.json)|*json"
+            };
+
+            bool? result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                OnFileLoaded(dlg.FileName);
+            }
+        }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

@@ -14,13 +14,13 @@ namespace OrdonnancementsEquitables.Parsers
 {
     public class Parser
     {
-        public static Job[] ParseFromContent(string content)
+        public static Job[] ParseFromContent(string content, out Type outJobType)
         {
             JObject obj = JObject.Parse(content);
 
             string type = obj["job_type"].Value<string>();
             Type jobType = Type.GetType("OrdonnancementsEquitables.Jobs." + type);
-
+            outJobType = jobType;
             JArray list = (JArray)obj["job_list"];
             var arr = list.Select(t => (Job)t.ToObject(jobType)).ToArray();
             return arr;
@@ -44,10 +44,10 @@ namespace OrdonnancementsEquitables.Parsers
             return arr;
         }
 
-        public static Job[] ParseFromFile(string filePath)
+        public static Job[] ParseFromFile(string filePath, out Type outJobType)
         {
             string content = File.ReadAllText(filePath);
-            return ParseFromContent(content);
+            return ParseFromContent(content, out outJobType);
         }
 
         public static TJob[] ParseFromFile<TJob>(string filePath) where TJob : Job

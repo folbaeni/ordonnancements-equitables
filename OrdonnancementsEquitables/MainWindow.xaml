@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrdonnancementsEquitables"
         mc:Ignorable="d"
+        Icon="Assets/Img/icon.ico"
         Title="Ordonnancement Equitables" Height="450" Width="800" MinHeight="370" MinWidth="500">
     <Grid>
 
@@ -21,18 +22,20 @@
         </Grid.RowDefinitions>
 
         <ComboBox 
-            Name="selAlgo" Text="select algo"
+            Name="SelAlgo" Text="select algo"
             Grid.Column="0" Grid.Row="0"
             VerticalAlignment="Center" Margin="10,0"
             SelectionChanged="ComboBox_SelectionChanged"/>
-        <TextBox 
+        <TextBox
+            MaxLines="1"
             Grid.Column="1" Grid.Row="0"
             Margin="10,0" VerticalAlignment="Center"
             IsReadOnly="True" Name="filePath" 
-            TextWrapping="Wrap" Text="TextBox"/>
+            TextWrapping="NoWrap" Text="Select file..."/>
         <Button 
+            Click="SelectionFile" Name="FileSelectorButton"
             VerticalAlignment="Center" Margin="10,0"
-            Grid.Column="2" Grid.Row="0"
+            Grid.Column="2" Grid.Row="0" 
             Content="Select file"/>
         <ScrollViewer
             VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible"
