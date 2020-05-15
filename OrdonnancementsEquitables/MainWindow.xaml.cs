@@ -25,9 +25,6 @@ namespace OrdonnancementsEquitables
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string HOGDSON = "Hogdson";
-        private readonly List<string> allAlgos = new List<string>() { "Hogdson", "Glouton Par Profit" };
-
         public MainWindow()
         {
             InitializeComponent();
