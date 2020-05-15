@@ -24,7 +24,7 @@ namespace OrdonnancementsEquitables.Algos
             Late = new List<Job>();
         }
 
-        public override Job[] ExecuteDefault() => Execute(Parser<Job>.ParseFromContent(Properties.Resources.Hogdson));
+        public override Job[] ExecuteDefault() => Execute(Parser.ParseFromContent<Job>(Properties.Resources.Hogdson));
 
         public override Job[] Execute(Job[] jobs)
         {
