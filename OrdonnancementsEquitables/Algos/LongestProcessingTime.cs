@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrdonnancementsEquitables.Jobs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,14 @@ namespace OrdonnancementsEquitables.Algos
 {
     class LongestProcessingTime : Algorithme<Job>
     {
+        public override Job[] Execute(Job[] jobs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Job[] ExecuteDefault()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
