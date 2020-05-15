@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrdonnancementsEquitables"
         mc:Ignorable="d"
-        Icon="Assets/Img/icon.ico"
-        Title="Ordonnancement Equitables" Height="450" Width="800" MinHeight="370" MinWidth="500">
+        xmlns:resx="clr-namespace:OrdonnancementsEquitables.Properties"
+        Title="{x:Static resx:Resources.AppName}"
+        WindowStartupLocation="CenterScreen"
+        Height="450" Width="800" MinHeight="370" MinWidth="500">
+        <!--
+        Icon="{x:Static resx:Resources.AppIcon}"
+        -->
     <Grid>
 
         <Grid.ColumnDefinitions>

@@ -13,10 +13,5 @@ namespace OrdonnancementsEquitables.Algos
         {
             throw new NotImplementedException();
         }
-
-        public override Job[] ExecuteDefault()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

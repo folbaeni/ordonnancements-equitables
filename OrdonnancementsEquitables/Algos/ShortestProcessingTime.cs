@@ -12,8 +12,6 @@ namespace OrdonnancementsEquitables.Algos
     {
         private Device<Job>[] Devices;
 
-        public override Job[] ExecuteDefault() => null;
-
         public override Job[] Execute(Job[] jobs) => Execute(jobs, 1);
 
         public Job[] Execute(Job[] jobs, int nbDevices)
