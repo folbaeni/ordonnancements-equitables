@@ -62,6 +62,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Algos\LongestProcessingTime.cs" />
+    <Compile Include="Algos\ShortestProcessingTime.cs" />
     <Compile Include="Devices\Device.cs" />
     <Compile Include="Parsers\Parser.cs" />
     <Compile Include="Parsers\ParserTypeException.cs" />
