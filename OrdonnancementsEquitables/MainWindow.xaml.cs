@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Controls.DataVisualization;
 using OrdonnancementsEquitables.Parsers;
+using OrdonnancementsEquitables.Outils;
 
 namespace OrdonnancementsEquitables
 {
@@ -24,7 +25,7 @@ namespace OrdonnancementsEquitables
     public partial class MainWindow : Window
     {
         private const string HOGDSON = "Hogdson";
-        private List<string> allAlgos = new List<string>() { "Hogdson", "Glouton par Profit" };
+        private readonly List<string> allAlgos = new List<string>() { "Hogdson", "Glouton Par Profit" };
 
         public MainWindow()
         {
@@ -48,6 +49,25 @@ namespace OrdonnancementsEquitables
             typeof(Algorithmes<t>).Assembly.GetTypes().ForEach(t => selAlgo.Items.Add(t.ToString()));
         }
         private void OnStartButtonClicked() => Execute();*/
+
+
+        private void SelectionFile(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                DefaultExt = ".json",
+                Filter = "JSON Files (*.json)|*json"
+            };
+
+            bool? result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                // Open document 
+                string filename = dlg.FileName;
+                filePath.Text = filename;
+            }
+        }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
