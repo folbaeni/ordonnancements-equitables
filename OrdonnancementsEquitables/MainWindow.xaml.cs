@@ -13,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Controls.DataVisualization;
 using OrdonnancementsEquitables.Parsers;
 using OrdonnancementsEquitables.Outils;
 using OrdonnancementsEquitables.Jobs;
@@ -32,25 +31,27 @@ namespace OrdonnancementsEquitables
         public MainWindow()
         {
             InitializeComponent();
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            allAlgos.ForEach(s => selAlgo.Items.Add(s));
-            selAlgo.SelectedIndex = 0;
-
-            var hog = new Hogdson();
-            var jobs = hog.ExecuteDefault();
-            Console.WriteLine(hog);
-
-            var gpp = new GloutonParProfits();
-            var jobs2 = gpp.ExecuteDefault();
-            Console.WriteLine(gpp);
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         private void OnFileLoaded(string filename)
         {
             filePath.Text = filename;
-            Job[] content = Parser.ParseFromFile(filename, out Type t);
-            //typeof(Algorithme<>).Assembly.GetTypes().ForEach(t => selAlgo.Items.Add(t.ToString()));
+            Job[] content = Parser.ParseFromFile(filename, out Type jobType);
+
+            var assembly = Assembly.GetAssembly(typeof(Algorithme<>)).GetTypes().ToList();
+            var children = assembly.Where(t => t.IsClass && t.Namespace == typeof(Algorithme<>).Namespace && t.IsPublic).ToList();
+            var typed = children.Where(t => t.BaseType.IsGenericType && t.BaseType.GetGenericArguments().FirstOrDefault() == jobType).ToList();
+
+            if (typed.Count > 0)
+            {
+                SelAlgo.Items.Clear();
+                typed.ForEach(t => SelAlgo.Items.Add(t.Name.SystToAff()));
+                //SelAlgo.SelectedIndex = 0;
+                SelAlgo.Focus();
+            }
         }
+
 
         private void SelectionFile(object sender, RoutedEventArgs e)
         {

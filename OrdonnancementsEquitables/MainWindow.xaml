@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
 
         <ComboBox 
-            Name="selAlgo" Text="select algo"
+            Name="SelAlgo" Text="select algo"
             Grid.Column="0" Grid.Row="0"
             VerticalAlignment="Center" Margin="10,0"
             SelectionChanged="ComboBox_SelectionChanged"/>
@@ -32,9 +32,9 @@
             IsReadOnly="True" Name="filePath" 
             TextWrapping="NoWrap" Text="Select file..."/>
         <Button 
-            Click="SelectionFile"
+            Click="SelectionFile" Name="FileSelectorButton"
             VerticalAlignment="Center" Margin="10,0"
-            Grid.Column="2" Grid.Row="0"
+            Grid.Column="2" Grid.Row="0" 
             Content="Select file"/>
         <ScrollViewer
             VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible"
