@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OrdonnancementsEquitables.Devices
+namespace OrdonnancementsEquitables.Models
 {
     public class Device<TJob> where TJob : Job
     {

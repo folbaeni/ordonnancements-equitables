@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    class LongestProcessingTime : Algorithme<Job>
+    public class LongestProcessingTime : Algorithme<Job>
     {
         public override Job[] Execute(Job[] jobs)
         {

@@ -5,13 +5,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace OrdonnancementsEquitables.Outils
+namespace OrdonnancementsEquitables.Utils
 {
     public static class StringConverter
     {
         public static string AffToSyst(this string aff)
         {
-            return aff.Replace(" ", String.Empty);
+            return aff.Replace(" ", string.Empty);
         }
 
         public static string SystToAff(this string syst)

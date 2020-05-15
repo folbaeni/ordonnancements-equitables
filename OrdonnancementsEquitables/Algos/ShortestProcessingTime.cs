@@ -1,4 +1,4 @@
-﻿using OrdonnancementsEquitables.Devices;
+﻿using OrdonnancementsEquitables.Models;
 using OrdonnancementsEquitables.Jobs;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    class ShortestProcessingTime : Algorithme<Job>, IMultipleDevices<Job>
+    public class ShortestProcessingTime : Algorithme<Job>, IMultipleDevices<Job>
     {
         private Device<Job>[] Devices;
 
