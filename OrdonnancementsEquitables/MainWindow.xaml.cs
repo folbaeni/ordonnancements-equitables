@@ -16,6 +16,8 @@ using System.Windows.Shapes;
 using System.Windows.Controls.DataVisualization;
 using OrdonnancementsEquitables.Parsers;
 using OrdonnancementsEquitables.Outils;
+using OrdonnancementsEquitables.Jobs;
+using System.Reflection;
 
 namespace OrdonnancementsEquitables
 {
@@ -43,13 +45,12 @@ namespace OrdonnancementsEquitables
             Console.WriteLine(gpp);
         }
 
-        /*private void OnFileLoaded()
+        private void OnFileLoaded(string filename)
         {
-            Type t = Parser.Parse();
-            typeof(Algorithmes<t>).Assembly.GetTypes().ForEach(t => selAlgo.Items.Add(t.ToString()));
+            filePath.Text = filename;
+            Job[] content = Parser.ParseFromFile(filename, out Type t);
+            //typeof(Algorithme<>).Assembly.GetTypes().ForEach(t => selAlgo.Items.Add(t.ToString()));
         }
-        private void OnStartButtonClicked() => Execute();*/
-
 
         private void SelectionFile(object sender, RoutedEventArgs e)
         {
@@ -63,9 +64,7 @@ namespace OrdonnancementsEquitables
 
             if (result == true)
             {
-                // Open document 
-                string filename = dlg.FileName;
-                filePath.Text = filename;
+                OnFileLoaded(dlg.FileName);
             }
         }
 
