@@ -26,16 +26,7 @@ namespace OrdonnancementsEquitables.Parsers
             return arr;
         }
 
-        public static Job[] ParseFromFile(string filePath)
-        {
-            string content = File.ReadAllText(filePath);
-            return ParseFromContent(content);
-        }
-    }
-
-    public class Parser<TJob> where TJob : Job
-    {
-        public static TJob[] ParseFromContent(string content)
+        public static TJob[] ParseFromContent<TJob>(string content) where TJob : Job
         {
             JObject obj = JObject.Parse(content);
 
@@ -44,19 +35,25 @@ namespace OrdonnancementsEquitables.Parsers
 
             if (jobType != typeof(TJob))
             {
-                throw new ParserTypeException("Parser's and JSON's Job Types don't match");
+                throw new ParserTypeException();
             }
 
-            JArray list = (JArray)obj["job_list"];
+            JArray list = obj["job_list"].Value<JArray>();
 
-            var arr = list.Select(t => (TJob)t.ToObject(jobType)).ToArray();
+            var arr = list.Select(t => t.ToObject<TJob>()).ToArray();
             return arr;
         }
 
-        public static TJob[] ParseFromFile(string filePath)
+        public static Job[] ParseFromFile(string filePath)
         {
             string content = File.ReadAllText(filePath);
             return ParseFromContent(content);
+        }
+
+        public static TJob[] ParseFromFile<TJob>(string filePath) where TJob : Job
+        {
+            string content = File.ReadAllText(filePath);
+            return ParseFromContent<TJob>(content);
         }
     }
 }

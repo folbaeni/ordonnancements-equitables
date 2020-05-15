@@ -9,7 +9,8 @@ namespace OrdonnancementsEquitables.Parsers
     [System.Serializable]
     public class ParserTypeException : Exception
     {
-        public ParserTypeException() { }
+        private static readonly string defaultMessage = "Parser's and JSON's Job Types don't match";
+        public ParserTypeException() : base(defaultMessage) { }
         public ParserTypeException(string message) : base(message) { }
         public ParserTypeException(string message, Exception inner) : base(message, inner) { }
         protected ParserTypeException(
