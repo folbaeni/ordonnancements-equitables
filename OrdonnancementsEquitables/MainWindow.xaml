@@ -40,10 +40,16 @@
         <ScrollViewer
             VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible"
             Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" >
-            <Image
-                Grid.ColumnSpan="2" Grid.Row="2"
-                Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Left"
-                Source="Assets/Img/proxy-image.jpg" Stretch="Fill"/>
+
+            <Viewbox>
+                <Canvas Width="800" Height="500" Name="screen">
+                    <Ellipse Panel.ZIndex="2" Fill="Gainsboro" Canvas.Left="25" Canvas.Top="25" Width="200" Height="200" />
+                    <Rectangle Panel.ZIndex="3" Fill="LightBlue" Canvas.Left="25" Canvas.Top="25" Width="50" Height="50" />
+                    <Rectangle Panel.ZIndex="2" Fill="LightCoral" Canvas.Left="50" Canvas.Top="50" Width="500" Height="50" />
+                    <Rectangle Panel.ZIndex="4" Fill="LightCyan" Canvas.Left="75" Canvas.Top="175" Width="50" Height="207" />
+                </Canvas>
+            </Viewbox>
+
         </ScrollViewer>
         
         <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Stretch">
