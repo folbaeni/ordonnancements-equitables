@@ -10,6 +10,8 @@ namespace OrdonnancementsEquitables.Algos
 {
     public interface IMultipleUsers<TJob> where TJob : Job
     {
-        TJob[] Execute(User[] user);
+        public User<TJob>[] Users { get; }
+
+        TJob[] Execute(User<TJob>[] user);
     }
 }
