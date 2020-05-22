@@ -12,7 +12,7 @@ namespace OrdonnancementsEquitables.Jobs
         static int cpt = 0;
 
         public int Time { get; }
-        public int Id { get; }
+        [JsonIgnore] public int Id { get; }
         public int Deadline { get; }
 
         private Job() { }

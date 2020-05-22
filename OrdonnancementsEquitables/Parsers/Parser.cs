@@ -17,7 +17,7 @@ namespace OrdonnancementsEquitables.Parsers
         private static Type GetTypeFromJSON(JObject obj)
         {
             string type = obj["job_type"].Value<string>();
-            Type jobType = Type.GetType(typeof(Job).Namespace + type);
+            Type jobType = Type.GetType(typeof(Job).Namespace + "." + type);
             return jobType;
         }
 
