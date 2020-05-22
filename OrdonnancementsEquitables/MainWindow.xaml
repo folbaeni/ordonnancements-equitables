@@ -70,7 +70,7 @@
             <CheckBox Content="CheckBox" VerticalAlignment="Top"/>
         </StackPanel>
         <Button 
-            Content="START" Background="Red"
+            Content="START" Background="Red" Click="StartAlgo"
             Grid.Column="2" Grid.Row="1"
             Margin="10" VerticalAlignment="Center"/>
 
