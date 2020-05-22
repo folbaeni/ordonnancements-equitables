@@ -29,5 +29,26 @@ namespace OrdonnancementsEquitables.Jobs
         protected virtual string JobType() => "Job";
         protected virtual string Prefixe() => $"{JobType()}(Id: {Id}, Time: {Time}, Deadline: {Deadline}";
         public override string ToString() => Prefixe() + ")";
+
+        public override bool Equals(object obj)
+        {
+            return obj is Job job &&
+                   Id == job.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return 2108858624 + Id.GetHashCode();
+        }
+
+        public static bool operator ==(Job left, Job right)
+        {
+            return EqualityComparer<Job>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(Job left, Job right)
+        {
+            return !(left == right);
+        }
     }
 }
