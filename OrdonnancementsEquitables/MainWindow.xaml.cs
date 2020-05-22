@@ -17,6 +17,7 @@ using OrdonnancementsEquitables.Parsers;
 using OrdonnancementsEquitables.Utils;
 using OrdonnancementsEquitables.Jobs;
 using System.Reflection;
+using System.IO;
 
 namespace OrdonnancementsEquitables
 {
@@ -66,6 +67,26 @@ namespace OrdonnancementsEquitables
             if (result == true)
             {
                 OnFileLoaded(dlg.FileName);
+            }
+        }
+
+        private void StartAlgo(object sender, RoutedEventArgs e)
+        {
+            Job[] content = Parser.ParseFromFile(filePath.Text, out Type jobType);
+            string nomAlgo = SelAlgo.SelectedItem.ToString().AffToSyst();
+            Type algoType = Type.GetType(typeof(Algorithme<Job>).Namespace + "." + nomAlgo);
+            var algo = Activator.CreateInstance(algoType);
+
+            switch (jobType.Name)
+            {
+                case "Job":
+                    ((Algorithme<Job>)algo).Execute(content);
+                    Console.WriteLine(((Algorithme<Job>)algo).ToString());
+                    break;
+                case "JobP":
+                    ((Algorithme<JobP>)algo).Execute(Parser.ParseFromFile<JobP>(filePath.Text));
+                    Console.WriteLine(((Algorithme<JobP>)algo).ToString());
+                    break;
             }
         }
 
