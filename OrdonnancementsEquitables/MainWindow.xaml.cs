@@ -28,10 +28,6 @@ namespace OrdonnancementsEquitables
         public MainWindow()
         {
             InitializeComponent();
-            WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-            //new Hogdson().ExecuteDefault();
-            //new GloutonParProfits().ExecuteDefault();
         }
 
         private void OnFileLoaded(string filename)

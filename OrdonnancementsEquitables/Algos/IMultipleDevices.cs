@@ -10,9 +10,9 @@ namespace OrdonnancementsEquitables.Algos
 {
     public interface IMultipleDevices<TJob> where TJob : Job
     {
-        double AverageTime { get => Devices.Average(d => d.TimeReady); }
-        int ShortestTimeReady { get => Devices.OrderBy(d => d.TimeReady).FirstOrDefault().TimeReady; }
-        int LongestTimeReady { get => Devices.OrderByDescending(d => d.TimeReady).FirstOrDefault().TimeReady; }
+        double AverageTime { get; }
+        int ShortestTimeReady { get; }
+        int LongestTimeReady { get; }
 
         Device<TJob>[] Devices { get; }
         TJob[] Execute(TJob[] jobs, int nbDevices);
