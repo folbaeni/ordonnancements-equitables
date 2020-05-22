@@ -21,7 +21,7 @@ namespace OrdonnancementsEquitables.Algos
             Profit = 0;
         }
 
-        public override JobP[] ExecuteDefault() => Execute(Parser.ParseFromContent<JobP>(Properties.Resources.GloutonParProfits));
+        //public override JobP[] ExecuteDefault() => Execute(Parser.ParseFromContent<JobP>(Properties.Resources.GloutonParProfits));
 
         public override JobP[] Execute(JobP[] jobs)
         {

@@ -61,92 +61,21 @@ namespace OrdonnancementsEquitables.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {
-        ///  &quot;job_type&quot;: &quot;JobP&quot;,
-        ///  &quot;job_list&quot;: [
-        ///    {
-        ///      &quot;time&quot;: 1,
-        ///      &quot;deadline&quot;: 12,
-        ///      &quot;profit&quot;: 4
-        ///    },
-        ///    {
-        ///      &quot;time&quot;: 1,
-        ///      &quot;deadline&quot;: 10,
-        ///      &quot;profit&quot;: 3
-        ///    },
-        ///    {
-        ///      &quot;time&quot;: 1,
-        ///      &quot;deadline&quot;: 8,
-        ///      &quot;profit&quot;: 1
-        ///    },
-        ///    {
-        ///      &quot;time&quot;: 1,
-        ///      &quot;deadline&quot;: 7,
-        ///      &quot;profit&quot;: 6
-        ///    },
-        ///    {
-        ///      &quot;time&quot;: 1,
-        ///      &quot;deadline&quot;: 6,
-        ///      &quot;profit&quot;: 1
-        ///    },
-        ///    {
-        ///      &quot;time&quot;: 1,
-        ///      &quot;deadline&quot;: 5,
-        ///      &quot;profit&quot;: 6
-        ///    },
-        ///    {
-        ///      &quot;time&quot;: 1, [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string GloutonParProfits {
-            get {
-                return ResourceManager.GetString("GloutonParProfits", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {
-        ///  &quot;job_type&quot;: &quot;Job&quot;,
-        ///  &quot;job_list&quot;: [
-        ///    {
-        ///      &quot;time&quot;: 6,
-        ///      &quot;deadline&quot;: 8
-        ///    },
-        ///    {
-        ///      &quot;time&quot;: 4,
-        ///      &quot;deadline&quot;: 9
-        ///    },
-        ///    {
-        ///      &quot;time&quot;: 7,
-        ///      &quot;deadline&quot;: 15
-        ///    },
-        ///    {
-        ///      &quot;time&quot;: 8,
-        ///      &quot;deadline&quot;: 20
-        ///    },
-        ///    {
-        ///      &quot;time&quot;: 3,
-        ///      &quot;deadline&quot;: 21
-        ///    },
-        ///    {
-        ///      &quot;time&quot;: 5,
-        ///      &quot;deadline&quot;: 22
-        ///    }
-        ///  ]
-        ///}.
-        /// </summary>
-        public static string Hogdson {
-            get {
-                return ResourceManager.GetString("Hogdson", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        public static System.Drawing.Icon icon {
+        public static System.Drawing.Icon AppIcon {
             get {
-                object obj = ResourceManager.GetObject("icon", resourceCulture);
+                object obj = ResourceManager.GetObject("AppIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ordonnancements Equitables.
+        /// </summary>
+        public static string AppName {
+            get {
+                return ResourceManager.GetString("AppName", resourceCulture);
             }
         }
     }

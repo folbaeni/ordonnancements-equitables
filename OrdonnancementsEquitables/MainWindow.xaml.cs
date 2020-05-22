@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OrdonnancementsEquitables.Parsers;
-using OrdonnancementsEquitables.Outils;
+using OrdonnancementsEquitables.Utils;
 using OrdonnancementsEquitables.Jobs;
 using System.Reflection;
 
@@ -29,6 +29,9 @@ namespace OrdonnancementsEquitables
         {
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            //new Hogdson().ExecuteDefault();
+            //new GloutonParProfits().ExecuteDefault();
         }
 
         private void OnFileLoaded(string filename)

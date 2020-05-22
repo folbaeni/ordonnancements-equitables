@@ -9,6 +9,6 @@ namespace OrdonnancementsEquitables.Algos
 {
     public interface IMultipleDevices<TJob> where TJob : Job
     {
-        TJob[] Execute(int nbDevices);
+        TJob[] Execute(TJob[] jobs, int nbDevices);
     }
 }
