@@ -18,7 +18,7 @@ namespace OrdonnancementsEquitables.Algos
         public TJob[] Jobs => (TJob[])currentJobs.Clone();
         protected TJob[] currentJobs;
 
-        public TJob[] ExecuteDefault() => Execute(Parser.ParseFromFile<TJob>($@"Assets\Default Jobs\{GetType().Name}.json"));
+        public TJob[] ExecuteDefault() => Execute(new Parser($@"Assets\Default Jobs\{GetType().Name}.json").ParseJobsFromJSON<TJob>());
         public abstract TJob[] Execute(TJob[] jobs);
         public override string ToString() => "Resultat de l'algorithme: ";
     }
