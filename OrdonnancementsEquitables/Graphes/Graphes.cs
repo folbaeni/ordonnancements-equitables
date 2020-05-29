@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace OrdonnancementsEquitables.Graphes
 {
@@ -22,7 +23,7 @@ namespace OrdonnancementsEquitables.Graphes
         private Brush[] UserColors;
             
        
-        public Graphe(int nb_machines) : this(nb_machines, new Canvas(), 1)
+        public Graphe(int nb_machines, Canvas c) : this(nb_machines, c, 1)
         {
  
         }
@@ -45,19 +46,21 @@ namespace OrdonnancementsEquitables.Graphes
             }
         }
 
-        public void AddJob(int machine, Job j, int user)
+        public void AddJob(int machine, Job j, bool late, int user)
         {
-            AjouteJob(machine, j, UserColors[user]);
+            AjouteJob(machine, j, UserColors[user], late);
         }
 
-        public void AddJob(int machine, Job j)
+        public void AddJob(int machine, Job j, bool late)
         {
-            AjouteJob(machine, j, PickBrush());
+            AjouteJob(machine, j, PickBrush(), late);
         }
-        private void AjouteJob(int machine, Job j, Brush couleur)
+
+        private void AjouteJob(int machine, Job j, Brush couleur, bool late)
         {
-            Canvas rect = new Canvas();
-            rect.Background = couleur;
+            Rectangle rect = new Rectangle();
+            rect.Fill = couleur;
+            rect.Stroke = Brushes.Black;
             rect.Height = 50;
             rect.Width = j.Time * 50;
             Canvas.SetTop(rect, HeightCal(machine));
@@ -65,6 +68,25 @@ namespace OrdonnancementsEquitables.Graphes
             Maxtime[machine] += j.Time * 50;
             Panel.Width = Maxtime.Max() + 10;
             Panel.Children.Add(rect);
+            if(late)
+            {
+                DrawingBrush pattern = new DrawingBrush();
+                GeometryDrawing backgroundSquare = new GeometryDrawing(couleur, null, new RectangleGeometry(new Rect(0, 0, 400, 400)));
+                // Create a GeometryGroup that will be added to Geometry  
+                GeometryGroup gGroup = new GeometryGroup();
+                gGroup.Children.Add(new RectangleGeometry(new Rect(200, 0, 2, 400)));
+                // Create a GeomertyDrawing  
+                GeometryDrawing checkers = new GeometryDrawing(new SolidColorBrush(Colors.Red), null, gGroup);
+                DrawingGroup linesDrawingGroup = new DrawingGroup();
+                linesDrawingGroup.Children.Add(backgroundSquare);
+                linesDrawingGroup.Children.Add(checkers);
+                pattern.Drawing = linesDrawingGroup;
+                // Set Viewport and TimeMode  
+                pattern.Viewport = new Rect(0, 0, 0.25, 0.25);
+                pattern.TileMode = TileMode.FlipXY;
+                // Fill rectangle with a DrawingBrush  
+                rect.Fill = pattern;
+            }
 
         }
 
@@ -91,5 +113,6 @@ namespace OrdonnancementsEquitables.Graphes
 
             return result;
         }
+
     }
 }

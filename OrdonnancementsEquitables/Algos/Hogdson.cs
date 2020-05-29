@@ -1,10 +1,12 @@
-﻿using OrdonnancementsEquitables.Jobs;
+﻿using OrdonnancementsEquitables.Graphes;
+using OrdonnancementsEquitables.Jobs;
 using OrdonnancementsEquitables.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace OrdonnancementsEquitables.Algos
 {
@@ -46,6 +48,20 @@ namespace OrdonnancementsEquitables.Algos
             }
             return Jobs;
         }
+
+        public override void Draw(Canvas c)
+        {
+            Graphe g = new Graphe(1, c);
+            foreach (Job i in OnTime)
+            {
+                g.AddJob(0, i, false);
+            }
+            foreach (Job j in Late)
+            {
+                g.AddJob(0, j, true);
+            }
+        }
+
 
         public override string ToString() => base.ToString() + "Hogdson\n\nOn time:\n" + FormattedOnTime + "\nLate:\n" + FormattedLate + Separation;
     }
