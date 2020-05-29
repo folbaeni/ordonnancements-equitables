@@ -1,4 +1,5 @@
-﻿using OrdonnancementsEquitables.Jobs;
+﻿using OrdonnancementsEquitables.Graphes;
+using OrdonnancementsEquitables.Jobs;
 using OrdonnancementsEquitables.Parsers;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace OrdonnancementsEquitables.Algos
 {
@@ -18,8 +21,10 @@ namespace OrdonnancementsEquitables.Algos
         public TJob[] Jobs => (TJob[])currentJobs.Clone();
         protected TJob[] currentJobs;
 
-        public TJob[] ExecuteDefault() => Execute(Parser.ParseFromFile<TJob>($@"Assets\Default Jobs\{GetType().Name}.json"));
+        public TJob[] ExecuteDefault() => Execute(new Parser($@"Assets\Default Jobs\{GetType().Name}.json").ParseJobsFromJSON<TJob>());
         public abstract TJob[] Execute(TJob[] jobs);
         public override string ToString() => "Resultat de l'algorithme: ";
+
+        public abstract void Draw(Canvas c);
     }
 }

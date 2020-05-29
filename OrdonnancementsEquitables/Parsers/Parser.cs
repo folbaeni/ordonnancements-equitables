@@ -14,52 +14,36 @@ namespace OrdonnancementsEquitables.Parsers
 {
     public class Parser
     {
-        private static Type GetTypeFromJSON(JObject obj)
+        readonly JArray list;
+
+        public Type JobType { get; }
+
+        private Parser() { }
+        public Parser(string filePath) 
+        {
+            string content = File.ReadAllText(filePath);
+            JObject obj = ParseToJSON(content);
+            JobType = GetTypeFromJSON(obj);
+            list = GetJobsArrayFromJSON(obj);
+        }
+
+        JObject ParseToJSON(string content) => JObject.Parse(content);
+        Type GetTypeFromJSON(JObject obj)
         {
             string type = obj["job_type"].Value<string>();
             Type jobType = Type.GetType(typeof(Job).Namespace + "." + type);
             return jobType;
         }
+        JArray GetJobsArrayFromJSON(JObject obj) => (JArray)obj["job_list"];
 
-        private static JObject ParseToJSON(string content) => JObject.Parse(content);
-
-        private static void ParseAndGetType(string filePath, out JObject obj, out Type jobType)
+        public TJob[] ParseJobsFromJSON<TJob>() where TJob : Job
         {
-            string content = File.ReadAllText(filePath);
-            obj = ParseToJSON(content);
-            jobType = GetTypeFromJSON(obj);
-        }
-
-        private static Job[] ParseJobsFromJSON(JObject obj, Type jobType)
-        {
-            JArray list = (JArray)obj["job_list"];
-            var arr = list.Select(t => (Job)t.ToObject(jobType)).ToArray();
-            return arr;
-        }
-
-        private static TJob[] ParseJobsFromJSON<TJob>(JObject obj, Type jobType) where TJob : Job
-        {
-            if (jobType != typeof(TJob))
+            if (JobType != typeof(TJob))
             {
                 throw new ParserTypeException();
             }
-
-            JArray list = obj["job_list"].Value<JArray>();
-
             var arr = list.Select(t => t.ToObject<TJob>()).ToArray();
             return arr;
-        }
-
-        public static Job[] ParseFromFile(string filePath, out Type jobType)
-        {
-            ParseAndGetType(filePath, out JObject obj, out jobType);
-            return ParseJobsFromJSON(obj, jobType);
-        }
-
-        public static TJob[] ParseFromFile<TJob>(string filePath) where TJob : Job
-        {
-            ParseAndGetType(filePath, out JObject obj, out Type jobType);
-            return ParseJobsFromJSON<TJob>(obj, jobType);
         }
     }
 }

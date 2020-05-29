@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OrdonnancementsEquitables.Graphes;
+using System.Windows.Controls;
 
 namespace OrdonnancementsEquitables.Algos
 {
@@ -51,6 +53,14 @@ namespace OrdonnancementsEquitables.Algos
             Job[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
 
             return Execute(jobs, nbDevices);
+        }
+
+        public override void Draw(Canvas c)
+        {
+            Graphe g = new Graphe(currentDevices.Length, c, currentUsers.Length);
+            foreach (Job i in currentJobs)
+            {
+            }
         }
     }
 }
