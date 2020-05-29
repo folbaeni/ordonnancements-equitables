@@ -65,7 +65,6 @@ namespace OrdonnancementsEquitables.Graphes
             Maxtime[machine] += j.Time * 50;
             Panel.Width = Maxtime.Max() + 10;
             Panel.Children.Add(rect);
-            rect.
 
         }
 
