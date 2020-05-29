@@ -80,7 +80,9 @@
     </ApplicationDefinition>
     <Compile Include="Algos\LongestProcessingTime.cs" />
     <Compile Include="Algos\ShortestProcessingTime.cs" />
+    <Compile Include="Jobs\JobCo.cs" />
     <Compile Include="Models\Device.cs" />
+    <Compile Include="Models\Graph.cs" />
     <Compile Include="Utils\StringConverter.cs" />
     <Compile Include="Parsers\Parser.cs" />
     <Compile Include="Parsers\ParserTypeException.cs" />
