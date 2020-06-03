@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace OrdonnancementsEquitables.Models
@@ -11,7 +12,7 @@ namespace OrdonnancementsEquitables.Models
     public abstract class Graph
     {
         protected JobCo[] Jobs;
-        protected int[,] M; /* matrice sommets-sommets du graph orienté*/
+        protected int[,] M; /* matrice sommets-sommets */
 
         public Graph(JobCo[] jobs)
         {
@@ -22,42 +23,55 @@ namespace OrdonnancementsEquitables.Models
                     M[i, j] = 0;
 
             foreach(JobCo j in jobs)
-                CreateConnection(j);
-
+                CreateConnections(j);
         }
 
-        protected void CreateConnection(JobCo job)
+        protected void CreateConnection(JobCo job1, JobCo job2) 
         {
-            foreach (int i in job.Depend)
-            {
-                M[job.Id, i] = 1;
-                if (M[i, job.Id] != 1)
-                    M[i, job.Id] = -1;
-            }
+            M[job1.Id, job2.Id] = 1;
+            if (M[job2.Id, job1.Id] != 1)
+                M[job2.Id, job1.Id] = -1;
         }
 
-        protected void DeleteConnection(JobCo job)
+        protected void CreateConnections(JobCo job)
         {
             foreach (int i in job.Depend)
-            {
-                M[job.Id, i] = 0;
-                M[i, job.Id] = 0;
-            }
+                CreateConnection(Jobs.Where(j => j.Id == i).FirstOrDefault(), job);
+        }
+
+        protected void DeleteConnection(JobCo job1, JobCo job2)
+        {
+            M[job1.Id, job2.Id] = 0;
+            if (M[job2.Id, job1.Id] == 1)
+                M[job1.Id, job2.Id] = -1;
+            else
+                M[job2.Id, job1.Id] = 0;
+        }
+
+        protected void DeleteConnections(JobCo job)
+        {
+            foreach(int i in job.Depend)
+                DeleteConnection(Jobs.Where(j => j.Id == i).FirstOrDefault(), job);
         }
 
         public void UnExecuteJob(JobCo job)
         {
-            CreateConnection(job);
+            CreateConnections(job);
             ActualiseConnectedJobs(job);
         }
 
         public void ExecuteJob(JobCo job)
         {
-            DeleteConnection(job);
+            DeleteConnections(job);
             ActualiseConnectedJobs(job);
         }
 
         public abstract void ActualiseConnectedJobs(JobCo job);
+
+        public JobCo GetHigherDegree()
+        {
+            return Jobs.OrderByDescending(j => j.Depend.Length).FirstOrDefault();
+        }
     }
 
     public class GraphLock : Graph
@@ -68,23 +82,8 @@ namespace OrdonnancementsEquitables.Models
         
         public override void ActualiseConnectedJobs(JobCo jobCo)
         {
-            foreach (int id in jobCo.Depend)
-            {
-                JobCo job = Jobs.Where(j => j.Id == id).FirstOrDefault();
-                job.IsLocked = IsLocked(job);
-            }
-        }
-
-        public bool IsLocked(JobCo job)
-        {
-            foreach (int i in job.Depend)
-            {
-                if (M[job.Id, i] != 0)
-                {
-                    return true;
-                }
-            }
-            return false;
+            foreach (JobCo job in Jobs.Where(j => j.Depend.Contains(jobCo.Id)))
+                job.ActualiseIsLocked(M);
         }
     }
 
@@ -96,24 +95,8 @@ namespace OrdonnancementsEquitables.Models
 
         public override void ActualiseConnectedJobs(JobCo jobCo)
         {
-            foreach (int id in jobCo.Depend)
-            {
-                JobCo job = Jobs.Where(j => j.Id == id).FirstOrDefault();
-                job.ExecTime = TimeDecrease(job);
-            }
-        }
-
-        public int TimeDecrease(JobCo job)
-        {
-            int time = job.Time;
-            foreach (int i in job.Depend)
-            {
-                if (M[i, job.Id] == 0)
-                {
-                    time--;
-                }
-            }
-            return (int)Math.Max(time, 1);
+            foreach (JobCo job in Jobs.Where(j => j.Depend.Contains(jobCo.Id)))
+                job.ActualiseExecTime(M);
         }
     }
 }
