@@ -67,6 +67,11 @@ namespace OrdonnancementsEquitables.Models
         }
 
         public abstract void ActualiseConnectedJobs(JobCo job);
+
+        public JobCo GetHigherDegree()
+        {
+            return Jobs.OrderByDescending(j => j.Depend.Length).FirstOrDefault();
+        }
     }
 
     public class GraphLock : Graph
