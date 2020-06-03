@@ -91,6 +91,13 @@ namespace OrdonnancementsEquitables
                     Console.WriteLine(algorithmeJP);
                     algorithmeJP.Draw(screen);
                     break;
+                case "JobCo":
+                    Algorithme<JobCo> algorithmeJC = (Algorithme<JobCo>)algo;
+                    var jobsJC = fileParser.ParseJobsFromJSON<JobCo>();
+                    algorithmeJC.Execute(jobsJC);
+                    Console.WriteLine(algorithmeJC);
+                    algorithmeJC.Draw(screen);
+                    break;
             }
         }
 
