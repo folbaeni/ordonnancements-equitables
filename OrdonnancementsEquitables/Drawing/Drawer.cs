@@ -15,80 +15,226 @@ using System.Windows.Shapes;
 
 namespace OrdonnancementsEquitables.Drawing
 {
+    /// <summary>
+    /// Class containing tools in order to draw graphs representing task's order in machines.
+    /// </summary>
+
+
+
     public class Drawer
     {
-        private Canvas Panel;
-        private int[] Maxtime;
-        private static Random Rand = new Random();
-        private Brush[] UserColors;
+        /// <summary>
+        /// Parameter of type Canvas representing the full graph ready to be shown.
+        /// </summary>
+        private readonly Canvas Panel;
+        /// <summary>
+        /// The last pixel in width of each machine to add next job.
+        /// </summary>
+        private readonly int[] maxtime;
+        /// <summary>
+        /// Private random for color generation per user.
+        /// </summary>
+        private static readonly Random rand = new Random();
+        private readonly Brush[] userColors;
+
+        private static readonly int pixelMultiplier = 50;
 
 
+        /// <summary>
+        /// This construct initialises the new <c>Drawer</c> for one machine and one user.
+        /// </summary>
+        /// <param name="c">The canvas present in MainWindow to be shown.</param>
         public Drawer(Canvas c)
             : this(1, c, 1)
         { }
 
+        /// <summary>
+        /// This constructor initialises the new <c>Drawer</c> for <paramref name="nb_machines"/> machines and one user.
+        /// </summary>
+        /// <param name="nb_machines">Number of machines.</param>
+        /// <param name="c">The canvas present in MainWindow to be shown.</param>
         public Drawer(int nb_machines, Canvas c)
             : this(nb_machines, c, 1)
         { }
 
+        /// <summary>
+        /// This constructor initialises the new <c>Drawer</c> for <paramref name="nb_machines"/> machines and <paramref name="users"/> users.
+        /// </summary>
+        /// <param name="nb_machines">Number of machines.</param>
+        /// <param name="can">The canvas present in MainWindow to be shown.</param>
+        /// <param name="users">Number of users</param>
         public Drawer(int nb_machines, Canvas can, int users)
         {
             Panel = can;
             Panel.Height = HeightCal(nb_machines + 1);
             Panel.Width = 10;
-            Maxtime = new int[nb_machines];
-            for (int i = 0; i < Maxtime.Length; i++)
+            maxtime = new int[nb_machines];
+            for (int i = 0; i < maxtime.Length; i++)
             {
-                Maxtime[i] = 10;
+                maxtime[i] = 10;
             }
 
-            UserColors = new Brush[users];
-            for (int i = 0; i < UserColors.Length; i++)
+            userColors = new Brush[users];
+            for (int i = 0; i < userColors.Length; i++)
             {
-                UserColors[i] = PickBrush();
+                userColors[i] = PickBrush();
             }
         }
 
-        public void AddJob(int machine, Job j, bool late, int user) => AddJob(machine, j, UserColors[user], late);
-        public void AddJob(int machine, Job j, bool late) => AddJob(machine, j, PickBrush(), late);
+        /// <summary>
+        /// This method adds the rectangle representing the Job <paramref name="j"/> in the graphic for the case where there is one machine ad one user.
+        /// </summary>
+        /// <param name="j">Parameter of the job that will be added. </param>
+        /// <param name="late">Boolean indicating if the job is late or not.</param>
+        public void AddJob(Job j, bool late) => AddJob(j, late, PickBrush(), 1);
 
-        private void AddJob(int machine, Job j, Brush couleur, bool late)
+        /// <summary>
+        /// This method adds the rectangle representing the Job <paramref name="j"/> in the graphic for the case where there is one machine and many users.
+        /// </summary>
+        /// <param name="machine"> Integer representing which machine has the job.</param>
+        /// <param name="j">Parameter of the job that will be added. </param>
+        /// <param name="couleur"> Brush of the color of the job, which has to be defined by the userId (UserColor). </param>
+        /// <param name="late">Boolean indicating if the job is late or not.</param>
+        public void AddJob(Job j, bool late, int user) => AddJob(j, late, userColors.Length == 1 ? PickBrush() : userColors[user], 1);
+
+        /// <summary>
+        /// This method adds the rectangle representing the Job <paramref name="j"/> for <paramref name="machine"/> in the graphic. Case with one or many users and many machines.
+        /// </summary>
+        /// <param name="machine"> Integer representing which machine has the job.</param>
+        /// <param name="j">Parameter of the job that will be added. </param>
+        /// <param name="late">Boolean indicating if the job is late or not.</param>
+        public void AddJob(Job j, bool late, int user, int machine) => AddJob(j, late, userColors.Length == 1 ? PickBrush() : userColors[user], machine);
+
+        /// <summary>
+        /// This method adds the rectangle representing the Job <paramref name="j"/> for <paramref name="machine"/> in the graphic.
+        /// </summary>
+        /// <param name="j">Parameter of the job that will be added. </param>
+        /// <param name="late">Boolean indicating if the job is late or not.</param>
+        /// <param name="couleur"> Brush of the color of the job, which has to be defined by the userId (UserColor). </param>
+        /// <param name="machine"> Integer representing which machine has the job.</param>
+        private void AddJob(Job j, bool late, Brush couleur, int machine)
         {
-            Rectangle rect = new Rectangle();
-            rect.Fill = couleur;
-            rect.Stroke = Brushes.Black;
-            rect.Height = 50;
-            rect.Width = j.Time * 50;
+            Rectangle rect = new Rectangle
+            {
+                Fill = couleur,
+                Stroke = Brushes.Black,
+                Height = 50,
+                Width = j.Time * pixelMultiplier
+            };
             Canvas.SetTop(rect, HeightCal(machine));
             Canvas.SetLeft(rect, WidthCal(machine));
-            Maxtime[machine] += j.Time * 50;
-            Panel.Width = Maxtime.Max() + 10;
+            maxtime[machine] += j.Time * pixelMultiplier;
+            Panel.Width = maxtime.Max() + 10;
             Panel.Children.Add(rect);
             if (late)
             {
-                DrawingBrush pattern = new DrawingBrush();
-                GeometryDrawing backgroundSquare = new GeometryDrawing(couleur, null, new RectangleGeometry(new Rect(0, 0, 400, 400)));
-                // Create a GeometryGroup that will be added to Geometry  
-                GeometryGroup gGroup = new GeometryGroup();
-                gGroup.Children.Add(new RectangleGeometry(new Rect(200, 0, 2, 400)));
-                // Create a GeomertyDrawing  
-                GeometryDrawing checkers = new GeometryDrawing(new SolidColorBrush(Colors.Red), null, gGroup);
-                DrawingGroup linesDrawingGroup = new DrawingGroup();
-                linesDrawingGroup.Children.Add(backgroundSquare);
-                linesDrawingGroup.Children.Add(checkers);
-                pattern.Drawing = linesDrawingGroup;
-                // Set Viewport and TimeMode  
-                pattern.Viewport = new Rect(0, 0, 0.25, 0.25);
-                pattern.TileMode = TileMode.FlipXY;
-                // Fill rectangle with a DrawingBrush  
-                rect.Fill = pattern;
+                rect.Fill = LatePattern(couleur); 
             }
 
         }
 
-        private int HeightCal(int machine) => machine * 60 + 10;
-        private int WidthCal(int machine) => Maxtime[machine];
+        /*
+        private void MakeInterlap(int time, Brush colA, Brush colB, int machine)
+        {
+            /// Initialisation triangle A
+            PointCollection pAlpha = new PointCollection
+            {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(0, 1)
+            };
+            Polygon Alpha = new Polygon
+            {
+                Points = pAlpha,
+                Fill = colA,
+                Height = 50,
+                Width = pixelMultiplier * time
+            };
 
+            /// Initialisation triangle B
+            PointCollection pBeta = new PointCollection
+            {
+                new Point(1, 1),
+                new Point(1, 0),
+                new Point(0, 1)
+            };
+            Polygon Beta = new Polygon
+            {
+                Points = pBeta,
+                Fill = colB,
+                Height = 50,
+                Width = pixelMultiplier * time
+            };
+
+
+            //Insertion in canvas
+            Canvas.SetTop(Alpha, HeightCal(machine));
+            Canvas.SetLeft(Alpha, WidthCal(machine));
+
+            Canvas.SetTop(Beta, HeightCal(machine));
+            Canvas.SetLeft(Beta, WidthCal(machine));
+
+            maxtime[machine] += time * pixelMultiplier;
+            Panel.Width = maxtime.Max() + 10;
+
+            Panel.Children.Add(Alpha);
+            Panel.Children.Add(Beta);
+        }
+        */
+
+        /// <summary>
+        /// This method is dedicated to generate the background of a rectangle which is late adding red stripes on his actual color.
+        /// </summary>
+        /// <param name="couleur">Color of the rectangle background (based on user).</param>
+        /// <returns>It returns the DrawingBrush to fill the rectangle which is late.</returns>
+        private DrawingBrush LatePattern(Brush couleur)
+        {
+            // Initialising the two layers
+            GeometryDrawing aDrawing = new GeometryDrawing();
+            GeometryDrawing background = new GeometryDrawing(couleur, null, new RectangleGeometry(new Rect(0, 0, 201, 815)));
+            RectangleGeometry aRect = new RectangleGeometry(new Rect(200, 0, 4, 800), 0, 0, new RotateTransform(10));
+
+            aDrawing.Geometry = aRect;
+            aDrawing.Brush = Brushes.Red;
+
+
+            // Overlap colour background and redstripes
+            DrawingGroup linesDrawingGroup = new DrawingGroup();
+            linesDrawingGroup.Children.Add(background);
+            linesDrawingGroup.Children.Add(aDrawing);
+
+            // Create a DrawingBrush
+            DrawingBrush myDrawingBrush = new DrawingBrush
+            {
+                Drawing = linesDrawingGroup,
+
+                // Set the DrawingBrush's Viewport and TileMode
+                // properties so that it generates a pattern.
+                Viewport = new Rect(0, 0, 0.125, 1),
+                TileMode = TileMode.Tile
+            };
+
+            return myDrawingBrush;
+        }
+
+        /// <summary>
+        /// This property calculates the <c>y</c> coordinate of top corner of rectangle based on which <paramref name="machine"/>.
+        /// </summary>
+        /// <param name="machine"> This parameter identifies the machine.</param>
+        /// <returns>Returns the <c>y</c> coordinate in pixels.</returns>
+        private int HeightCal(int machine) => machine * 60 + 10;
+
+        /// <summary>
+        /// This property calculates the <c>x</c> coordinate of left corner of rectangle based on which <paramref name="machine"/>.
+        /// </summary>
+        /// <param name="machine">This parameter identifies the machine.</param>
+        /// <returns>Returns the <c>x</c> coordinate in pixels.</returns>
+        private int WidthCal(int machine) => maxtime[machine];
+
+        /// <summary>
+        /// This method pickes a brush randomly for drawing rectangles in case of a single user.
+        /// </summary>
+        /// <returns>It returns a basic brush in a random color.</returns>
         public static Brush PickBrush()
         {
             Brush result = Brushes.Transparent;
@@ -97,7 +243,7 @@ namespace OrdonnancementsEquitables.Drawing
 
             PropertyInfo[] properties = brushesType.GetProperties();
 
-            int random = Rand.Next(properties.Length);
+            int random = rand.Next(properties.Length);
             result = (Brush)properties[random].GetValue(null, null);
 
             return result;
