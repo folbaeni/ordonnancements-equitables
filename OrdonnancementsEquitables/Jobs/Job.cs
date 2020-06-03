@@ -53,29 +53,56 @@ namespace OrdonnancementsEquitables.Jobs
 
         /// <summary> 
         /// <para> Virtual method in order to specify the <c>Job</c>'s type.</para>
-        /// See also <seealso cref="Prefixe"/> and <seealso cref="ToString"/>.
         /// </summary>
         /// <returns>The <see cref="string"/> value "Job"</returns>
+        /// <seealso cref="Prefixe"/>
+        /// <seealso cref="ToString"/>
         protected virtual string JobType() => "Job";
 
         /// <summary> 
-        /// <para> Virtual method in order to specify the <c>Job</c>'s values of <see cref="Id"/>, <see cref="Time"/> and <see cref="Deadline"/>. </para>
-        /// See also <seealso cref="JobType"/> and <seealso cref="ToString"/>.
+        /// Virtual method in order to specify the <c>Job</c>'s values
         /// </summary>
+        /// <seealso cref="JobType"/> 
+        /// <seealso cref="ToString"/>
         protected virtual string Prefixe() => $"{JobType()}(Id: {Id}, Time: {Time}, Deadline: {Deadline}";
 
         /// <summary>
         /// Formatted <see cref="string"/> representation of the <c>Job</c>.
         /// </summary>
-        /// <returns>Returns a formatted <see cref="string"/> representation of the <c>Job</c>, in the form <c>JobType(Id, Time, Deadline, [Profit, ])</c> </returns>
+        /// <returns>Returns a formatted <see cref="string"/> representation of the <c>Job</c>, in the form <c>JobType(Id, Time, Deadline, [Profit/Depend])</c> </returns>
         /// <seealso cref="Prefixe"/> 
         /// <seealso cref="JobType"/>
         public override string ToString() => Prefixe() + ")";
 
-
+        /// <summary>
+        /// <para> This method determines whether two Jobs are the same. </para>
+        /// It is only based on each <c>Job</c>'s <c>Id</c>.
+        /// </summary>
+        /// <param name="obj"> is the object to be compared to the current object. </param>
+        /// <returns><see langword="true"/> if the <c>Job</c>s have the same <c>Id</c>; otherwise, <see langword="false"/>.</returns>
+        /// <seealso cref="operator=="/>
+        /// <seealso cref="operator!="/>
         public override bool Equals(object obj) => obj is Job job && Id == job.Id;
         public override int GetHashCode() => 2108858624 + Id.GetHashCode();
+
+        /// <summary>
+        /// This operator determines whether two <c>Job</c>s have the same <c>Id</c>.
+        /// </summary>
+        /// <param name="left"> is the first <c>Job</c>to be compared. </param>
+        /// <param name="right"> is the secend <c>Job</c>to be compared. </param>
+        /// <returns><see langword="true"/> if the <c>Job</c>s have the same <c>Id</c>; otherwise, <see langword="false"/>.</returns>
+        /// <seealso cref="Equals"/>
+        /// <seealso cref="operator!="/>
         public static bool operator ==(Job left, Job right) => EqualityComparer<Job>.Default.Equals(left, right);
+
+        /// <summary>
+        /// This operator determines whether two <c>Job</c>s have the same <c>Id</c>.
+        /// </summary>
+        /// <param name="left"> is the first <c>Job</c>to be compared. </param>
+        /// <param name="right"> is the secend <c>Job</c>to be compared. </param>
+        /// <returns><see langword="true"/> if the <c>Job</c>s do not have the same <c>Id</c>; otherwise, <see langword="false"/>.</returns>
+        /// <seealso cref="Equals"/>
+        /// <seealso cref="operator=="/>
         public static bool operator !=(Job left, Job right) => !(left == right);
     }
 }

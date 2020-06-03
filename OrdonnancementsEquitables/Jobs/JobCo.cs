@@ -41,5 +41,10 @@ namespace OrdonnancementsEquitables.Jobs
 
             return execTime = Math.Max(time, 1);
         }
+
+
+        protected override string JobType() => "JobCo";
+        protected override string Prefixe() => base.Prefixe() + $", Depend: {Depend}";
+
     }
 }
