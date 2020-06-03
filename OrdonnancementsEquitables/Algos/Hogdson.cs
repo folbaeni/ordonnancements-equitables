@@ -1,4 +1,4 @@
-﻿using OrdonnancementsEquitables.Graphes;
+﻿using OrdonnancementsEquitables.Drawing;
 using OrdonnancementsEquitables.Jobs;
 using OrdonnancementsEquitables.Parsers;
 using System;
@@ -51,7 +51,7 @@ namespace OrdonnancementsEquitables.Algos
 
         public override void Draw(Canvas c)
         {
-            Graphe g = new Graphe(1, c);
+            Drawer g = new Drawer(1, c);
             foreach (Job i in OnTime)
             {
                 g.AddJob(0, i, false);

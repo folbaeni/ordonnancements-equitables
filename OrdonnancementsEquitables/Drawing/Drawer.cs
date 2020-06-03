@@ -13,9 +13,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace OrdonnancementsEquitables.Graphes
+namespace OrdonnancementsEquitables.Drawing
 {
-    public class Graphe
+    public class Drawer
     {
         private Canvas Panel;
         private int[] Maxtime;
@@ -23,12 +23,12 @@ namespace OrdonnancementsEquitables.Graphes
         private Brush[] UserColors;
             
        
-        public Graphe(int nb_machines, Canvas c) : this(nb_machines, c, 1)
+        public Drawer(int nb_machines, Canvas c) : this(nb_machines, c, 1)
         {
  
         }
 
-        public Graphe(int nb_machines, Canvas can, int users)
+        public Drawer(int nb_machines, Canvas can, int users)
         {
             Panel = can;
             Panel.Height = HeightCal(nb_machines + 1);

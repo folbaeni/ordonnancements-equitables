@@ -1,4 +1,4 @@
-﻿using OrdonnancementsEquitables.Graphes;
+﻿using OrdonnancementsEquitables.Drawing;
 using OrdonnancementsEquitables.Jobs;
 using OrdonnancementsEquitables.Parsers;
 using System;

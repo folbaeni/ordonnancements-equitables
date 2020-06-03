@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OrdonnancementsEquitables.Graphes;
+using OrdonnancementsEquitables.Drawing;
 using System.Windows.Controls;
 
 namespace OrdonnancementsEquitables.Algos
@@ -57,7 +57,7 @@ namespace OrdonnancementsEquitables.Algos
 
         public override void Draw(Canvas c)
         {
-            Graphe g = new Graphe(currentDevices.Length, c, currentUsers.Length);
+            Drawer g = new Drawer(currentDevices.Length, c, currentUsers.Length);
             foreach (Job i in currentJobs)
             {
             }

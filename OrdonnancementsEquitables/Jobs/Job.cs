@@ -24,7 +24,7 @@ namespace OrdonnancementsEquitables.Jobs
             Deadline = deadline;
         }
 
-        protected void CountToZero() => cpt = 0;
+        public static void CountToZero() => cpt = 0;
 
         protected virtual string JobType() => "Job";
         protected virtual string Prefixe() => $"{JobType()}(Id: {Id}, Time: {Time}, Deadline: {Deadline}";

@@ -18,7 +18,7 @@ using OrdonnancementsEquitables.Utils;
 using OrdonnancementsEquitables.Jobs;
 using System.Reflection;
 using System.IO;
-using OrdonnancementsEquitables.Graphes;
+using OrdonnancementsEquitables.Drawing;
 
 namespace OrdonnancementsEquitables
 {
@@ -74,6 +74,7 @@ namespace OrdonnancementsEquitables
             Type algoType = Type.GetType(typeof(Algorithme<>).Namespace + "." + nomAlgo);
             var algo = Activator.CreateInstance(algoType);
 
+            Job.CountToZero();
             switch (fileParser.JobType.Name)
             {
                 case "Job":
@@ -81,8 +82,6 @@ namespace OrdonnancementsEquitables
                     var jobs = fileParser.ParseJobsFromJSON<Job>();
                     algorithmeJ.Execute(jobs);
                     Console.WriteLine(algorithmeJ);
-                    Graphe graphe = new Graphe(4, screen, 1);
-                    Random rand = new Random();
                     algorithmeJ.Draw(screen);
                     break;
                 case "JobP":
