@@ -21,12 +21,15 @@ namespace OrdonnancementsEquitables.Drawing
         private int[] Maxtime;
         private static Random Rand = new Random();
         private Brush[] UserColors;
-            
-       
-        public Drawer(int nb_machines, Canvas c) : this(nb_machines, c, 1)
-        {
- 
-        }
+
+
+        public Drawer(Canvas c)
+            : this(1, c, 1)
+        { }
+
+        public Drawer(int nb_machines, Canvas c)
+            : this(nb_machines, c, 1)
+        { }
 
         public Drawer(int nb_machines, Canvas can, int users)
         {
@@ -46,17 +49,10 @@ namespace OrdonnancementsEquitables.Drawing
             }
         }
 
-        public void AddJob(int machine, Job j, bool late, int user)
-        {
-            AjouteJob(machine, j, UserColors[user], late);
-        }
+        public void AddJob(int machine, Job j, bool late, int user) => AddJob(machine, j, UserColors[user], late);
+        public void AddJob(int machine, Job j, bool late) => AddJob(machine, j, PickBrush(), late);
 
-        public void AddJob(int machine, Job j, bool late)
-        {
-            AjouteJob(machine, j, PickBrush(), late);
-        }
-
-        private void AjouteJob(int machine, Job j, Brush couleur, bool late)
+        private void AddJob(int machine, Job j, Brush couleur, bool late)
         {
             Rectangle rect = new Rectangle();
             rect.Fill = couleur;
@@ -68,7 +64,7 @@ namespace OrdonnancementsEquitables.Drawing
             Maxtime[machine] += j.Time * 50;
             Panel.Width = Maxtime.Max() + 10;
             Panel.Children.Add(rect);
-            if(late)
+            if (late)
             {
                 DrawingBrush pattern = new DrawingBrush();
                 GeometryDrawing backgroundSquare = new GeometryDrawing(couleur, null, new RectangleGeometry(new Rect(0, 0, 400, 400)));
@@ -90,15 +86,8 @@ namespace OrdonnancementsEquitables.Drawing
 
         }
 
-        private int HeightCal(int machine)
-        {
-            return machine * 60 + 10;
-        }
-
-        private int WidthCal(int machine)
-        {
-            return Maxtime[machine];
-        }
+        private int HeightCal(int machine) => machine * 60 + 10;
+        private int WidthCal(int machine) => Maxtime[machine];
 
         public static Brush PickBrush()
         {
