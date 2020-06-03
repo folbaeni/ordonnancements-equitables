@@ -52,13 +52,13 @@ namespace OrdonnancementsEquitables.Algos
         public override void Draw(Canvas c)
         {
             Drawer g = new Drawer(1, c);
-            foreach (Job i in OnTime)
+            foreach (Job j in OnTime)
             {
-                g.AddJob(0, i, false);
+                g.AddJob(j, false);
             }
             foreach (Job j in Late)
             {
-                g.AddJob(0, j, true);
+                g.AddJob(j, true);
             }
         }
 
