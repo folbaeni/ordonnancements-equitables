@@ -9,13 +9,37 @@ namespace OrdonnancementsEquitables.Jobs
 {
     public class JobCo : Job
     {
-        public int[] Depend { get; }
-        public int ExecTime { get; set; }
-        public bool IsLocked { get; set; }
+        private int execTime;
+        private bool isLocked;
+
+        public int[] Depend { get; } /* jobs dont il depend */
+        public int ExecTime { get => execTime; }
+        public bool IsLocked { get => isLocked; }
         
         public JobCo(int time, int deadline, int[] depend) : base(time, deadline)
         {
-            Depend = depend;
+            Depend = (int[])depend.Clone();
+            execTime = Time;
+            isLocked = false;
+        }
+
+        public bool ActualiseIsLocked(int[,] M)
+        {
+            foreach (int i in Depend)
+                if (M[Id, i] == -1)
+                    return isLocked = true;
+
+            return isLocked = false;
+        }
+
+        public int ActualiseExecTime(int[,] M)
+        {
+            int time = Time;
+            foreach (int i in Depend)
+                if (M[i, Id] == 0)
+                    time--;
+
+            return execTime = Math.Max(time, 1);
         }
     }
 }
