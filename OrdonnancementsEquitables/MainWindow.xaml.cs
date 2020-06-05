@@ -49,7 +49,6 @@ namespace OrdonnancementsEquitables
                 typed.ForEach(t => SelAlgo.Items.Add(t.Name.SystToAff()));
                 //SelAlgo.SelectedIndex = 0;
             }
-            var x = new Job(0, 0) == new Job(1, 12);
         }
 
 

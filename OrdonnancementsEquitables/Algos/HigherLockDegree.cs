@@ -11,11 +11,6 @@ namespace OrdonnancementsEquitables.Algos
 {
     public class HigherLockDegree : Algorithme<JobCo>
     {
-        public override void Draw(Canvas c)
-        {
-            throw new NotImplementedException();
-        }
-
 
         public override JobCo[] Execute(JobCo[] jobs)
         {
@@ -62,5 +57,10 @@ namespace OrdonnancementsEquitables.Algos
             }
             return trie;
         }
+
+        public override void Draw(Canvas c)
+        {
+            throw new NotImplementedException();
+        }
     }
-    }
+}

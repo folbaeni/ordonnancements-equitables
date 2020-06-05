@@ -12,11 +12,11 @@ namespace OrdonnancementsEquitables.Algos
 {
     public class LongestProcessingTime : Algorithme<Job>, IMultipleDevices<Job>, IMultipleUsers<Job>
     {
-        public double AverageTime { get => Devices.Average(d => d.TimeReady); }
-        public int ShortestTimeReady { get => Devices.OrderBy(d => d.TimeReady).FirstOrDefault().TimeReady; }
-        public int LongestTimeReady { get => Devices.OrderByDescending(d => d.TimeReady).FirstOrDefault().TimeReady; }
-        public User<Job>[] Users { get => (User<Job>[])currentUsers.Clone(); }
-        public Device<Job>[] Devices { get => (Device<Job>[])currentDevices.Clone(); }
+        public double AverageTime => Devices.Average(d => d.TimeReady);
+        public int ShortestTimeReady => Devices.OrderBy(d => d.TimeReady).FirstOrDefault().TimeReady;
+        public int LongestTimeReady => Devices.OrderByDescending(d => d.TimeReady).FirstOrDefault().TimeReady;
+        public User<Job>[] Users => (User<Job>[])currentUsers.Clone();
+        public Device<Job>[] Devices => (Device<Job>[])currentDevices.Clone();
 
         private Device<Job>[] currentDevices;
         private User<Job>[] currentUsers;
@@ -39,13 +39,7 @@ namespace OrdonnancementsEquitables.Algos
             return Jobs;
         }
 
-        public Job[] Execute(User<Job>[] users)
-        {
-            currentUsers = users;
-            Job[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
-
-            return Execute(jobs);
-        }
+        public Job[] Execute(User<Job>[] users) => Execute(users, 1);
 
         public Job[] Execute(User<Job>[] users, int nbDevices)
         {
@@ -57,8 +51,8 @@ namespace OrdonnancementsEquitables.Algos
 
         public override void Draw(Canvas c)
         {
-            Drawer g = new Drawer(currentDevices.Length, c, currentUsers.Length);
-            foreach (Job i in currentJobs)
+            Drawer dr = new Drawer(currentDevices.Length, c, currentUsers.Length);
+            foreach (Job j in currentJobs)
             {
             }
         }
