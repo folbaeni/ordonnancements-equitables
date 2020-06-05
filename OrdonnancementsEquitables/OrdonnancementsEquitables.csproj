@@ -81,6 +81,7 @@
     <Compile Include="Algos\HigherLockDegree.cs" />
     <Compile Include="Algos\LongestProcessingTime.cs" />
     <Compile Include="Algos\ShortestProcessingTime.cs" />
+    <Compile Include="Drawing\DrawerCo.cs" />
     <Compile Include="Drawing\Drawer.cs" />
     <Compile Include="Jobs\JobCo.cs" />
     <Compile Include="Models\Device.cs" />

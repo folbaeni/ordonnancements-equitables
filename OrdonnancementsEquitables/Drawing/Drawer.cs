@@ -26,18 +26,28 @@ namespace OrdonnancementsEquitables.Drawing
         /// <summary>
         /// Parameter of type Canvas representing the full graph ready to be shown.
         /// </summary>
-        private readonly Canvas Panel;
+        protected Canvas Panel;
         /// <summary>
         /// The last pixel in width of each machine to add next job.
         /// </summary>
-        private readonly int[] maxtime;
+        protected int[] maxTime;
         /// <summary>
         /// Private random for color generation per user.
         /// </summary>
-        private static readonly Random rand = new Random();
-        private readonly Brush[] userColors;
+        protected static readonly Random rand = new Random();
 
-        private static readonly int pixelMultiplier = 50;
+        /// <summary>
+        ///  Stocks the color of every user.
+        /// </summary>
+        protected readonly Brush[] userColors;
+
+
+        /// <summary>
+        /// Variable used for converting time in second to pixels.
+        /// </summary>
+        protected static readonly int pixelMultiplier = 50;
+
+        protected static readonly int hauteur = 50;
 
 
         /// <summary>
@@ -67,11 +77,11 @@ namespace OrdonnancementsEquitables.Drawing
         {
             Panel = can;
             Panel.Height = HeightCal(nb_machines + 1);
-            Panel.Width = 10;
-            maxtime = new int[nb_machines];
-            for (int i = 0; i < maxtime.Length; i++)
+            Panel.Width = 100;
+            maxTime = new int[nb_machines];
+            for (int i = 0; i < maxTime.Length; i++)
             {
-                maxtime[i] = 10;
+                maxTime[i] = 0;
             }
 
             userColors = new Brush[users];
@@ -118,13 +128,13 @@ namespace OrdonnancementsEquitables.Drawing
             {
                 Fill = couleur,
                 Stroke = Brushes.Black,
-                Height = 50,
+                Height = hauteur,
                 Width = j.Time * pixelMultiplier
             };
             Canvas.SetTop(rect, HeightCal(machine));
             Canvas.SetLeft(rect, WidthCal(machine));
-            maxtime[machine] += j.Time * pixelMultiplier;
-            Panel.Width = maxtime.Max() + 10;
+            maxTime[machine] += j.Time * pixelMultiplier;
+            Panel.Width = maxTime.Max() + 10;
             Panel.Children.Add(rect);
             if (late)
             {
@@ -187,7 +197,7 @@ namespace OrdonnancementsEquitables.Drawing
         /// </summary>
         /// <param name="couleur">Color of the rectangle background (based on user).</param>
         /// <returns>It returns the DrawingBrush to fill the rectangle which is late.</returns>
-        private DrawingBrush LatePattern(Brush couleur)
+        protected DrawingBrush LatePattern(Brush couleur)
         {
             // Initialising the two layers
             GeometryDrawing aDrawing = new GeometryDrawing();
@@ -222,20 +232,20 @@ namespace OrdonnancementsEquitables.Drawing
         /// </summary>
         /// <param name="machine"> This parameter identifies the machine.</param>
         /// <returns>Returns the <c>y</c> coordinate in pixels.</returns>
-        private int HeightCal(int machine) => machine * 60 + 10;
+        protected int HeightCal(int machine) => machine * 60 + 10;
 
         /// <summary>
         /// This property calculates the <c>x</c> coordinate of left corner of rectangle based on which <paramref name="machine"/>.
         /// </summary>
         /// <param name="machine">This parameter identifies the machine.</param>
         /// <returns>Returns the <c>x</c> coordinate in pixels.</returns>
-        private int WidthCal(int machine) => maxtime[machine];
+        protected int WidthCal(int machine) => maxTime[machine];
 
         /// <summary>
         /// This method pickes a brush randomly for drawing rectangles in case of a single user.
         /// </summary>
         /// <returns>It returns a basic brush in a random color.</returns>
-        public static Brush PickBrush()
+        protected static Brush PickBrush()
         {
             Brush result = Brushes.Transparent;
 
