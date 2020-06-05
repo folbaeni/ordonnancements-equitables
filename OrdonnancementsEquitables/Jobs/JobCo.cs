@@ -25,9 +25,12 @@ namespace OrdonnancementsEquitables.Jobs
 
         public bool ActualiseIsLocked(int[,] M)
         {
-            foreach (int i in Depend)
-                if (M[Id, i] == -1)
-                    return isLocked = true;
+            foreach (var _ in from int i in Depend
+                              where M[Id, i] == -1
+                              select new { })
+            {
+                return isLocked = true;
+            }
 
             return isLocked = false;
         }
