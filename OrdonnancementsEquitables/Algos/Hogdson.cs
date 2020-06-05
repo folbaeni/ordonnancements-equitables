@@ -64,20 +64,32 @@ namespace OrdonnancementsEquitables.Algos
 
         public override void Draw(Canvas c)
         {
-            int nbUsers = currentUsers == null ? 0 : currentUsers.Length;
+            int nbUsers = currentUsers == null ? 1 : currentUsers.Length;
             Drawer dr = new Drawer(1, c, nbUsers);
 
             foreach (Job j in OnTime)
             {
-                User<Job> user = currentUsers.Where(u => u.Jobs.Contains(j)).FirstOrDefault();
-                int index = Array.IndexOf(currentUsers, user);
+                int index;
+                if (nbUsers == 1)
+                    index = 1;
+                else 
+                {
+                    User<Job> user = currentUsers.Where(u => u.Jobs.Contains(j)).FirstOrDefault();
+                    index = Array.IndexOf(currentUsers, user);
+                }
                 dr.AddJob(j, false, index);
             }
 
             foreach (Job j in Late)
             {
-                User<Job> user = currentUsers.Where(u => u.Jobs.Contains(j)).FirstOrDefault();
-                int index = Array.IndexOf(currentUsers, user);
+                int index;
+                if (nbUsers == 1)
+                    index = 1;
+                else
+                {
+                    User<Job> user = currentUsers.Where(u => u.Jobs.Contains(j)).FirstOrDefault();
+                    index = Array.IndexOf(currentUsers, user);
+                }
                 dr.AddJob(j, true, index);
             }
         }

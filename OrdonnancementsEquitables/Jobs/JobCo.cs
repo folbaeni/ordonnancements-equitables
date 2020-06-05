@@ -23,6 +23,13 @@ namespace OrdonnancementsEquitables.Jobs
             isLocked = false;
         }
 
+        public JobCo(int time, int execTime)
+            : base(time, 40)
+        {
+            this.execTime = execTime;
+            isLocked = false;
+        }
+
         public bool ActualiseIsLocked(int[,] M)
         {
             foreach (var _ in from int i in Depend
