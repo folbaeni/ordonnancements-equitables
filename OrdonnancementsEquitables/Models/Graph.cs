@@ -103,7 +103,8 @@ namespace OrdonnancementsEquitables.Models
             return jobDeg.Where(j => j.IsLocked == false).OrderBy(j => j.ExecTime).FirstOrDefault();
         }
 
-        public JobCo GetHigherOutDegree() /* retourne le job avec le plus haut degree sortant */
+        /* retourne le job avec le plus haut degree sortant et le plus petit ExecTime*/
+        public JobCo GetHigherOutDegree() 
         {
             JobCo higher;
             for(int i = M.GetLength(0); i > 0; i--)
@@ -114,7 +115,54 @@ namespace OrdonnancementsEquitables.Models
             return null;
         }
 
+        /* Cherche un job de dégré sortant *deg* qui est pas Lock, dans les temps et qui a le plus petit ExecTime; sinon renvoie null */
+        protected JobCo GetHigherOutDegreeOnTime(int deg, int time)
+        {
+            int k;
+            List<JobCo> jobDeg = new List<JobCo>();
+            for (int i = 0; i < M.GetLength(0); i++)
+            {
+                k = 0;
+                for (int j = 0; j < M.GetLength(1); j++)
+                {
+                    if (M[i, j] == 1)
+                        k++;
+                }
+
+                if (k == deg)
+                    jobDeg.Add(Jobs.Where(j => j.Id == i).FirstOrDefault());
+            }
+
+            /*if (jobDeg.Count == 0 && jobDeg.Where(j => j.IsLocked == false).Count() == 0)
+                return null;*/
+
+            JobCo aLheure ;
+            while (jobDeg.Count != 0 || jobDeg.Where(j => j.IsLocked == false).Count() != 0 )
+            {
+                if ((aLheure = jobDeg.Where(j => j.IsLocked == false).OrderBy(j => j.ExecTime).FirstOrDefault()).Deadline < time)
+                    return aLheure;
+
+                jobDeg.RemoveAt(0);
+            }
+
+            return null;
+        }
+
+        /* retourne le job avec le plus haut degree sortant, dans les temps et le plus petit ExecTime*/
+        public JobCo GetHigherOutDegreeOnTime(int time)
+        {
+            JobCo higher;
+            for (int i = M.GetLength(0); i > 0; i--)
+            {
+                if ((higher = GetHigherOutDegreeOnTime(i, time)) != null)
+                    return higher;
+            }
+            return null;
+        }
+
     }
+
+/* GraphLock */
 
     public class GraphLock : Graph
     {
@@ -129,6 +177,9 @@ namespace OrdonnancementsEquitables.Models
         }
 
     }
+
+
+/* GraphTimeD */
 
     public class GraphTimeD : Graph
     {

@@ -79,6 +79,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Algos\HigherLockDegree.cs" />
+    <Compile Include="Algos\HigherTimeDegree.cs" />
     <Compile Include="Algos\LongestProcessingTime.cs" />
     <Compile Include="Algos\ShortestProcessingTime.cs" />
     <Compile Include="Drawing\DrawerCo.cs" />
@@ -132,6 +133,7 @@
     <None Include="Assets\Default Jobs\GloutonParProfits.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Assets\Default Jobs\HigherLockDegree.json" />
     <None Include="Assets\Default Jobs\Hogdson.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
