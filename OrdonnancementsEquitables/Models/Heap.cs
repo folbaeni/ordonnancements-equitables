@@ -14,26 +14,47 @@ namespace OrdonnancementsEquitables.Models
         public void Insertion(TJob item)
         {
             table.Add(item);
-            while(table[table.IndexOf(item) / 2].Time < item.Time)
+            while (table[table.IndexOf(item) / 2 - 1].Time < item.Time)
             {
                 int index = table.IndexOf(item);
-                Swap(index, index / 2);
+                Swap(index, index / 2 - 1);
             }
         }
 
-        public void SuppressionMax()
+        public TJob SuppressionMax()
         {
-            if (table.Count == 0) { return; }
+            if (table.Count == 0) { return null; }
             Swap(0, table.Count);
+            int index = 0;
             TJob item = table[0];
+            TJob res = table[table.Count - 1];
             table.RemoveAt(table.Count - 1);
-            while (item.Time < table[table.IndexOf(item) * 2].Time)
+
+            while (index < table.Count)
             {
-                int index = table.IndexOf(item);
-                Swap(index, index * 2);
+                int tmp = index;
+                int left = 2 * index + 1; // left = 2*i + 1  
+                int right = 2 * index + 2; // right = 2*i + 2  
+
+                if (left < table.Count && table[left].Time > table[index].Time)
+                {
+                    tmp = left;
+                }
+
+                if (right > table.Count && table[right].Time > table[index].Time)
+                {
+                    tmp = right;
+                }
+
+                if (index != tmp)
+                {
+                    Swap(index, tmp);
+                } else { break; }
+                
             }
+            return res;
         }
-        
+
         private void Swap(int A, int B)
         {
             var tmp = table[A];
