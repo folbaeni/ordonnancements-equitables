@@ -48,7 +48,7 @@ namespace OrdonnancementsEquitables.Drawing
             maxExecTime = new int[nb_machines];
             for (int i = 0; i < maxExecTime.Length; i++)
             {
-                maxExecTime[i] = 0;
+                maxExecTime[i] = 10;
             }
         }
 
@@ -57,7 +57,7 @@ namespace OrdonnancementsEquitables.Drawing
         /// </summary>
         /// <param name="j">Parameter of the jobCo that will be added. </param>
         /// <param name="late">Boolean indicating if the job is late or not.</param>
-        public void AddJob(JobCo j, bool late) => AddJob(j, late, PickBrush(), 1);
+        public void AddJob(JobCo j, bool late) => AddJob(j, late, PickBrush(), 0);
 
         /// <summary>
         /// This method adds the rectangle representing the JobCo <paramref name="j"/> in the graphic for the case where there is one machine and many users.
@@ -66,7 +66,7 @@ namespace OrdonnancementsEquitables.Drawing
         /// <param name="j">Parameter of the jobCo that will be added. </param>
         /// <param name="couleur"> Brush of the color of the job, which has to be defined by the userId (UserColor). </param>
         /// <param name="late">Boolean indicating if the job is late or not.</param>
-        public void AddJob(JobCo j, bool late, int user) => AddJob(j, late, userColors.Length == 1 ? PickBrush() : userColors[user], 1);
+        public void AddJob(JobCo j, bool late, int user) => AddJob(j, late, userColors.Length == 1 ? PickBrush() : userColors[user], 0);
 
         /// <summary>
         /// This method adds the rectangle representing the JobCo <paramref name="j"/> for <paramref name="machine"/> in the graphic. Case with one or many users and many machines.
@@ -89,36 +89,64 @@ namespace OrdonnancementsEquitables.Drawing
             int t = j.Time;
             int dif = maxTime[machine] - maxExecTime[machine];
             // Dessin forme
-            PointCollection pAlpha = new PointCollection
+            Rectangle Alpha = new Rectangle
             {
-                new Point(0, 0),
-                new Point(dif, hauteur),
-                new Point(dif + (t * pixelMultiplier), hauteur),
-                new Point(exeT * pixelMultiplier, 0)
-            };
-
-            Polygon Alpha = new Polygon
-            {
-                Points = pAlpha,
                 Fill = couleur,
-                Height = hauteur,
                 Stroke = Brushes.Black,
-                Width = dif + pixelMultiplier * t
+                Height = hauteur / 2,
+                Width = exeT * pixelMultiplier
             };
 
-            if (late) { Alpha.Fill = LatePattern(couleur); }
+            Rectangle Beta = new Rectangle
+            {
+                Fill = couleur,
+                Stroke = Brushes.Black,
+                Height = hauteur / 2,
+                Width = t * pixelMultiplier
+            };
+
+
+            if (late)
+            {
+                Alpha.Fill = LatePattern(couleur);
+                Beta.Fill = LatePattern(couleur);
+            }
+
+
+            // Insertion in canvas
+            Canvas.SetTop(Alpha, HeightCal(machine));
+            Canvas.SetLeft(Alpha, WidthCalCo(machine));
+            Canvas.SetZIndex(Alpha, 1);
+
+            Canvas.SetTop(Beta, HeightCalCo(machine));
+            Canvas.SetLeft(Beta, WidthCal(machine));
+            Canvas.SetZIndex(Beta, 0);
+
+            //Add ID first
+            TextBlock testo = new TextBlock();
+            testo.Text = j.Id.ToString();
+            Canvas.SetTop(testo, HeightCal(machine) + 5);
+            Canvas.SetLeft(testo, WidthCalCo(machine) + 10);
+            Panel.Children.Add(testo);
+            Canvas.SetZIndex(testo, 2);
+
+            //Add ID
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = j.Id.ToString();
+            Canvas.SetTop(textBlock, HeightCal(machine) + 30);
+            Canvas.SetLeft(textBlock, WidthCal(machine) + 10);
+            Panel.Children.Add(textBlock);
+            Canvas.SetZIndex(textBlock, 2);
 
             // Set new last pixels
             maxTime[machine] += t * pixelMultiplier;
             maxExecTime[machine] += exeT * pixelMultiplier;
 
-            // Insertion in canvas
-            Canvas.SetTop(Alpha, HeightCal(machine));
-            Canvas.SetLeft(Alpha, WidthCalCo(machine));
             Panel.Width = maxTime.Max() + 10;
-
             Panel.Children.Add(Alpha);
+            Panel.Children.Add(Beta);
         }
+
 
         /// <summary>
         /// This property calculates the <c>x</c> coordinate of left corner of rectangle based on which <paramref name="machine"/>.
@@ -127,5 +155,12 @@ namespace OrdonnancementsEquitables.Drawing
         /// <param name="machine">This parameter identifies the machine.</param>
         /// <returns>Returns the <c>x</c> coordinate in pixels.</returns>
         private int WidthCalCo(int machine) => maxExecTime[machine];
+
+        /// <summary>
+        /// This property calculates the <c>x</c> coordinate of left corner of rectangle based on which <paramref name="machine"/> considering it is the time rectangle.
+        /// </summary>
+        /// <param name="machine">This parameter identifies the machine.</param>
+        /// <returns>Returns the <c>x</c> coordinate in pixels.</returns>
+        private int HeightCalCo(int machine) => machine * 60 + 10 + (hauteur / 2);
     }
 }

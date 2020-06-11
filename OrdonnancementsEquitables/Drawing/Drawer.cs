@@ -81,7 +81,7 @@ namespace OrdonnancementsEquitables.Drawing
             maxTime = new int[nb_machines];
             for (int i = 0; i < maxTime.Length; i++)
             {
-                maxTime[i] = 0;
+                maxTime[i] = 10;
             }
 
             userColors = new Brush[users];
@@ -96,7 +96,7 @@ namespace OrdonnancementsEquitables.Drawing
         /// </summary>
         /// <param name="j">Parameter of the job that will be added. </param>
         /// <param name="late">Boolean indicating if the job is late or not.</param>
-        public void AddJob(Job j, bool late) => AddJob(j, late, PickBrush(), 1);
+        public void AddJob(Job j, bool late) => AddJob(j, late, PickBrush(), 0);
 
         /// <summary>
         /// This method adds the rectangle representing the Job <paramref name="j"/> in the graphic for the case where there is one machine and many users.
@@ -105,7 +105,7 @@ namespace OrdonnancementsEquitables.Drawing
         /// <param name="j">Parameter of the job that will be added. </param>
         /// <param name="couleur"> Brush of the color of the job, which has to be defined by the userId (UserColor). </param>
         /// <param name="late">Boolean indicating if the job is late or not.</param>
-        public void AddJob(Job j, bool late, int user) => AddJob(j, late, userColors.Length == 1 ? PickBrush() : userColors[user], 1);
+        public void AddJob(Job j, bool late, int user) => AddJob(j, late, userColors.Length == 1 ? PickBrush() : userColors[user], 0);
 
         /// <summary>
         /// This method adds the rectangle representing the Job <paramref name="j"/> for <paramref name="machine"/> in the graphic. Case with one or many users and many machines.
@@ -133,13 +133,24 @@ namespace OrdonnancementsEquitables.Drawing
             };
             Canvas.SetTop(rect, HeightCal(machine));
             Canvas.SetLeft(rect, WidthCal(machine));
-            maxTime[machine] += j.Time * pixelMultiplier;
-            Panel.Width = maxTime.Max() + 10;
-            Panel.Children.Add(rect);
+            Canvas.SetZIndex(rect, 0);
             if (late)
             {
                 rect.Fill = LatePattern(couleur); 
             }
+
+
+            //Add ID
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = j.Id.ToString();
+            Canvas.SetTop(textBlock, HeightCal(machine) + 10);
+            Canvas.SetLeft(textBlock, WidthCal(machine) + 10);
+            Panel.Children.Add(textBlock);
+            Canvas.SetZIndex(textBlock, 1);
+
+            maxTime[machine] += j.Time * pixelMultiplier;
+            Panel.Width = maxTime.Max() + 10;
+            Panel.Children.Add(rect);
 
         }
 
@@ -257,6 +268,17 @@ namespace OrdonnancementsEquitables.Drawing
             result = (Brush)properties[random].GetValue(null, null);
 
             return result;
+        }
+
+        /// <summary>
+        /// This method resets the canvas empty.
+        /// </summary>
+        public void CleanCanvas()
+        {
+            Panel.Height = HeightCal(maxTime.Length);
+            Panel.Width = 100;
+            Panel.Children.Clear();
+
         }
 
     }

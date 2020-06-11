@@ -72,13 +72,14 @@ namespace OrdonnancementsEquitables
         {
             
             DrawerCo dr = new DrawerCo(4, screen, 4);
+            dr.CleanCanvas();
             Random rrr = new Random();
             int i;
-            for (i = 0; i < 15; i++)
+            for (i = 0; i < 100; i++)
             {
                 int rand = rrr.Next(1, 15);
-                //JobCo tmp = new JobCo(rand, rrr.Next(1, rand));
-                JobCo tmp = new JobCo(3, 2);
+                JobCo tmp = new JobCo(rand, rrr.Next(1, rand));
+                //JobCo tmp = new JobCo(3, 2);
                 dr.AddJob(tmp, false, rrr.Next(0, 4), rrr.Next(0, 4));
             }
             return;
