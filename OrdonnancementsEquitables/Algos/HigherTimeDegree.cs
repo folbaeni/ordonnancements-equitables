@@ -11,25 +11,21 @@ namespace OrdonnancementsEquitables.Algos
 {
     public class HigherTimeDegree : Algorithme<JobCo>
     {
-        protected override void Init(JobCo[] jobs)
-        {
-            base.Init(jobs);
-        }
-
         public override JobCo[] Execute(JobCo[] jobs)
         {
+            Init(jobs);
+
             int C = 0;
             GraphTimeD G = new GraphTimeD(jobs);
-            List<JobCo> final = new List<JobCo>();
             JobCo higher;
             while ((higher = G.GetHigherOutDegreeOnTime(C)) != null)
             {
                 C += higher.ExecTime;
-                final.Add(higher);
+                onTime.Add(higher);
                 G.ExecuteJob(higher);
             }
 
-            currentJobs = final.ToArray();
+            late = G.GetAllLeftJobs();
             return Jobs;
         }
 

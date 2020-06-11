@@ -15,6 +15,7 @@ namespace OrdonnancementsEquitables.Algos
         public double AverageTime => Devices.Average(d => d.TimeReady);
         public int ShortestTimeReady => Devices.OrderBy(d => d.TimeReady).FirstOrDefault().TimeReady;
         public int LongestTimeReady => Devices.OrderByDescending(d => d.TimeReady).FirstOrDefault().TimeReady;
+
         public User<Job>[] Users => (User<Job>[])currentUsers.Clone();
         public Device<Job>[] Devices => (Device<Job>[])currentDevices.Clone();
 

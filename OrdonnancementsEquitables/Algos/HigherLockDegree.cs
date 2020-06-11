@@ -14,18 +14,19 @@ namespace OrdonnancementsEquitables.Algos
 
         public override JobCo[] Execute(JobCo[] jobs)
         {
+            Init(jobs);
+
             int C = 0;
             GraphLock G = new GraphLock(jobs);
-            List<JobCo> final = new List<JobCo>();
             JobCo higher;
             while((higher = G.GetHigherOutDegreeOnTime(C)) != null)
             {
                 C += higher.Time;
-                final.Add(higher);
+                onTime.Add(higher);
                 G.ExecuteJob(higher);
             }
 
-            currentJobs = final.ToArray();
+            late = G.GetAllLeftJobs();
             return Jobs;
         }
 
