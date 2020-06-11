@@ -14,10 +14,10 @@ namespace OrdonnancementsEquitables.Algos
 
     public class GloutonParProfits : Algorithme<JobP>
     {
-        private int Time;
+        private int Time; /* temps total */
         private int Profit;
 
-        public GloutonParProfits() : base()
+        public GloutonParProfits()
         {
             Time = 0;
             Profit = 0;
@@ -27,7 +27,7 @@ namespace OrdonnancementsEquitables.Algos
 
         public override JobP[] Execute(JobP[] jobs)
         {
-            currentJobs = (JobP[])jobs.Clone();
+            Init(jobs);
             JobP tmp;
             for (int i = 0; i < currentJobs.Length; i++) /*boucle sur le temps*/
             {
@@ -35,8 +35,8 @@ namespace OrdonnancementsEquitables.Algos
                 {
                     if (currentJobs[j].Deadline < currentJobs[i].Deadline)
                     {
-                        tmp = Jobs[i];
-                        currentJobs[i] = Jobs[j];
+                        tmp = currentJobs[i];
+                        currentJobs[i] = currentJobs[j];
                         currentJobs[j] = tmp;
                     }
                 } /* On a ordonnancé selon le principe glouton par profits*/
@@ -44,8 +44,11 @@ namespace OrdonnancementsEquitables.Algos
                 if (currentJobs[i].Deadline > Time)
                 {
                     Profit += currentJobs[i].Profit;
+                    onTime.Add(currentJobs[i]);
                 }
-                Time++;
+                else
+                    late.Add(currentJobs[i]);
+                Time += currentJobs[i].Time;
             }
             return Jobs;
         }

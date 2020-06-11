@@ -16,38 +16,31 @@ namespace OrdonnancementsEquitables.Algos
         public string FormattedOnTime => string.Join("\n", OnTime.Select(j => j.ToString()));
         public string FormattedLate => string.Join("\n", Late.Select(j => j.ToString()));
 
-        private User<Job>[] currentUsers;
-        private readonly List<Job> OnTime;
-        private readonly List<Job> Late;
-        private int C;
-
         public User<Job>[] Users => (User<Job>[])currentUsers.Clone();
 
-        public Hogdson()
+        private User<Job>[] currentUsers;
+
+        protected override void Init(Job[] jobs)
         {
-            C = 0;
-            OnTime = new List<Job>();
-            Late = new List<Job>();
+            base.Init(jobs);
+            currentUsers = null;
         }
 
         public override Job[] Execute(Job[] jobs)
         {
-            C = 0;
-            OnTime.Clear();
-            Late.Clear();
-            currentUsers = null;
+            Init(jobs);
+            int C = 0;
 
-            currentJobs = (Job[])jobs.Clone();
             foreach (Job job in currentJobs)
             {
-                OnTime.Add(job);
+                onTime.Add(job);
                 C += job.Time;
 
                 if (C > job.Deadline)
                 {
-                    Job biggest = OnTime.OrderByDescending(j => j.Time).FirstOrDefault();
-                    OnTime.Remove(biggest);
-                    Late.Add(biggest);
+                    Job biggest = onTime.OrderByDescending(j => j.Time).FirstOrDefault();
+                    onTime.Remove(biggest);
+                    late.Add(biggest);
                     C -= biggest.Time;
                 }
             }

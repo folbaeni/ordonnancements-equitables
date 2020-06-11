@@ -9,16 +9,22 @@ using System.Windows.Controls;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    class HigherTimeDegree : Algorithme<JobCo>
+    public class HigherTimeDegree : Algorithme<JobCo>
     {
+        protected override void Init(JobCo[] jobs)
+        {
+            base.Init(jobs);
+        }
 
         public override JobCo[] Execute(JobCo[] jobs)
         {
+            int C = 0;
             GraphTimeD G = new GraphTimeD(jobs);
             List<JobCo> final = new List<JobCo>();
             JobCo higher;
-            while ((higher = G.GetHigherOutDegree()) != null)
+            while ((higher = G.GetHigherOutDegreeOnTime(C)) != null)
             {
+                C += higher.ExecTime;
                 final.Add(higher);
                 G.ExecuteJob(higher);
             }

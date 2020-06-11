@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrdonnancementsEquitables.Jobs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,7 @@ namespace OrdonnancementsEquitables.Utils
         {
             return Regex.Replace(syst, "([a-z])([A-Z])", "$1 $2");
         }
+
+        public static JobCo FromId(this IEnumerable<JobCo> enumerable, int id) => enumerable.Where(j => j.Id == id).FirstOrDefault();
     }
 }

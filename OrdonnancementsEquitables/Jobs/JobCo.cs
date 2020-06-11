@@ -30,23 +30,22 @@ namespace OrdonnancementsEquitables.Jobs
             isLocked = false;
         }
 
-        public bool ActualiseIsLocked(int[,] M)
+        public bool ActualiseIsLocked(List<int>[] L)
         {
-            foreach (var _ in from int i in Depend
-                              where M[Id, i] == -1
-                              select new { })
+            foreach (var id in Depend)
             {
-                return isLocked = true;
+                if (L[id].Contains(Id))
+                    return isLocked = true;
             }
 
             return isLocked = false;
         }
 
-        public int ActualiseExecTime(int[,] M)
+        public int ActualiseExecTime(List<int>[] L)
         {
             int time = Time;
-            foreach (int i in Depend)
-                if (M[i, Id] == 0)
+            foreach (int id in Depend)
+                if (!L[id].Contains(Id))
                     time--;
 
             return execTime = Math.Max(time, 1);

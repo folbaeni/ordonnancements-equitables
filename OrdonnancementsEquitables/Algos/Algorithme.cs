@@ -21,6 +21,23 @@ namespace OrdonnancementsEquitables.Algos
         public TJob[] Jobs => (TJob[])currentJobs.Clone();
         protected TJob[] currentJobs;
 
+        public TJob[] OnTime => onTime.ToArray();
+        public TJob[] Late => late.ToArray();
+        protected List<TJob> onTime, late;
+
+        public Algorithme()
+        {
+            onTime = new List<TJob>(); 
+            late = new List<TJob>();
+        }
+
+        protected virtual void Init(TJob[] jobs)
+        {
+            onTime.Clear();
+            late.Clear();
+            currentJobs = (TJob[])jobs.Clone();
+        }
+
         public TJob[] ExecuteDefault() => Execute(new Parser($@"Assets\Default Jobs\{GetType().Name}.json").ParseJobsFromJSON<TJob>());
         public abstract TJob[] Execute(TJob[] jobs);
         public override string ToString() => "Resultat de l'algorithme: ";
