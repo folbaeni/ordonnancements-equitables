@@ -7,9 +7,16 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Models
 {
-    class Heap<TJob> where TJob : Job
+    public class Heap<TJob> where TJob : Job
     {
-        private List<TJob> table;
+        public int Count => table.Count;
+        
+        private readonly List<TJob> table;
+
+        public Heap()
+        {
+            table = new List<TJob>();
+        } 
 
         public void Insertion(TJob item)
         {
@@ -23,25 +30,25 @@ namespace OrdonnancementsEquitables.Models
 
         public TJob SuppressionMax()
         {
-            if (table.Count == 0) { return null; }
-            Swap(0, table.Count);
+            if (Count == 0) { return null; }
+            Swap(0, Count);
             int index = 0;
             TJob item = table[0];
-            TJob res = table[table.Count - 1];
-            table.RemoveAt(table.Count - 1);
+            TJob res = table[Count - 1];
+            table.RemoveAt(Count - 1);
 
-            while (index < table.Count)
+            while (index < Count)
             {
                 int tmp = index;
-                int left = 2 * index + 1; // left = 2*i + 1  
-                int right = 2 * index + 2; // right = 2*i + 2  
+                int left = 2 * index + 1; 
+                int right = 2 * index + 2; 
 
-                if (left < table.Count && table[left].Time > table[index].Time)
+                if (left < Count && table[left].Time > table[index].Time)
                 {
                     tmp = left;
                 }
 
-                if (right > table.Count && table[right].Time > table[index].Time)
+                if (right > Count && table[right].Time > table[index].Time)
                 {
                     tmp = right;
                 }
