@@ -85,7 +85,7 @@
     <Compile Include="Drawing\DrawerCo.cs" />
     <Compile Include="Drawing\Drawer.cs" />
     <Compile Include="Jobs\JobCo.cs" />
-    <Compile Include="Models\Tas.cs" />
+    <Compile Include="Models\Heap.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\Graph.cs" />
     <Compile Include="Utils\StringConverter.cs" />
