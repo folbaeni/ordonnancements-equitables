@@ -1,4 +1,5 @@
 ﻿using OrdonnancementsEquitables.Jobs;
+using OrdonnancementsEquitables.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,16 +25,17 @@ namespace OrdonnancementsEquitables.Models
             while (table[table.IndexOf(item) / 2 - 1].Time < item.Time)
             {
                 int index = table.IndexOf(item);
-                Swap(index, index / 2 - 1);
+                table.Swap(index, index / 2 - 1);
             }
         }
 
         public TJob SuppressionMax()
         {
-            if (Count == 0) { return null; }
-            Swap(0, Count);
+            if (Count == 0) 
+                return null;
+
+            table.Swap(0, Count);
             int index = 0;
-            TJob item = table[0];
             TJob res = table[Count - 1];
             table.RemoveAt(Count - 1);
 
@@ -44,29 +46,18 @@ namespace OrdonnancementsEquitables.Models
                 int right = 2 * index + 2; 
 
                 if (left < Count && table[left].Time > table[index].Time)
-                {
                     tmp = left;
-                }
 
-                if (right > Count && table[right].Time > table[index].Time)
-                {
+                if (right < Count && table[right].Time > table[index].Time)
                     tmp = right;
-                }
 
                 if (index != tmp)
-                {
-                    Swap(index, tmp);
-                } else { break; }
+                    table.Swap(index, tmp);
+                else
+                    break;
                 
             }
             return res;
-        }
-
-        private void Swap(int A, int B)
-        {
-            var tmp = table[A];
-            table[A] = table[B];
-            table[B] = tmp;
         }
     }
 }
