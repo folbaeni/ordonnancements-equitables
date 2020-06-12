@@ -134,11 +134,15 @@
     <None Include="Assets\Default Jobs\GloutonParProfits.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Default Jobs\HigherLockDegree.json" />
+    <None Include="Assets\Default Jobs\HigherLockDegree.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Assets\Default Jobs\Hogdson.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Assets\Default Jobs\LongestProcessingTime.json" />
+    <None Include="Assets\Default Jobs\LongestProcessingTime.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -167,7 +171,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Default Jobs\ShortestProcessingTime.json" />
+    <None Include="Assets\Default Jobs\ShortestProcessingTime.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Default Jobs\HigherTimeDegree.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,48 +10,50 @@ using OrdonnancementsEquitables.Drawing;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public class ShortestProcessingTime : Algorithme<Job>, IMultipleDevices<Job>, IMultipleUsers<Job>, IMultipleDevicesAndUsers<Job>
+    public class ShortestProcessingTime : Algorithme<JobCo>, IMultipleDevices<JobCo>, IMultipleUsers<JobCo>, IMultipleDevicesAndUsers<JobCo>
     {
         public double AverageTime { get => Devices.Average(d => d.TimeReady); }
         public int ShortestTimeReady { get => Devices.OrderBy(d => d.TimeReady).FirstOrDefault().TimeReady; }
         public int LongestTimeReady { get => Devices.OrderByDescending(d => d.TimeReady).FirstOrDefault().TimeReady; }
-        public User<Job>[] Users { get => (User<Job>[])currentUsers.Clone(); }
-        public Device<Job>[] Devices { get => (Device<Job>[])currentDevices.Clone(); }
+        public User<JobCo>[] Users { get => (User<JobCo>[])currentUsers.Clone(); }
+        public Device<JobCo>[] Devices { get => (Device<JobCo>[])currentDevices.Clone(); }
 
-        private User<Job>[] currentUsers;
-        private Device<Job>[] currentDevices;
+        public override JobCo[] Execute(JobCo[] jobs) => Execute(jobs, 1);
 
-        public override Job[] Execute(Job[] jobs) => Execute(jobs, 1);
-
-        public Job[] Execute(Job[] jobs, int nbDevices)
+        public JobCo[] Execute(JobCo[] jobs, int nbDevices)
         {
             currentJobs = jobs.OrderBy(j => j.Time).ToArray();
-            currentDevices = new Device<Job>[nbDevices];
+            currentDevices = new Device<JobCo>[nbDevices];
 
             for (int i = 0; i < nbDevices; i++)
-                currentDevices[i] = new Device<Job>();
+                currentDevices[i] = new Device<JobCo>();
 
-            foreach (Job j in currentJobs)
+            foreach (JobCo j in currentJobs)
             {
-                Device<Job> d = currentDevices.OrderBy(d => d.TimeReady).FirstOrDefault();
+                Device<JobCo> d = currentDevices.OrderBy(d => d.TimeReady).FirstOrDefault();
                 d.AddJob(j);
+
+                if (d.TimeReady + j.Time < j.Deadline)
+                    onTime.Add(j);
+                else
+                    late.Add(j);
             }
 
             return Jobs;
         }
 
-        public Job[] Execute(User<Job>[] users)
+        public JobCo[] Execute(User<JobCo>[] users)
         {
             currentUsers = users;
-            Job[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
+            JobCo[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
 
             return Execute(jobs);
         }
 
-        public Job[] Execute(User<Job>[] users, int nbDevices)
+        public JobCo[] Execute(User<JobCo>[] users, int nbDevices)
         {
             currentUsers = users;
-            Job[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
+            JobCo[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
 
             return Execute(jobs, nbDevices);
         }
@@ -59,7 +61,7 @@ namespace OrdonnancementsEquitables.Algos
         public override void Draw(Canvas c)
         {
             Drawer dr = new Drawer(c, currentUsers == null ? 1 : currentUsers.Length, currentDevices == null ? 1 : currentDevices.Length);
-            foreach (Job j in currentJobs)
+            foreach (JobCo j in currentJobs)
             {
                 int userIndex = 0, deviceIndex = 0;
                 bool isLate = late.Contains(j);

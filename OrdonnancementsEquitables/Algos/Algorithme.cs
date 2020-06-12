@@ -14,7 +14,7 @@ using System.Windows.Media;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public abstract class Algorithme<TJob> where TJob : Job
+    public abstract class Algorithme<TJob> where TJob : JobCo
     {
         protected readonly static string Separation = "\n####################################\n\n";
         public string FormattedJobs => string.Join("\n", Jobs.Select(j => j.ToString()));
@@ -24,8 +24,8 @@ namespace OrdonnancementsEquitables.Algos
         public TJob[] Late => late.ToArray();
 
         protected TJob[] currentJobs;
-        protected User<Job>[] currentUsers;
-        protected Device<Job>[] currentDevices;
+        protected User<JobCo>[] currentUsers;
+        protected Device<JobCo>[] currentDevices;
         protected List<TJob> onTime, late;
 
         public Algorithme()

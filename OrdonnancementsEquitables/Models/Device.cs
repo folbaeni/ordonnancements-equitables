@@ -7,22 +7,19 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Models
 {
-    public class Device<TJob> where TJob : Job
+    public class Device<TJob> where TJob : JobCo
     {
-        private List<TJob> _jobs;
+        private readonly List<TJob> _jobs;
 
         public TJob[] Jobs { get => _jobs.ToArray(); }
-        public int TimeReady { get => _jobs.Sum(j => j.Time);  }
+        public int TimeReady { get => _jobs.Sum(j => j is JobCo ? j.ExecTime : j.Time); }
 
         public Device()
         {
             _jobs = new List<TJob>();
         }
 
-        public void AddJob(TJob job)
-        {
-            _jobs.Add(job);
-        }
+        public void AddJob(TJob job) => _jobs.Add(job);
 
         public bool Contains(TJob job) => _jobs.Contains(job);
     }

@@ -10,7 +10,7 @@ namespace OrdonnancementsEquitables.Jobs
     /// <summary>
     /// Class <c>Job</c> models a task for a devices to execute.
     /// </summary>
-    public class Job
+    public class JobCo
     {
         /// <summary> 
         /// Static counter to keep track of the new <c>Job</c>'s <see cref="Id"/>.
@@ -32,14 +32,14 @@ namespace OrdonnancementsEquitables.Jobs
         /// </value>
         public int Deadline { get; }
 
-        private Job() { }
+        private JobCo() { }
         
         /// <summary>
         /// Constructor to initialize a new <c>Job</c>.
         /// </summary>
         /// <param name="time">Sets the value of <see cref="Time"/>.</param>
         /// <param name="deadline">Sets the value of <see cref="Deadline"/></param>
-        public Job(int time, int deadline)
+        public JobCo(int time, int deadline)
         {
             Id = cpt++;
             Time = time;
@@ -82,7 +82,7 @@ namespace OrdonnancementsEquitables.Jobs
         /// <returns><see langword="true"/> if the <c>Job</c>s have the same <c>Id</c>; otherwise, <see langword="false"/>.</returns>
         /// <seealso cref="operator=="/>
         /// <seealso cref="operator!="/>
-        public override bool Equals(object obj) => obj is Job job && Id == job.Id;
+        public override bool Equals(object obj) => obj is JobCo job && Id == job.Id;
         public override int GetHashCode() => 2108858624 + Id.GetHashCode();
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace OrdonnancementsEquitables.Jobs
         /// <returns><see langword="true"/> if the <c>Job</c>s have the same <c>Id</c>; otherwise, <see langword="false"/>.</returns>
         /// <seealso cref="Equals"/>
         /// <seealso cref="operator!="/>
-        public static bool operator ==(Job left, Job right) => EqualityComparer<Job>.Default.Equals(left, right);
+        public static bool operator ==(JobCo left, JobCo right) => EqualityComparer<JobCo>.Default.Equals(left, right);
 
         /// <summary>
         /// This operator determines whether two <c>Job</c>s have the same <c>Id</c>.
@@ -103,6 +103,6 @@ namespace OrdonnancementsEquitables.Jobs
         /// <returns><see langword="true"/> if the <c>Job</c>s do not have the same <c>Id</c>; otherwise, <see langword="false"/>.</returns>
         /// <seealso cref="Equals"/>
         /// <seealso cref="operator=="/>
-        public static bool operator !=(Job left, Job right) => !(left == right);
+        public static bool operator !=(JobCo left, JobCo right) => !(left == right);
     }
 }

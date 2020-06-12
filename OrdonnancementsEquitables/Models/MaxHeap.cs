@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Models
 {
-    public class MaxHeap<TJob> where TJob : Job
+    public class MaxHeap<TJob> where TJob : JobCo
     {
         public int Count => table.Count;
         
