@@ -28,8 +28,6 @@ namespace OrdonnancementsEquitables.Models
                 table.Swap(index, index / 2 - 1);
                 index = index / 2 - 1;
             }
-
-
         }
 
         public TJob RemoveMax()
