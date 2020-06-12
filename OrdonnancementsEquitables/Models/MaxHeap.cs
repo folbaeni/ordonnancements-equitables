@@ -17,7 +17,7 @@ namespace OrdonnancementsEquitables.Models
         public MaxHeap()
         {
             table = new List<TJob>();
-        } 
+        }
 
         public void Insert(TJob item)
         {

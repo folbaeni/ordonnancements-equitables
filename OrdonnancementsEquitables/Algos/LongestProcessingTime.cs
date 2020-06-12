@@ -16,11 +16,9 @@ namespace OrdonnancementsEquitables.Algos
         public int ShortestTimeReady => Devices.OrderBy(d => d.TimeReady).FirstOrDefault().TimeReady;
         public int LongestTimeReady => Devices.OrderByDescending(d => d.TimeReady).FirstOrDefault().TimeReady;
 
-        public User<Job>[] Users => (User<Job>[])currentUsers.Clone();
-        public Device<Job>[] Devices => (Device<Job>[])currentDevices.Clone();
+        public User<Job>[] Users => currentUsers.ToArray();
+        public Device<Job>[] Devices => currentDevices.ToArray();
 
-        private Device<Job>[] currentDevices;
-        private User<Job>[] currentUsers;
 
         public override Job[] Execute(Job[] jobs) => Execute(jobs, 1);
         
@@ -36,6 +34,11 @@ namespace OrdonnancementsEquitables.Algos
             {
                 Device<Job> d = currentDevices.OrderBy(d => d.TimeReady).FirstOrDefault();
                 d.AddJob(j);
+
+                if (j.Deadline < d.TimeReady + j.Time)
+                    onTime.Add(j);
+                else
+                    late.Add(j);
             }
             return Jobs;
         }
@@ -55,6 +58,11 @@ namespace OrdonnancementsEquitables.Algos
             Drawer dr = new Drawer(currentDevices.Length, c, currentUsers.Length);
             foreach (Job j in currentJobs)
             {
+                int userIndex = currentUsers.Select(u => u.Contains(j)).ToList().IndexOf(true);
+                int deviceIndex = currentDevices.Select(d => d.Contains(j)).ToList().IndexOf(true);
+                bool isLate = late.Contains(j);
+
+                dr.AddJob(j, isLate, userIndex, deviceIndex);
             }
         }
     }

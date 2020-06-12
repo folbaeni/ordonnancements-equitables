@@ -23,5 +23,7 @@ namespace OrdonnancementsEquitables.Models
         {
             _jobs.Add(job);
         }
+
+        public bool Contains(TJob job) => _jobs.Contains(job);
     }
 }
