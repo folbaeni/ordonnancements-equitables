@@ -23,10 +23,10 @@ namespace OrdonnancementsEquitables.Models
         {
             table.Add(item);
             int index = Count - 1;
-            while (index > 0 && table[index / 2 - 1].Time < item.Time)
+            while (index > 0 && table[(index - 1) / 2].Time < item.Time)
             {
-                index = index / 2 - 1;
-                table.Swap(index, index / 2 - 1);
+                table.Swap(index, (index - 1) / 2);
+                index = (index - 1) / 2;
             }
         }
 
@@ -35,7 +35,7 @@ namespace OrdonnancementsEquitables.Models
             if (Count == 0) 
                 return null;
 
-            table.Swap(0, Count);
+            table.Swap(0, Count - 1);
             int index = 0;
             TJob res = table[Count - 1];
             table.RemoveAt(Count - 1);

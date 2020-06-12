@@ -78,5 +78,14 @@ namespace OrdonnancementsEquitables.Properties {
                 return ResourceManager.GetString("AppName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select file....
+        /// </summary>
+        public static string InitText {
+            get {
+                return ResourceManager.GetString("InitText", resourceCulture);
+            }
+        }
     }
 }

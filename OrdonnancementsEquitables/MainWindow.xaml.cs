@@ -31,13 +31,16 @@ namespace OrdonnancementsEquitables
 
         public MainWindow()
         {
+            InitializeComponent();
+
             var assembly = Assembly.GetAssembly(typeof(Algorithme<>)).GetTypes().ToList();
-            var children = assembly.Where(t => t.IsClass && t.Namespace == typeof(Algorithme<>).Namespace && t.IsPublic).ToList();
-            var typed = children.Where(t => t.BaseType.IsGenericType).ToList();
+            var typed = assembly.Where(t => t.IsClass && t.Namespace == typeof(Algorithme<>).Namespace && t.IsPublic && t != typeof(Algorithme<>)).ToList();
 
             if (typed.Count > 0)
             {
+                SelAlgo.Items.Clear();
                 typed.ForEach(t => SelAlgo.Items.Add(t.Name.SystToAff()));
+                SelAlgo.SelectedIndex = 0;
             }
         }
 
@@ -54,7 +57,7 @@ namespace OrdonnancementsEquitables
             {
                 SelAlgo.Items.Clear();
                 typed.ForEach(t => SelAlgo.Items.Add(t.Name.SystToAff()));
-                //SelAlgo.SelectedIndex = 0;
+                SelAlgo.SelectedIndex = 0;
             }
         }
 
@@ -91,9 +94,33 @@ namespace OrdonnancementsEquitables
             //return;
 
 
+
             string nomAlgo = SelAlgo.SelectedItem.ToString().AffToSyst();
             Type algoType = Type.GetType(typeof(Algorithme<>).Namespace + "." + nomAlgo);
             var algo = Activator.CreateInstance(algoType);
+
+            if (filePath.Text == Properties.Resources.InitText)
+            {
+                switch (algo.GetType().BaseType.GetGenericArguments()[0].Name)
+                {
+                    case "Job":
+                        Algorithme<Job> algorithmeJ = (Algorithme<Job>)algo;
+                        algorithmeJ.ExecuteDefault();
+                        algorithmeJ.Draw(screen);
+                        break;
+                    case "JobP":
+                        Algorithme<JobP> algorithmeJP = (Algorithme<JobP>)algo;
+                        algorithmeJP.ExecuteDefault();
+                        algorithmeJP.Draw(screen);
+                        break;
+                    case "JobCo":
+                        Algorithme<JobCo> algorithmeJC = (Algorithme<JobCo>)algo;
+                        algorithmeJC.ExecuteDefault();
+                        algorithmeJC.Draw(screen);
+                        break;
+                }
+                return;
+            }
 
             Job.CountToZero();
             switch (fileParser.JobType.Name)

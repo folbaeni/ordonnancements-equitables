@@ -124,4 +124,7 @@
   <data name="AppName" xml:space="preserve">
     <value>Ordonnancements Equitables</value>
   </data>
+  <data name="InitText" xml:space="preserve">
+    <value>Select file...</value>
+  </data>
 </root>
