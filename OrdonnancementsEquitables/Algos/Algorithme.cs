@@ -39,6 +39,8 @@ namespace OrdonnancementsEquitables.Algos
             onTime.Clear();
             late.Clear();
             currentJobs = (TJob[])jobs.Clone();
+            currentUsers = null;
+            currentDevices = null;
         }
 
         public TJob[] ExecuteDefault() => Execute(new Parser($@"Assets\Default Jobs\{GetType().Name}.json").ParseJobsFromJSON<TJob>());

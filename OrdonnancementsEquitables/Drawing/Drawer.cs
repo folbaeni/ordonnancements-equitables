@@ -55,36 +55,36 @@ namespace OrdonnancementsEquitables.Drawing
         /// </summary>
         /// <param name="c">The canvas present in MainWindow to be shown.</param>
         public Drawer(Canvas c)
-            : this(1, c, 1)
+            : this(c, 1, 1)
         { }
 
         /// <summary>
-        /// This constructor initialises the new <c>Drawer</c> for <paramref name="nb_machines"/> machines and one user.
+        /// This constructor initialises the new <c>Drawer</c> for <paramref name="nbUsers"/> machines and one user.
         /// </summary>
-        /// <param name="nb_machines">Number of machines.</param>
         /// <param name="c">The canvas present in MainWindow to be shown.</param>
-        public Drawer(int nb_machines, Canvas c)
-            : this(nb_machines, c, 1)
+        /// <param name="nbUsers">Number of machines.</param>
+        public Drawer(Canvas c, int nbUsers)
+            : this(c, nbUsers, 1)
         { }
 
         /// <summary>
-        /// This constructor initialises the new <c>Drawer</c> for <paramref name="nb_machines"/> machines and <paramref name="users"/> users.
+        /// This constructor initialises the new <c>Drawer</c> for <paramref name="nbMachines"/> machines and <paramref name="nbUsers"/> users.
         /// </summary>
-        /// <param name="nb_machines">Number of machines.</param>
         /// <param name="can">The canvas present in MainWindow to be shown.</param>
-        /// <param name="users">Number of users</param>
-        public Drawer(int nb_machines, Canvas can, int users)
+        /// <param name="nbUsers">Number of users</param>
+        /// <param name="nbMachines">Number of machines.</param>
+        public Drawer(Canvas can, int nbUsers, int nbMachines)
         {
             Panel = can;
-            Panel.Height = HeightCal(nb_machines + 1);
+            Panel.Height = HeightCal(nbMachines + 1);
             Panel.Width = 100;
-            maxTime = new int[nb_machines];
+            maxTime = new int[nbMachines];
             for (int i = 0; i < maxTime.Length; i++)
             {
                 maxTime[i] = 10;
             }
 
-            userColors = new Brush[users];
+            userColors = new Brush[nbUsers];
             for (int i = 0; i < userColors.Length; i++)
             {
                 userColors[i] = PickBrush();

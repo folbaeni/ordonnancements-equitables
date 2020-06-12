@@ -24,7 +24,8 @@ namespace OrdonnancementsEquitables.Algos
         
         public Job[] Execute(Job[] jobs, int nbDevices)
         {
-            currentJobs = jobs.OrderByDescending(j => j.Time).ToArray();
+            Init(jobs);
+            currentJobs = currentJobs.OrderByDescending(j => j.Time).ToArray();
             currentDevices = new Device<Job>[nbDevices];
 
             for (int i = 0; i < nbDevices; i++)
@@ -55,12 +56,16 @@ namespace OrdonnancementsEquitables.Algos
 
         public override void Draw(Canvas c)
         {
-            Drawer dr = new Drawer(currentDevices.Length, c, currentUsers.Length);
+            Drawer dr = new Drawer(c, currentUsers == null ? 1 : currentUsers.Length, currentDevices == null ? 1 : currentDevices.Length);
             foreach (Job j in currentJobs)
             {
-                int userIndex = currentUsers.Select(u => u.Contains(j)).ToList().IndexOf(true);
-                int deviceIndex = currentDevices.Select(d => d.Contains(j)).ToList().IndexOf(true);
+                int userIndex = 0, deviceIndex = 0;
                 bool isLate = late.Contains(j);
+
+                if (currentUsers != null)
+                    userIndex = currentUsers.Select(u => u.Contains(j)).ToList().IndexOf(true);
+                if (currentDevices != null)
+                    deviceIndex = currentDevices.Select(d => d.Contains(j)).ToList().IndexOf(true);
 
                 dr.AddJob(j, isLate, userIndex, deviceIndex);
             }

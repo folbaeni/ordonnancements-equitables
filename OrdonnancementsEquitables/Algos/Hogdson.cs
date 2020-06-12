@@ -59,7 +59,7 @@ namespace OrdonnancementsEquitables.Algos
         public override void Draw(Canvas c)
         {
             int nbUsers = currentUsers == null ? 1 : currentUsers.Length;
-            Drawer dr = new Drawer(1, c, nbUsers);
+            Drawer dr = new Drawer(c, nbUsers);
 
             foreach (Job j in OnTime)
             {
