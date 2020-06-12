@@ -31,12 +31,12 @@ namespace OrdonnancementsEquitables.Parsers
         Type GetTypeFromJSON(JObject obj)
         {
             string type = obj["job_type"].Value<string>();
-            Type jobType = Type.GetType(typeof(Job).Namespace + "." + type);
+            Type jobType = Type.GetType(typeof(JobCo).Namespace + "." + type);
             return jobType;
         }
         JArray GetJobsArrayFromJSON(JObject obj) => (JArray)obj["job_list"];
 
-        public TJob[] ParseJobsFromJSON<TJob>() where TJob : Job
+        public TJob[] ParseJobsFromJSON<TJob>() where TJob : JobCo
         {
             if (JobType != typeof(TJob))
             {

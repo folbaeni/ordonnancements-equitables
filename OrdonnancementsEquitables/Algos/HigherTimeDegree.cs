@@ -9,8 +9,10 @@ using System.Windows.Controls;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public class HigherTimeDegree : Algorithme<JobCo>
+    public class HigherTimeDegree : Algorithme<JobCo>, IMultipleUsers<JobCo>
     {
+        public User<JobCo>[] Users => currentUsers.ToArray();
+
         public override JobCo[] Execute(JobCo[] jobs)
         {
             Init(jobs);
@@ -27,6 +29,14 @@ namespace OrdonnancementsEquitables.Algos
 
             late = G.GetAllLeftJobs();
             return Jobs;
+        }
+
+        public JobCo[] Execute(User<JobCo>[] users)
+        {
+            JobCo[] jobs = users.SelectMany(u => u.Jobs).ToArray();
+            JobCo[] res = Execute(jobs);
+            currentUsers = users.ToArray();
+            return res;
         }
 
         public override void Draw(Canvas c)

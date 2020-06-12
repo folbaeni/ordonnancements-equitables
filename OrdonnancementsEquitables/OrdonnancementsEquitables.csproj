@@ -169,5 +169,8 @@
   <ItemGroup>
     <None Include="Assets\Default Jobs\ShortestProcessingTime.json" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Default Jobs\HigherTimeDegree.json" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

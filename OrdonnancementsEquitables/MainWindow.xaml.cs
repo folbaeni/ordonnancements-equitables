@@ -88,12 +88,12 @@ namespace OrdonnancementsEquitables
             Type algoType = Type.GetType(typeof(Algorithme<>).Namespace + "." + nomAlgo);
             var algo = Activator.CreateInstance(algoType);
 
-            Job.CountToZero();
+            JobCo.CountToZero();
             switch (fileParser.JobType.Name)
             {
                 case "Job":
-                    Algorithme<Job> algorithmeJ = (Algorithme<Job>)algo;
-                    var jobs = fileParser.ParseJobsFromJSON<Job>();
+                    Algorithme<JobCo> algorithmeJ = (Algorithme<JobCo>)algo;
+                    var jobs = fileParser.ParseJobsFromJSON<JobCo>();
                     algorithmeJ.Execute(jobs);
                     Console.WriteLine(algorithmeJ);
                     algorithmeJ.Draw(screen);

@@ -18,7 +18,7 @@ namespace OrdonnancementsEquitables.Jobs
         
         public JobCo(int time, int deadline, int[] depend) : base(time, deadline)
         {
-            Depend = (int[])depend.Clone();
+            Depend = depend.ToArray();
             execTime = Time;
             isLocked = false;
         }

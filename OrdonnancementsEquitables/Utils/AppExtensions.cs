@@ -20,7 +20,7 @@ namespace OrdonnancementsEquitables.Utils
             return Regex.Replace(syst, "([a-z])([A-Z])", "$1 $2");
         }
 
-        public static JobCo FromId(this IEnumerable<JobCo> enumerable, int id) => enumerable.Where(j => j.Id == id).FirstOrDefault();
+        public static TJob FromId<TJob>(this IEnumerable<TJob> enumerable, int id) where TJob : Job => enumerable.Where(j => j.Id == id).FirstOrDefault();
 
         public static void Swap<T>(this List<T> list, int index1, int index2)
         {

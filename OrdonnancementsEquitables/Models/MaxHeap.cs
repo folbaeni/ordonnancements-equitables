@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Models
 {
-    public class MaxHeap<TJob> where TJob : Job
+    public class MaxHeap<TJob> where TJob : JobCo
     {
         public int Count => table.Count;
         
@@ -28,8 +28,6 @@ namespace OrdonnancementsEquitables.Models
                 table.Swap(index, index / 2 - 1);
                 index = index / 2 - 1;
             }
-
-
         }
 
         public TJob RemoveMax()
