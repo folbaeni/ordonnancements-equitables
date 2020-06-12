@@ -36,7 +36,7 @@
             Grid.Column="1" Grid.Row="0"
             Margin="10,0" VerticalAlignment="Center"
             IsReadOnly="True" Name="filePath" 
-            TextWrapping="NoWrap" Text="Select file..."/>
+            TextWrapping="NoWrap" Text="{x:Static resx:Resources.InitText}"/>
         <Button 
             Click="SelectionFile" Name="FileSelectorButton"
             VerticalAlignment="Center" Margin="10,0"

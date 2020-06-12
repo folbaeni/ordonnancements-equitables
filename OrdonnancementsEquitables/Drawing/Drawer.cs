@@ -83,6 +83,7 @@ namespace OrdonnancementsEquitables.Drawing
             {
                 maxTime[i] = 10;
             }
+            CleanCanvas();
 
             userColors = new Brush[nbUsers];
             for (int i = 0; i < userColors.Length; i++)
