@@ -21,10 +21,11 @@ namespace OrdonnancementsEquitables.Models
         public void Insertion(TJob item)
         {
             table.Add(item);
-            while (table[table.IndexOf(item) / 2 - 1].Time < item.Time)
+            int index = Count - 1;
+            while (index > 0 && table[index / 2 - 1].Time < item.Time)
             {
-                int index = table.IndexOf(item);
                 Swap(index, index / 2 - 1);
+                index = index / 2 - 1;
             }
         }
 
