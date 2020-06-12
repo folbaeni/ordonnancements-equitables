@@ -31,7 +31,14 @@ namespace OrdonnancementsEquitables
 
         public MainWindow()
         {
-            InitializeComponent();
+            var assembly = Assembly.GetAssembly(typeof(Algorithme<>)).GetTypes().ToList();
+            var children = assembly.Where(t => t.IsClass && t.Namespace == typeof(Algorithme<>).Namespace && t.IsPublic).ToList();
+            var typed = children.Where(t => t.BaseType.IsGenericType).ToList();
+
+            if (typed.Count > 0)
+            {
+                typed.ForEach(t => SelAlgo.Items.Add(t.Name.SystToAff()));
+            }
         }
 
         private void OnFileLoaded(string filename)
@@ -82,7 +89,7 @@ namespace OrdonnancementsEquitables
             //    dr.AddJob(tmp, false, rrr.Next(0, 4), rrr.Next(0, 4));
             //}
             //return;
-            
+
 
             string nomAlgo = SelAlgo.SelectedItem.ToString().AffToSyst();
             Type algoType = Type.GetType(typeof(Algorithme<>).Namespace + "." + nomAlgo);

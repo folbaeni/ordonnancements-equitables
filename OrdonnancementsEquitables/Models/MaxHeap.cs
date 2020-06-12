@@ -25,8 +25,8 @@ namespace OrdonnancementsEquitables.Models
             int index = Count - 1;
             while (index > 0 && table[index / 2 - 1].Time < item.Time)
             {
-                table.Swap(index, index / 2 - 1);
                 index = index / 2 - 1;
+                table.Swap(index, index / 2 - 1);
             }
 
 
