@@ -18,34 +18,34 @@ namespace OrdonnancementsEquitables.Algos
 
         public User<JobCo>[] Users => currentUsers.ToArray();
 
-        public override JobCo[] Execute(JobCo[] jobs)
+        public override JobCo[] Execute(JobCo[] JobCos)
         {
-            Init(jobs);
+            Init(JobCos);
             int C = 0;
             MaxHeap<JobCo> heap = new MaxHeap<JobCo>();
 
-            foreach (JobCo job in currentJobs)
+            foreach (JobCo JobCo in currentJobs)
             {
-                heap.Insert(job);
-                onTime.Add(job);
-                C += job.Time;
+                heap.Insert(JobCo);
+                onTime.Add(JobCo);
+                C += JobCo.Time;
 
-                if (C > job.Deadline)
+                if (C > JobCo.Deadline)
                 {
-                    //Job biggest = onTime.OrderByDescending(j => j.Time).FirstOrDefault();
+                    //JobCo biggest = onTime.OrderByDescending(j => j.Time).FirstOrDefault();
                     JobCo biggest = heap.RemoveMax();
                     onTime.Remove(biggest);
                     late.Add(biggest);
                     C -= biggest.Time;
                 }
             }
-            return Jobs;
+            return JobCos;
         }
 
         public JobCo[] Execute(User<JobCo>[] users)
         {
-            JobCo[] jobs = users.SelectMany(u => u.Jobs).ToArray();
-            JobCo[] res = Execute(jobs);
+            JobCo[] JobCos = users.SelectMany(u => u.Jobs).ToArray();
+            JobCo[] res = Execute(JobCos);
             currentUsers = users.ToArray();
             return res; 
         }

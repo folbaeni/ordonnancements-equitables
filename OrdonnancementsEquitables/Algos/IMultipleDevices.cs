@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public interface IMultipleDevices<TJob> where TJob : JobCo
+    public interface IMultipleDevices<TJob> where TJob : Job
     {
         double AverageTime { get; }
         int ShortestTimeReady { get; }

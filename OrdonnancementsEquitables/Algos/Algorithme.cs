@@ -14,7 +14,7 @@ using System.Windows.Media;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public abstract class Algorithme<TJob> where TJob : JobCo
+    public abstract class Algorithme<TJob> where TJob : Job
     {
         protected readonly static string Separation = "\n####################################\n\n";
         public string FormattedJobs => string.Join("\n", Jobs.Select(j => j.ToString()));
@@ -24,8 +24,8 @@ namespace OrdonnancementsEquitables.Algos
         public TJob[] Late => late.ToArray();
 
         protected TJob[] currentJobs;
-        protected User<JobCo>[] currentUsers;
-        protected Device<JobCo>[] currentDevices;
+        protected User<TJob>[] currentUsers;
+        protected Device<TJob>[] currentDevices;
         protected List<TJob> onTime, late;
 
         public Algorithme()
@@ -34,17 +34,17 @@ namespace OrdonnancementsEquitables.Algos
             late = new List<TJob>();
         }
 
-        protected virtual void Init(TJob[] jobs)
+        protected virtual void Init(TJob[] JobCos)
         {
             onTime.Clear();
             late.Clear();
-            currentJobs = (TJob[])jobs.Clone();
+            currentJobs = (TJob[])JobCos.Clone();
             currentUsers = null;
             currentDevices = null;
         }
 
-        public TJob[] ExecuteDefault() => Execute(new Parser($@"Assets\Default Jobs\{GetType().Name}.json").ParseJobsFromJSON<TJob>());
-        public abstract TJob[] Execute(TJob[] jobs);
+        public TJob[] ExecuteDefault() => Execute(new Parser($@"Assets\Default JobCos\{GetType().Name}.json").ParseJobsFromJSON<TJob>());
+        public abstract TJob[] Execute(TJob[] JobCos);
         public override string ToString() => "Resultat de l'algorithme: ";
 
         public abstract void Draw(Canvas c);

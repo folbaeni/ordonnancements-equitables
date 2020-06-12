@@ -21,15 +21,27 @@ namespace OrdonnancementsEquitables.Models
         public Graph(JobCo[] jobs)
         {
             Jobs = jobs;
-            L = new List<int>[jobs.Length];
+            L = new List<int>[Jobs.Length];
             L.Initialize();             
-            //M = new int[jobs.Length, jobs.Length];
-            //for(int i = 0; i < jobs.Length; i++)
-            //    for(int j = 0; j < jobs.Length; j++)
+            //M = new int[JobCos.Length, JobCos.Length];
+            //for(int i = 0; i < JobCos.Length; i++)
+            //    for(int j = 0; j < JobCos.Length; j++)
             //        M[i, j] = 0;
 
-            foreach(JobCo j in jobs)
+            foreach(JobCo j in Jobs)
                 CreateConnections(j);
+        }
+
+        /// <summary>
+        /// Creates the edge from <paramref name="JobCo1"/> to <paramref name="JobCo2"/>
+        /// </summary>
+        protected void CreateConnection(JobCo JobCo1, JobCo JobCo2) 
+        {
+            //M[JobCo1.Id, JobCo2.Id] = 1;
+            //if (M[JobCo2.Id, JobCo1.Id] != 1)
+            //    M[JobCo2.Id, JobCo1.Id] = -1;
+
+            L[JobCo1.Id].Add(JobCo2.Id);
         }
 
         protected void CreateConnections(JobCo job)
@@ -38,16 +50,14 @@ namespace OrdonnancementsEquitables.Models
                 CreateConnection(Jobs.FromId(id), job);
         }
 
-        /// <summary>
-        /// Creates the edge from <paramref name="job1"/> to <paramref name="job2"/>
-        /// </summary>
-        protected void CreateConnection(JobCo job1, JobCo job2) 
+        protected void DeleteConnection(JobCo JobCo1, JobCo JobCo2)
         {
-            //M[job1.Id, job2.Id] = 1;
-            //if (M[job2.Id, job1.Id] != 1)
-            //    M[job2.Id, job1.Id] = -1;
-
-            L[job1.Id].Add(job2.Id);
+            //M[JobCo1.Id, JobCo2.Id] = 0;
+            //if (M[JobCo2.Id, JobCo1.Id] == 1)
+            //    M[JobCo1.Id, JobCo2.Id] = -1;
+            //else
+            //    M[JobCo2.Id, JobCo1.Id] = 0;
+            L[JobCo1.Id].Remove(JobCo2.Id);
         }
 
         protected void DeleteConnections(JobCo job)
@@ -56,31 +66,21 @@ namespace OrdonnancementsEquitables.Models
                 DeleteConnection(Jobs.FromId(id), job);
         }
 
-        protected void DeleteConnection(JobCo job1, JobCo job2)
+        public void UnExecuteJobCo(JobCo JobCo)
         {
-            //M[job1.Id, job2.Id] = 0;
-            //if (M[job2.Id, job1.Id] == 1)
-            //    M[job1.Id, job2.Id] = -1;
-            //else
-            //    M[job2.Id, job1.Id] = 0;
-            L[job1.Id].Remove(job2.Id);
+            CreateConnections(JobCo);
+            ActualiseConnectedJobCos(JobCo);
         }
 
-        public void UnExecuteJob(JobCo job)
+        public void ExecuteJobCo(JobCo JobCo)
         {
-            CreateConnections(job);
-            ActualiseConnectedJobs(job);
+            DeleteConnections(JobCo);
+            ActualiseConnectedJobCos(JobCo);
         }
 
-        public void ExecuteJob(JobCo job)
-        {
-            DeleteConnections(job);
-            ActualiseConnectedJobs(job);
-        }
+        public abstract void ActualiseConnectedJobCos(JobCo JobCo);
 
-        public abstract void ActualiseConnectedJobs(JobCo job);
-
-        /* Cherche un job de dégré sortant *deg* qui est pas Lock, dans les temps et qui a le plus petit ExecTime; sinon renvoie null */
+        /* Cherche un JobCo de dégré sortant *deg* qui est pas Lock, dans les temps et qui a le plus petit ExecTime; sinon renvoie null */
         protected JobCo GetHigherOutDegreeOnTime(int deg, int time)
         {
             //for (int i = 0; i < M.GetLength(0); i++)
@@ -92,35 +92,35 @@ namespace OrdonnancementsEquitables.Models
             //            k++;
             //    }
             //if (k == deg)
-            //    jobdeg.add(jobs.where(j => j.id == i).firstordefault());
+            //    JobCodeg.add(JobCos.where(j => j.id == i).firstordefault());
             //}
 
-            List<JobCo> jobDeg = new List<JobCo>();
+            List<JobCo> JobCoDeg = new List<JobCo>();
             for (int id = 0; id < L.Length; id++)
             {
                 if (L[id].Count == deg)
-                    jobDeg.Add(Jobs.FromId(id));
+                    JobCoDeg.Add(Jobs.FromId(id));
             }
 
-            /*if (jobDeg.Count == 0 && jobDeg.Where(j => j.IsLocked == false).Count() == 0)
+            /*if (JobCoDeg.Count == 0 && JobCoDeg.Where(j => j.IsLocked == false).Count() == 0)
                 return null;*/
 
             JobCo onTime;
-            jobDeg = jobDeg.Where(j => j.IsLocked == false).OrderBy(j => j.ExecTime).ToList();
+            JobCoDeg = JobCoDeg.Where(j => j.IsLocked == false).OrderBy(j => j.ExecTime).ToList();
 
-            while (jobDeg.Count != 0)
+            while (JobCoDeg.Count != 0)
             {
-                onTime = jobDeg.FirstOrDefault();
+                onTime = JobCoDeg.FirstOrDefault();
                 if (time + onTime.ExecTime < onTime.Deadline)
                     return onTime;
 
-                jobDeg.RemoveAt(0);
+                JobCoDeg.RemoveAt(0);
             }
 
             return null;
         }
 
-        /* retourne le job avec le plus haut degree sortant, dans les temps et le plus petit ExecTime*/
+        /* retourne le JobCo avec le plus haut degree sortant, dans les temps et le plus petit ExecTime*/
         public JobCo GetHigherOutDegreeOnTime(int time)
         {
             JobCo higher;
@@ -132,21 +132,21 @@ namespace OrdonnancementsEquitables.Models
             return null;
         }
 
-        public List<JobCo> GetAllLeftJobs() => Jobs.Where(j => L[j.Id].Count > 0).ToList();
+        public List<JobCo> GetAllLeftJobCos() => Jobs.Where(j => L[j.Id].Count > 0).ToList();
     }
 
 /* GraphLock */
 
     public class GraphLock : Graph
     {
-        public GraphLock(JobCo[] jobs)
-            : base(jobs)
+        public GraphLock(JobCo[] JobCos)
+            : base(JobCos)
         { }
         
-        public override void ActualiseConnectedJobs(JobCo jobCo)
+        public override void ActualiseConnectedJobCos(JobCo JobCoCo)
         {
-            foreach (JobCo job in Jobs.Where(j => j.Depend.Contains(jobCo.Id)))
-                job.ActualiseIsLocked(L);
+            foreach (JobCo JobCo in Jobs.Where(j => j.Depend.Contains(JobCoCo.Id)))
+                JobCo.ActualiseIsLocked(L);
         }
 
     }
@@ -156,14 +156,14 @@ namespace OrdonnancementsEquitables.Models
 
     public class GraphTimeD : Graph
     {
-        public GraphTimeD(JobCo[] jobs)
-            : base(jobs)
+        public GraphTimeD(JobCo[] JobCos)
+            : base(JobCos)
         { }
 
-        public override void ActualiseConnectedJobs(JobCo jobCo)
+        public override void ActualiseConnectedJobCos(JobCo JobCoCo)
         {
-            foreach (JobCo job in Jobs.Where(j => j.Depend.Contains(jobCo.Id)))
-                job.ActualiseExecTime(L);
+            foreach (JobCo JobCo in Jobs.Where(j => j.Depend.Contains(JobCoCo.Id)))
+                JobCo.ActualiseExecTime(L);
         }
     }
 }

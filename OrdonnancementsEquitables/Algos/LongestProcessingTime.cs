@@ -20,11 +20,11 @@ namespace OrdonnancementsEquitables.Algos
         public Device<JobCo>[] Devices => currentDevices.ToArray();
 
 
-        public override JobCo[] Execute(JobCo[] jobs) => Execute(jobs, 1);
+        public override JobCo[] Execute(JobCo[] JobCos) => Execute(JobCos, 1);
         
-        public JobCo[] Execute(JobCo[] jobs, int nbDevices)
+        public JobCo[] Execute(JobCo[] JobCos, int nbDevices)
         {
-            Init(jobs);
+            Init(JobCos);
             currentJobs = currentJobs.OrderByDescending(j => j.Time).ToArray();
             currentDevices = new Device<JobCo>[nbDevices];
 
@@ -34,14 +34,14 @@ namespace OrdonnancementsEquitables.Algos
             foreach (JobCo j in currentJobs)
             {
                 Device<JobCo> d = currentDevices.OrderBy(d => d.TimeReady).FirstOrDefault();
-                d.AddJob(j);
+                d.AddJobCo(j);
 
                 if (d.TimeReady + j.Time < j.Deadline)
                     onTime.Add(j);
                 else
                     late.Add(j);
             }
-            return Jobs;
+            return JobCos;
         }
 
         public JobCo[] Execute(User<JobCo>[] users) => Execute(users, 1);
@@ -49,9 +49,9 @@ namespace OrdonnancementsEquitables.Algos
         public JobCo[] Execute(User<JobCo>[] users, int nbDevices)
         {
             currentUsers = users;
-            JobCo[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
+            JobCo[] JobCos = currentUsers.SelectMany(u => u.Jobs).ToArray();
 
-            return Execute(jobs, nbDevices);
+            return Execute(JobCos, nbDevices);
         }
 
         public override void Draw(Canvas c)

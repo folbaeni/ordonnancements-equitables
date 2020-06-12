@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Models
 {
-    public class User<TJob> where TJob : JobCo
+    public class User<TJob> where TJob : Job
     {
         public TJob[] Jobs { get; set; }
 

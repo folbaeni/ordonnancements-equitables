@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Jobs
 {
-    public class JobP : JobCo
+    public class JobP : Job
     {
         public int Profit { get; }
         public JobP(int time, int deadline, int profit) : base(time, deadline)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public interface IMultipleUsers<TJob> where TJob : JobCo
+    public interface IMultipleUsers<TJob> where TJob : Job
     {
         public User<TJob>[] Users { get; }
 

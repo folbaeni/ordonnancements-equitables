@@ -18,11 +18,11 @@ namespace OrdonnancementsEquitables.Algos
         public User<JobCo>[] Users { get => (User<JobCo>[])currentUsers.Clone(); }
         public Device<JobCo>[] Devices { get => (Device<JobCo>[])currentDevices.Clone(); }
 
-        public override JobCo[] Execute(JobCo[] jobs) => Execute(jobs, 1);
+        public override JobCo[] Execute(JobCo[] JobCos) => Execute(JobCos, 1);
 
-        public JobCo[] Execute(JobCo[] jobs, int nbDevices)
+        public JobCo[] Execute(JobCo[] JobCos, int nbDevices)
         {
-            currentJobs = jobs.OrderBy(j => j.Time).ToArray();
+            currentJobs = JobCos.OrderBy(j => j.Time).ToArray();
             currentDevices = new Device<JobCo>[nbDevices];
 
             for (int i = 0; i < nbDevices; i++)
@@ -31,7 +31,7 @@ namespace OrdonnancementsEquitables.Algos
             foreach (JobCo j in currentJobs)
             {
                 Device<JobCo> d = currentDevices.OrderBy(d => d.TimeReady).FirstOrDefault();
-                d.AddJob(j);
+                d.AddJobCo(j);
 
                 if (d.TimeReady + j.Time < j.Deadline)
                     onTime.Add(j);
@@ -39,23 +39,23 @@ namespace OrdonnancementsEquitables.Algos
                     late.Add(j);
             }
 
-            return Jobs;
+            return JobCos;
         }
 
         public JobCo[] Execute(User<JobCo>[] users)
         {
             currentUsers = users;
-            JobCo[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
+            JobCo[] JobCos = currentUsers.SelectMany(u => u.Jobs).ToArray();
 
-            return Execute(jobs);
+            return Execute(JobCos);
         }
 
         public JobCo[] Execute(User<JobCo>[] users, int nbDevices)
         {
             currentUsers = users;
-            JobCo[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
+            JobCo[] JobCos = currentUsers.SelectMany(u => u.Jobs).ToArray();
 
-            return Execute(jobs, nbDevices);
+            return Execute(JobCos, nbDevices);
         }
 
         public override void Draw(Canvas c)

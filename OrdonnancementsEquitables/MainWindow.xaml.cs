@@ -84,9 +84,9 @@ namespace OrdonnancementsEquitables
             //for (i = 0; i < 100; i++)
             //{
             //    int rand = rrr.Next(1, 15);
-            //    JobCo tmp = new JobCo(rand, rrr.Next(1, rand));
-            //    //JobCo tmp = new JobCo(3, 2);
-            //    dr.AddJob(tmp, false, rrr.Next(0, 4), rrr.Next(0, 4));
+            //    JobCoCo tmp = new JobCoCo(rand, rrr.Next(1, rand));
+            //    //JobCoCo tmp = new JobCoCo(3, 2);
+            //    dr.AddJobCo(tmp, false, rrr.Next(0, 4), rrr.Next(0, 4));
             //}
             //return;
 
@@ -98,24 +98,24 @@ namespace OrdonnancementsEquitables
             JobCo.CountToZero();
             switch (fileParser.JobType.Name)
             {
-                case "Job":
+                case "JobCo":
                     Algorithme<JobCo> algorithmeJ = (Algorithme<JobCo>)algo;
-                    var jobs = fileParser.ParseJobsFromJSON<JobCo>();
-                    algorithmeJ.Execute(jobs);
+                    var JobCos = fileParser.ParseJobsFromJSON<JobCo>();
+                    algorithmeJ.Execute(JobCos);
                     Console.WriteLine(algorithmeJ);
                     algorithmeJ.Draw(screen);
                     break;
-                case "JobP":
+                case "JobCoP":
                     Algorithme<JobP> algorithmeJP = (Algorithme<JobP>)algo;
-                    var jobsP = fileParser.ParseJobsFromJSON<JobP>();
-                    algorithmeJP.Execute(jobsP);
+                    var JobCosP = fileParser.ParseJobsFromJSON<JobP>();
+                    algorithmeJP.Execute(JobCosP);
                     Console.WriteLine(algorithmeJP);
                     algorithmeJP.Draw(screen);
                     break;
-                case "JobCo":
+                case "JobCoCo":
                     Algorithme<JobCo> algorithmeJC = (Algorithme<JobCo>)algo;
-                    var jobsJC = fileParser.ParseJobsFromJSON<JobCo>();
-                    algorithmeJC.Execute(jobsJC);
+                    var JobCosJC = fileParser.ParseJobsFromJSON<JobCo>();
+                    algorithmeJC.Execute(JobCosJC);
                     Console.WriteLine(algorithmeJC);
                     algorithmeJC.Draw(screen);
                     break;

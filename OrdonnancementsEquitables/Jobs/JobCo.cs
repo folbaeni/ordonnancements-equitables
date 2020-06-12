@@ -12,7 +12,7 @@ namespace OrdonnancementsEquitables.Jobs
         private int execTime;
         private bool isLocked;
 
-        public int[] Depend { get; } /* jobs dont il depend */
+        public int[] Depend { get; } /* JobCos dont il depend */
         public int ExecTime { get => execTime; }
         public bool IsLocked { get => isLocked; }
         
@@ -52,8 +52,7 @@ namespace OrdonnancementsEquitables.Jobs
         }
 
 
-        protected override string JobType() => "JobCo";
+        protected override string JobType() => "JobCoCo";
         protected override string Prefixe() => base.Prefixe() + $", Depend: {Depend}";
-
     }
 }

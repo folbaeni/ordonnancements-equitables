@@ -13,22 +13,22 @@ namespace OrdonnancementsEquitables.Algos
     {
         public User<JobCo>[] Users => currentUsers.ToArray();
 
-        public override JobCo[] Execute(JobCo[] jobs)
+        public override JobCo[] Execute(JobCo[] JobCos)
         {
-            Init(jobs);
+            Init(JobCos);
 
             int C = 0;
-            GraphTimeD G = new GraphTimeD(jobs);
+            GraphTimeD G = new GraphTimeD(JobCos);
             JobCo higher;
             while ((higher = G.GetHigherOutDegreeOnTime(C)) != null)
             {
                 C += higher.ExecTime;
                 onTime.Add(higher);
-                G.ExecuteJob(higher);
+                G.ExecuteJobCo(higher);
             }
 
-            late = G.GetAllLeftJobs();
-            return Jobs;
+            late = G.GetAllLeftJobCos();
+            return JobCos;
         }
 
         public JobCo[] Execute(User<JobCo>[] users)
