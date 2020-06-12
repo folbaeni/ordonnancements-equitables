@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Utils
 {
-    public static class StringConverter
+    public static class AppExtensions
     {
         public static string AffToSyst(this string aff)
         {
@@ -21,5 +21,12 @@ namespace OrdonnancementsEquitables.Utils
         }
 
         public static JobCo FromId(this IEnumerable<JobCo> enumerable, int id) => enumerable.Where(j => j.Id == id).FirstOrDefault();
+
+        public static void Swap<T>(this List<T> list, int index1, int index2)
+        {
+            var tmp = list[index1];
+            list[index1] = list[index2];
+            list[index2] = tmp;
+        }
     }
 }

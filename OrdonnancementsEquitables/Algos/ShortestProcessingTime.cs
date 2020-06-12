@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using OrdonnancementsEquitables.Drawing;
 
 namespace OrdonnancementsEquitables.Algos
 {
@@ -57,7 +58,19 @@ namespace OrdonnancementsEquitables.Algos
 
         public override void Draw(Canvas c)
         {
+            Drawer dr = new Drawer(c, currentUsers == null ? 1 : currentUsers.Length, currentDevices == null ? 1 : currentDevices.Length);
+            foreach (Job j in currentJobs)
+            {
+                int userIndex = 0, deviceIndex = 0;
+                bool isLate = late.Contains(j);
 
+                if (currentUsers != null)
+                    userIndex = currentUsers.Select(u => u.Contains(j)).ToList().IndexOf(true);
+                if (currentDevices != null)
+                    deviceIndex = currentDevices.Select(d => d.Contains(j)).ToList().IndexOf(true);
+
+                dr.AddJob(j, isLate, userIndex, deviceIndex);
+            }
         }
     }
 }

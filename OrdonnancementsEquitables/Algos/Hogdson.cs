@@ -16,9 +16,7 @@ namespace OrdonnancementsEquitables.Algos
         public string FormattedOnTime => string.Join("\n", OnTime.Select(j => j.ToString()));
         public string FormattedLate => string.Join("\n", Late.Select(j => j.ToString()));
 
-        public User<Job>[] Users => (User<Job>[])currentUsers.Clone();
-
-        private User<Job>[] currentUsers;
+        public User<Job>[] Users => currentUsers.ToArray();
 
         protected override void Init(Job[] jobs)
         {
@@ -30,15 +28,18 @@ namespace OrdonnancementsEquitables.Algos
         {
             Init(jobs);
             int C = 0;
+            MaxHeap<Job> heap = new MaxHeap<Job>();
 
             foreach (Job job in currentJobs)
             {
+                heap.Insert(job);
                 onTime.Add(job);
                 C += job.Time;
 
                 if (C > job.Deadline)
                 {
-                    Job biggest = onTime.OrderByDescending(j => j.Time).FirstOrDefault();
+                    //Job biggest = onTime.OrderByDescending(j => j.Time).FirstOrDefault();
+                    Job biggest = heap.RemoveMax();
                     onTime.Remove(biggest);
                     late.Add(biggest);
                     C -= biggest.Time;
@@ -58,7 +59,7 @@ namespace OrdonnancementsEquitables.Algos
         public override void Draw(Canvas c)
         {
             int nbUsers = currentUsers == null ? 1 : currentUsers.Length;
-            Drawer dr = new Drawer(1, c, nbUsers);
+            Drawer dr = new Drawer(c, nbUsers);
 
             foreach (Job j in OnTime)
             {

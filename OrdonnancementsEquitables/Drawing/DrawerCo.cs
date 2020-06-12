@@ -24,28 +24,28 @@ namespace OrdonnancementsEquitables.Drawing
         /// </summary>
         /// <param name="c">The canvas present in MainWindow to be shown.</param>
         public DrawerCo(Canvas c)
-            : this(1, c, 1)
+            : this(c, 1, 1)
         { }
 
         /// <summary>
-        /// This constructor initialises the new <c>DrawerCo</c> for <paramref name="nb_machines"/> machines and one user.
+        /// This constructor initialises the new <c>DrawerCo</c> for <paramref name="nbUsers"/> machines and one user.
         /// </summary>
-        /// <param name="nb_machines">Number of machines.</param>
         /// <param name="c">The canvas present in MainWindow to be shown.</param>
-        public DrawerCo(int nb_machines, Canvas c)
-            : this(nb_machines, c, 1)
+        /// <param name="nbUsers">Number of machines.</param>
+        public DrawerCo(Canvas c, int nbUsers)
+            : this(c, nbUsers, 1)
         { }
 
         /// <summary>
-        /// This constructor initialises the new <c>DrawerCo</c> for <paramref name="nb_machines"/> machines and <paramref name="users"/> users.
+        /// This constructor initialises the new <c>DrawerCo</c> for <paramref name="nbMachines"/> machines and <paramref name="nbUsers"/> users.
         /// </summary>
-        /// <param name="nb_machines">Number of machines.</param>
         /// <param name="can">The canvas present in MainWindow to be shown.</param>
-        /// <param name="users">Number of users</param>
-        public DrawerCo(int nb_machines, Canvas can, int users)
-            : base(nb_machines, can, users)
+        /// <param name="nbUsers">Number of users</param>
+        /// <param name="nbMachines">Number of machines.</param>
+        public DrawerCo(Canvas can, int nbUsers, int nbMachines)
+            : base(can, nbUsers, nbMachines)
         {
-            maxExecTime = new int[nb_machines];
+            maxExecTime = new int[nbMachines];
             for (int i = 0; i < maxExecTime.Length; i++)
             {
                 maxExecTime[i] = 10;
