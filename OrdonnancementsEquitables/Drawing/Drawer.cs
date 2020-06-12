@@ -278,8 +278,6 @@ namespace OrdonnancementsEquitables.Drawing
             Panel.Height = HeightCal(maxTime.Length);
             Panel.Width = 100;
             Panel.Children.Clear();
-
         }
-
     }
 }
