@@ -121,11 +121,12 @@ namespace OrdonnancementsEquitables
                 return;
             }
 
+            Job.CountToZero();
             switch (fileParser.JobType.Name)
             {
                 case "Job":
-                    Algorithme<Job> algorithmeJ = (Algorithme<Job>)algo;
-                    var jobs = fileParser.ParseJobsFromJSON<Job>();
+                    Algorithme<JobCo> algorithmeJ = (Algorithme<JobCo>)algo;
+                    var jobs = fileParser.ParseJobsFromJSON<JobCo>();
                     algorithmeJ.Execute(jobs);
                     algorithmeJ.Draw(screen);
                     break;
