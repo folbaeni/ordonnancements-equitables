@@ -57,7 +57,7 @@ namespace OrdonnancementsEquitables.Jobs
         /// <returns>The <see cref="string"/> value "Job"</returns>
         /// <seealso cref="Prefixe"/>
         /// <seealso cref="ToString"/>
-        protected virtual string JobType() => "JobCo";
+        protected virtual string JobType() => "Job";
 
         /// <summary> 
         /// Virtual method in order to specify the <c>Job</c>'s values
