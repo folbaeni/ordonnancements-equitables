@@ -15,20 +15,19 @@ namespace OrdonnancementsEquitables.Algos
 
     public class GloutonParProfits : Algorithme<JobP>, IMultipleUsers<JobP>
     {
-        private int Time; /* temps total */
+        private Device<JobP> MainDevice => currentDevices[0];
         private int Profit;
 
         public User<JobP>[] Users => currentUsers.ToArray();
 
         public GloutonParProfits()
         {
-            Time = 0;
             Profit = 0;
         }
 
         //public override JobP[] ExecuteDefault() => Execute(Parser.ParseFromContent<JobP>(Properties.Resources.GloutonParProfits));
 
-        public override JobP[] Execute(JobP[] jobs)
+        public override void Execute(JobP[] jobs)
         {
             Init(jobs);
             JobP tmp;
@@ -44,39 +43,38 @@ namespace OrdonnancementsEquitables.Algos
                     }
                 } /* On a ordonnancé selon le principe glouton par profits*/
 
-                if (currentJobs[i].Deadline > Time)
+                if (currentJobs[i].Deadline > MainDevice.TimeReady)
                 {
                     Profit += currentJobs[i].Profit;
                     onTime.Add(currentJobs[i]);
                 }
                 else
                     late.Add(currentJobs[i]);
-                Time += currentJobs[i].Time;
+                MainDevice.AddJob(currentJobs[i]);
             }
-            return Jobs;
         }
 
-        public JobP[] Execute(User<JobP>[] users)
+        public void Execute(User<JobP>[] users)
         {
             JobP[] jobs = users.SelectMany(u => u.Jobs).ToArray();
-            var res = Execute(jobs);
+            Execute(jobs);
+
             currentUsers = users;
-            return res;
         }
 
-        public override void Draw(Canvas c)
-        {
-            Drawer dr = new Drawer(c, currentUsers.Length);
+        //public override void Draw(Canvas c)
+        //{
+        //    Drawer dr = new Drawer(c, currentUsers.Length);
 
-            foreach (JobP jobP in currentJobs)
-            {
-                User<JobP> user = currentUsers.Where(u => u.Jobs.Contains(jobP)).FirstOrDefault();
-                int index = Array.IndexOf(currentUsers, user);
-                bool isLate = late.Contains(jobP);
+        //    foreach (JobP jobP in currentJobs)
+        //    {
+        //        User<JobP> user = currentUsers.Where(u => u.Jobs.Contains(jobP)).FirstOrDefault();
+        //        int index = Array.IndexOf(currentUsers, user);
+        //        bool isLate = late.Contains(jobP);
 
-                dr.AddJob(jobP, isLate, index);
-            }
-        }
+        //        dr.AddJob(jobP, isLate, index);
+        //    }
+        //}
 
         public override string ToString() => base.ToString() + "Glouton Par Profit\nListe triée:\n" + FormattedJobs + "\nProfit obtenu = " + Profit + Separation;
 

@@ -13,6 +13,6 @@ namespace OrdonnancementsEquitables.Algos
         int NumberOfUsers { get; }
         public User<TJob>[] Users { get; }
 
-        TJob[] Execute(User<TJob>[] users);
+        void Execute(User<TJob>[] users);
     }
 }

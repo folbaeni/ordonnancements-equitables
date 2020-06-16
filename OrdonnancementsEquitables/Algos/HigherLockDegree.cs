@@ -13,14 +13,15 @@ namespace OrdonnancementsEquitables.Algos
 {
     public class HigherLockDegree : Algorithme<JobCo>, IMultipleUsers<JobCo>, IMultipleDevices<JobCo>, IMultipleDevicesAndUsers<JobCo>
     {
+        public int NumberOfUsers => currentUsers.Length;
+        public int NumberOfDevices => currentDevices.Length;
         public User<JobCo>[] Users => currentUsers.ToArray();
         public Device<JobCo>[] Devices => currentDevices.ToArray();
+        public double AverageTime => Devices.Average(d => d.TimeReady);
+        public int ShortestTimeReady => Devices.OrderBy(d => d.TimeReady).FirstOrDefault().TimeReady;
+        public int LongestTimeReady => Devices.OrderByDescending(d => d.TimeReady).FirstOrDefault().TimeReady;
 
-        public double AverageTime => throw new NotImplementedException();
-        public int ShortestTimeReady => throw new NotImplementedException();
-        public int LongestTimeReady => throw new NotImplementedException();
-
-        public override JobCo[] Execute(JobCo[] jobs) => Execute(jobs, 1);
+        public override void Execute(JobCo[] jobs) => Execute(jobs, 1);
         //{
         //    Init(jobs);
 
@@ -38,7 +39,7 @@ namespace OrdonnancementsEquitables.Algos
         //    return jobs;
         //}
 
-        public JobCo[] Execute(User<JobCo>[] users) => Execute(users, 1);
+        public void Execute(User<JobCo>[] users) => Execute(users, 1);
         //{
         //    JobCo[] jobs = users.SelectMany(u => u.Jobs).ToArray();
         //    JobCo[] res = Execute(jobs );
@@ -46,15 +47,15 @@ namespace OrdonnancementsEquitables.Algos
         //    return res;
         //}
 
-        public JobCo[] Execute(User<JobCo>[] users, int nbDevices)
+        public void Execute(User<JobCo>[] users, int nbDevices)
         {
             JobCo[] jobs = users.SelectMany(u => u.Jobs).ToArray();
-            JobCo[] res = Execute(jobs, nbDevices);
+            Execute(jobs, nbDevices);
+            
             currentUsers = users.ToArray();
-            return res;
         }
 
-        public JobCo[] Execute(JobCo[] jobs, int nbDevices)
+        public void Execute(JobCo[] jobs, int nbDevices)
         {
             Init(jobs);
             //currentJobCos = currentJobCos.OrderByDescending(j => j.Depend.Length).ToArray();
@@ -95,24 +96,23 @@ namespace OrdonnancementsEquitables.Algos
                     i++;
                 }
             }
-            return jobs;
         }
 
-        public override void Draw(Canvas c)
-        {
-            DrawerCo dr = new DrawerCo(c, currentUsers == null ? 1 : currentUsers.Length, currentDevices == null ? 1 : currentDevices.Length);
-            foreach (JobCo j in currentJobs)
-            {
-                int userIndex = 0, deviceIndex = 0;
-                bool isLate = late.Contains(j);
+        //public override void Draw(Canvas c)
+        //{
+        //    DrawerCo dr = new DrawerCo(c, currentUsers == null ? 1 : currentUsers.Length, currentDevices == null ? 1 : currentDevices.Length);
+        //    foreach (JobCo j in currentJobs)
+        //    {
+        //        int userIndex = 0, deviceIndex = 0;
+        //        bool isLate = late.Contains(j);
 
-                if (currentUsers != null)
-                    userIndex = currentUsers.Select(u => u.Contains(j)).ToList().IndexOf(true);
-                if (currentDevices != null)
-                    deviceIndex = currentDevices.Select(d => d.Contains(j)).ToList().IndexOf(true);
+        //        if (currentUsers != null)
+        //            userIndex = currentUsers.Select(u => u.Contains(j)).ToList().IndexOf(true);
+        //        if (currentDevices != null)
+        //            deviceIndex = currentDevices.Select(d => d.Contains(j)).ToList().IndexOf(true);
 
-                dr.AddJobCo(j, isLate, userIndex, deviceIndex);
-            }
-        }
+        //        dr.AddJobCo(j, isLate, userIndex, deviceIndex);
+        //    }
+        //}
     }
 }

@@ -22,11 +22,11 @@ namespace OrdonnancementsEquitables.Algos
         public int NumberOfDevices => currentDevices.Length;
         public int NumberOfUsers => currentUsers.Length;
 
-        public override Job[] Execute(Job[] jobs) => Execute(jobs, 1);
+        public override void Execute(Job[] jobs) => Execute(jobs, 1);
         
-        public Job[] Execute(Job[] JobCos, int nbDevices)
+        public void Execute(Job[] jobs, int nbDevices)
         {
-            Init(JobCos);
+            Init(jobs);
             currentJobs = currentJobs.OrderByDescending(j => j.Time).ToArray();
             currentDevices = new Device<Job>[nbDevices];
 
@@ -43,31 +43,30 @@ namespace OrdonnancementsEquitables.Algos
                 else
                     late.Add(j);
             }
-            return JobCos;
         }
 
-        public Job[] Execute(User<Job>[] users) => Execute(users, 1);
+        public void Execute(User<Job>[] users) => Execute(users, 1);
 
-        public Job[] Execute(User<Job>[] users, int nbDevices)
+        public void Execute(User<Job>[] users, int nbDevices)
         {
-            Job[] JobCos = currentUsers.SelectMany(u => u.Jobs).ToArray();
-            var res = Execute(JobCos, nbDevices);
+            Job[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
+            Execute(jobs, nbDevices);
+
             currentUsers = users;
-            return res;
         }
 
-        public override void Draw(Canvas c)
-        {
-            Drawer dr = new Drawer(c, currentUsers.Length, currentDevices.Length);
-            foreach (Job j in currentJobs)
-            {
-                bool isLate = late.Contains(j);
+        //public override void Draw(Canvas c)
+        //{
+        //    Drawer dr = new Drawer(c, currentUsers.Length, currentDevices.Length);
+        //    foreach (Job j in currentJobs)
+        //    {
+        //        bool isLate = late.Contains(j);
 
-                int userIndex = currentUsers.Select(u => u.Contains(j)).ToList().IndexOf(true);
-                int deviceIndex = currentDevices.Select(d => d.Contains(j)).ToList().IndexOf(true);
+        //        int userIndex = currentUsers.Select(u => u.Contains(j)).ToList().IndexOf(true);
+        //        int deviceIndex = currentDevices.Select(d => d.Contains(j)).ToList().IndexOf(true);
 
-                dr.AddJob(j, isLate, userIndex, deviceIndex);
-            }
-        }
+        //        dr.AddJob(j, isLate, userIndex, deviceIndex);
+        //    }
+        //}
     }
 }

@@ -16,9 +16,6 @@ namespace OrdonnancementsEquitables.Algos
 {
     public abstract class Algorithme<TJob> where TJob : Job
     {
-        protected readonly static string Separation = "\n####################################\n\n";
-        public string FormattedJobs => string.Join("\n", Jobs.Select(j => j.ToString()));
-
         public TJob[] Jobs => currentJobs.ToArray();
         public TJob[] OnTime => onTime.ToArray();
         public TJob[] Late => late.ToArray();
@@ -43,10 +40,26 @@ namespace OrdonnancementsEquitables.Algos
             currentDevices = new Device<TJob>[] { new Device<TJob>() };
         }
 
-        public TJob[] ExecuteDefault() => Execute(new Parser($@"Assets\Default JobCos\{GetType().Name}.json").ParseJobsFromJSON<TJob>());
-        public abstract TJob[] Execute(TJob[] jobs);
-        public override string ToString() => "Resultat de l'algorithme: ";
+        public void ExecuteDefault() => Execute(new Parser($@"Assets\Default JobCos\{GetType().Name}.json").ParseJobsFromJSON<TJob>());
+        public abstract void Execute(TJob[] jobs);
 
-        public abstract void Draw(Canvas c);
+        public virtual void Draw(Canvas c)
+        {
+            Drawer dr = new Drawer(c, currentUsers.Length, currentDevices.Length);
+
+            for (int deviceIndex = 0; deviceIndex < currentDevices.Length; deviceIndex++)
+            {
+                Device<TJob> device = currentDevices[deviceIndex];
+                foreach (TJob job in device.Jobs)
+                {
+                    User<TJob> user = currentUsers.Where(u => u.Jobs.Contains(job)).FirstOrDefault();
+                    int userIndex = Array.IndexOf(currentUsers, user);
+
+                    bool isLate = late.Contains(job);
+
+                    dr.AddJob(job, isLate, userIndex, deviceIndex);
+                }
+            }
+        }
     }
 }

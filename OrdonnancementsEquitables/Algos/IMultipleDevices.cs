@@ -16,6 +16,6 @@ namespace OrdonnancementsEquitables.Algos
         int LongestTimeReady { get; }
 
         Device<TJob>[] Devices { get; }
-        TJob[] Execute(TJob[] jobs, int nbDevices);
+        void Execute(TJob[] jobs, int nbDevices);
     }
 }
