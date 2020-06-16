@@ -12,17 +12,16 @@ namespace OrdonnancementsEquitables.Algos
 {
     public class HigherTimeDecrease : Algorithme<JobCo>, IMultipleUsers<JobCo>, IMultipleDevices<JobCo>, IMultipleDevicesAndUsers<JobCo>
     {
+        public int NumberOfUsers => currentUsers.Length;
+        public int NumberOfDevices => currentDevices.Length;
         public User<JobCo>[] Users => currentUsers.ToArray();
-
         public Device<JobCo>[] Devices => currentDevices.ToArray();
-        public double AverageTime => throw new NotImplementedException();
-
-        public int ShortestTimeReady => throw new NotImplementedException();
-
-        public int LongestTimeReady => throw new NotImplementedException();
+        public double AverageTime => Devices.Average(d => d.TimeReady);
+        public int ShortestTimeReady => Devices.OrderBy(d => d.TimeReady).FirstOrDefault().TimeReady;
+        public int LongestTimeReady => Devices.OrderByDescending(d => d.TimeReady).FirstOrDefault().TimeReady;
 
 
-        public override JobCo[] Execute(JobCo[] jobs) => Execute(jobs, 1);
+        public override void Execute(JobCo[] jobs) => Execute(jobs, 1);
         /*{
             Init(jobs);
 
@@ -40,7 +39,7 @@ namespace OrdonnancementsEquitables.Algos
             return Jobs;
         }*/
 
-        public JobCo[] Execute(User<JobCo>[] users) => Execute(users, 1);
+        public void Execute(User<JobCo>[] users) => Execute(users, 1);
         /*{
             JobCo[] jobs = users.SelectMany(u => u.Jobs).ToArray();
             JobCo[] res = Execute(jobs);
@@ -48,15 +47,15 @@ namespace OrdonnancementsEquitables.Algos
             return res;
         }*/
 
-        public JobCo[] Execute(User<JobCo>[] users, int nbDevices)
+        public void Execute(User<JobCo>[] users, int nbDevices)
         {
             JobCo[] jobs = users.SelectMany(u => u.Jobs).ToArray();
-            JobCo[] res = Execute(jobs, nbDevices);
+            Execute(jobs, nbDevices);
+            
             currentUsers = users.ToArray();
-            return res;
         }
 
-        public JobCo[] Execute(JobCo[] jobs, int nbDevices)
+        public void Execute(JobCo[] jobs, int nbDevices)
         {
 
             Init(jobs);
@@ -98,12 +97,6 @@ namespace OrdonnancementsEquitables.Algos
                     i++;
                 }
             }
-            return jobs;
-        }
-
-        public override void Draw(Canvas c)
-        {
-            throw new NotImplementedException();
         }
     }
 }
