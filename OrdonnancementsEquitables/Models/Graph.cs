@@ -66,8 +66,8 @@ namespace OrdonnancementsEquitables.Models
         protected void DeleteConnections(JobCo job)
         {
             L[job.Id].Clear();
-            //foreach(int id in job.Depend)
-            //    DeleteConnection(Jobs.FromId(id), job);
+            foreach(int id in job.Depend)
+                DeleteConnection(Jobs.FromId(id), job);
         }
 
         public void UnExecuteJob(JobCo jobCo)

@@ -84,7 +84,6 @@
     <Compile Include="Algos\ShortestProcessingTime.cs" />
     <Compile Include="Drawing\DrawerCo.cs" />
     <Compile Include="Drawing\Drawer.cs" />
-    <Compile Include="Jobs\JobSe.cs" />
     <Compile Include="Jobs\JobCo.cs" />
     <Compile Include="Models\MaxHeap.cs" />
     <Compile Include="Models\Device.cs" />

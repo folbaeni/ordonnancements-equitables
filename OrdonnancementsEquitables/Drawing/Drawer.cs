@@ -74,7 +74,6 @@ namespace OrdonnancementsEquitables.Drawing
         public Drawer(Canvas can, int nbUsers, int nbMachines)
         {
             Panel = can;
-            CleanCanvas();
             Panel.Height = HeightCal(nbMachines + 1) > 300 ? HeightCal(nbMachines + 1) : 300 ;
             Panel.Width = 100;
             maxTime = new int[nbMachines];
@@ -82,7 +81,7 @@ namespace OrdonnancementsEquitables.Drawing
             {
                 maxTime[i] = 10;
             }
-            CleanCanvas();
+            Panel.Children.Clear();
 
             userColors = new Brush[nbUsers];
             for (int i = 0; i < userColors.Length; i++)
