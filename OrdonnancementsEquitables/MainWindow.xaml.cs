@@ -99,35 +99,12 @@ namespace OrdonnancementsEquitables
             Type algoType = Type.GetType(typeof(Algorithme<>).Namespace + "." + nomAlgo);
             var algo = Activator.CreateInstance(algoType);
 
-            if (filePath.Text == Properties.Resources.InitText)
-            {
-                switch (algo.GetType().BaseType.GetGenericArguments()[0].Name)
-                {
-                    case "Job":
-                        Algorithme<Job> algorithmeJ = (Algorithme<Job>)algo;
-                        algorithmeJ.ExecuteDefault();
-                        algorithmeJ.Draw(screen);
-                        break;
-                    case "JobP":
-                        Algorithme<JobP> algorithmeJP = (Algorithme<JobP>)algo;
-                        algorithmeJP.ExecuteDefault();
-                        algorithmeJP.Draw(screen);
-                        break;
-                    case "JobCo":
-                        Algorithme<JobCo> algorithmeJC = (Algorithme<JobCo>)algo;
-                        algorithmeJC.ExecuteDefault();
-                        algorithmeJC.Draw(screen);
-                        break;
-                }
-                return;
-            }
-
             Job.CountToZero();
             switch (fileParser.JobType.Name)
             {
                 case "Job":
-                    Algorithme<Job> algorithmeJ = (Algorithme<Job>)algo;
-                    var jobs = fileParser.ParseJobsFromJSON<Job>();
+                    Algorithme<JobCo> algorithmeJ = (Algorithme<JobCo>)algo;
+                    var jobs = fileParser.ParseJobsFromJSON<JobCo>();
                     algorithmeJ.Execute(jobs);
                     Console.WriteLine(algorithmeJ);
                     algorithmeJ.Draw(screen);
