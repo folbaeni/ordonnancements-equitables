@@ -93,11 +93,10 @@ namespace OrdonnancementsEquitables
             //}
             //return;
 
-
-
             string nomAlgo = SelAlgo.SelectedItem.ToString().AffToSyst();
             Type algoType = Type.GetType(typeof(Algorithme<>).Namespace + "." + nomAlgo);
             var algo = Activator.CreateInstance(algoType);
+            Job.CountToZero();
 
             if (filePath.Text == Properties.Resources.InitText)
             {
@@ -122,7 +121,6 @@ namespace OrdonnancementsEquitables
                 return;
             }
 
-            Job.CountToZero();
             switch (fileParser.JobType.Name)
             {
                 case "Job":

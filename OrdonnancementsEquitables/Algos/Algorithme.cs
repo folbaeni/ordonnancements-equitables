@@ -40,7 +40,7 @@ namespace OrdonnancementsEquitables.Algos
             currentDevices = new Device<TJob>[] { new Device<TJob>() };
         }
 
-        public void ExecuteDefault() => Execute(new Parser($@"Assets\Default JobCos\{GetType().Name}.json").ParseJobsFromJSON<TJob>());
+        public void ExecuteDefault() => Execute(new Parser($@"Assets\Default Jobs\{GetType().Name}.json").ParseJobsFromJSON<TJob>());
         public abstract void Execute(TJob[] jobs);
 
         public virtual void Draw(Canvas c)

@@ -1,6 +1,6 @@
 ﻿{
-  "JobCo_type": "JobCo",
-  "JobCo_list": [
+  "job_type": "Job",
+  "job_list": [
     {
       "time": 6,
       "deadline": 8

@@ -18,6 +18,7 @@ namespace OrdonnancementsEquitables.Algos
         private Device<JobP> MainDevice => currentDevices[0];
         private int Profit;
 
+        public int NumberOfUsers => currentUsers.Length;
         public User<JobP>[] Users => currentUsers.ToArray();
 
         public GloutonParProfits()
@@ -76,7 +77,6 @@ namespace OrdonnancementsEquitables.Algos
         //    }
         //}
 
-        public override string ToString() => base.ToString() + "Glouton Par Profit\nListe triée:\n" + FormattedJobs + "\nProfit obtenu = " + Profit + Separation;
-
+        //public override string ToString() => base.ToString() + "Glouton Par Profit\nListe triée:\n" + FormattedJobs + "\nProfit obtenu = " + Profit + Separation;
     }
 }
