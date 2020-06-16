@@ -1,7 +1,6 @@
-﻿using OrdonnancementsEquitables.Drawing;
-using OrdonnancementsEquitables.Jobs;
-using OrdonnancementsEquitables.Utils;
+﻿using OrdonnancementsEquitables.Jobs;
 using OrdonnancementsEquitables.Models;
+using OrdonnancementsEquitables.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,40 +10,43 @@ using System.Windows.Controls;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public class HigherLockDegree : Algorithme<JobCo>, IMultipleUsers<JobCo>, IMultipleDevices<JobCo>, IMultipleDevicesAndUsers<JobCo>
+    public class HigherTimeDecrease : Algorithme<JobCo>, IMultipleUsers<JobCo>, IMultipleDevices<JobCo>, IMultipleDevicesAndUsers<JobCo>
     {
         public User<JobCo>[] Users => currentUsers.ToArray();
-        public Device<JobCo>[] Devices => currentDevices.ToArray();
 
+        public Device<JobCo>[] Devices => currentDevices.ToArray();
         public double AverageTime => throw new NotImplementedException();
+
         public int ShortestTimeReady => throw new NotImplementedException();
+
         public int LongestTimeReady => throw new NotImplementedException();
 
+
         public override JobCo[] Execute(JobCo[] jobs) => Execute(jobs, 1);
-        //{
-        //    Init(jobs);
+        /*{
+            Init(jobs);
 
-        //    int C = 0;
-        //    GraphLock G = new GraphLock(jobs);
-        //    JobCo higher;
-        //    while((higher = G.GetHigherOutDegreeOnTime(C)) != null)
-        //    {
-        //        C += higher.Time;
-        //        onTime.Add(higher);
-        //        G.ExecuteJob(higher);
-        //    }
+            int C = 0;
+            GraphTimeD G = new GraphTimeD(jobs);
+            JobCo higher;
+            while ((higher = G.GetHigherOutDegreeOnTime(C)) != null)
+            {
+                C += higher.ExecTime;
+                onTime.Add(higher);
+                G.ExecuteJob(higher);
+            }
 
-        //    late = G.GetAllLeftJobs();
-        //    return jobs;
-        //}
+            late = G.GetAllLeftJobs();
+            return Jobs;
+        }*/
 
         public JobCo[] Execute(User<JobCo>[] users) => Execute(users, 1);
-        //{
-        //    JobCo[] jobs = users.SelectMany(u => u.Jobs).ToArray();
-        //    JobCo[] res = Execute(jobs );
-        //    currentUsers = users.ToArray();
-        //    return res;
-        //}
+        /*{
+            JobCo[] jobs = users.SelectMany(u => u.Jobs).ToArray();
+            JobCo[] res = Execute(jobs);
+            currentUsers = users.ToArray();
+            return res;
+        }*/
 
         public JobCo[] Execute(User<JobCo>[] users, int nbDevices)
         {
@@ -56,6 +58,7 @@ namespace OrdonnancementsEquitables.Algos
 
         public JobCo[] Execute(JobCo[] jobs, int nbDevices)
         {
+
             Init(jobs);
             //currentJobCos = currentJobCos.OrderByDescending(j => j.Depend.Length).ToArray();
             currentDevices = new Device<JobCo>[nbDevices];
@@ -63,18 +66,18 @@ namespace OrdonnancementsEquitables.Algos
 
             for (int i = 0; i < nbDevices; i++)
                 currentDevices[i] = new Device<JobCo>();
-            
+
             Device<JobCo>[] trOrder = currentDevices.OrderBy(j => j.TimeReady).ToArray();
 
-            GraphLock G = new GraphLock(jobs);
+            GraphTimeD G = new GraphTimeD(jobs);
             JobCo higher;
 
-            while((higher = G.GetHigherOutDegreeOnTime(trOrder[0].TimeReady)) != null)
+            while ((higher = G.GetHigherOutDegreeOnTime(trOrder[0].TimeReady)) != null)
             {
                 trOrder[0].AddJob(higher);
                 onTime.Add(higher);
                 G.ExecuteJob(higher);
-                
+
                 int i = 0;
                 while (i < trOrder.Length && trOrder[i].TimeReady > trOrder[i + 1].TimeReady)
                 {
@@ -84,7 +87,7 @@ namespace OrdonnancementsEquitables.Algos
             }
 
             late = G.GetAllLeftJobs();
-            foreach(var jobCo in late)
+            foreach (var jobCo in late)
             {
                 trOrder[0].AddJob(jobCo);
 
@@ -100,19 +103,7 @@ namespace OrdonnancementsEquitables.Algos
 
         public override void Draw(Canvas c)
         {
-            DrawerCo dr = new DrawerCo(c, currentUsers == null ? 1 : currentUsers.Length, currentDevices == null ? 1 : currentDevices.Length);
-            foreach (JobCo j in currentJobs)
-            {
-                int userIndex = 0, deviceIndex = 0;
-                bool isLate = late.Contains(j);
-
-                if (currentUsers != null)
-                    userIndex = currentUsers.Select(u => u.Contains(j)).ToList().IndexOf(true);
-                if (currentDevices != null)
-                    deviceIndex = currentDevices.Select(d => d.Contains(j)).ToList().IndexOf(true);
-
-                dr.AddJobCo(j, isLate, userIndex, deviceIndex);
-            }
+            throw new NotImplementedException();
         }
     }
 }

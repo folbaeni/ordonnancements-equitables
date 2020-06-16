@@ -1,5 +1,6 @@
 ﻿using OrdonnancementsEquitables.Drawing;
 using OrdonnancementsEquitables.Jobs;
+using OrdonnancementsEquitables.Models;
 using OrdonnancementsEquitables.Parsers;
 using System;
 using System.Collections;
@@ -12,10 +13,12 @@ using System.Windows.Controls;
 namespace OrdonnancementsEquitables.Algos
 {
 
-    public class GloutonParProfits : Algorithme<JobP>
+    public class GloutonParProfits : Algorithme<JobP>, IMultipleUsers<JobP>
     {
         private int Time; /* temps total */
         private int Profit;
+
+        public User<JobP>[] Users => currentUsers.ToArray();
 
         public GloutonParProfits()
         {
@@ -53,11 +56,29 @@ namespace OrdonnancementsEquitables.Algos
             return Jobs;
         }
 
+        public JobP[] Execute(User<JobP>[] users)
+        {
+            JobP[] jobs = users.SelectMany(u => u.Jobs).ToArray();
+            var res = Execute(jobs);
+            currentUsers = users;
+            return res;
+        }
+
         public override void Draw(Canvas c)
         {
+            Drawer dr = new Drawer(c, currentUsers.Length);
 
+            foreach (JobP jobP in currentJobs)
+            {
+                User<JobP> user = currentUsers.Where(u => u.Jobs.Contains(jobP)).FirstOrDefault();
+                int index = Array.IndexOf(currentUsers, user);
+                bool isLate = late.Contains(jobP);
+
+                dr.AddJob(jobP, isLate, index);
+            }
         }
 
         public override string ToString() => base.ToString() + "Glouton Par Profit\nListe triée:\n" + FormattedJobs + "\nProfit obtenu = " + Profit + Separation;
+
     }
 }

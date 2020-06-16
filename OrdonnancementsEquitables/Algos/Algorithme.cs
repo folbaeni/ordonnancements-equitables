@@ -34,17 +34,17 @@ namespace OrdonnancementsEquitables.Algos
             late = new List<TJob>();
         }
 
-        protected virtual void Init(TJob[] JobCos)
+        protected virtual void Init(TJob[] jobs)
         {
             onTime.Clear();
             late.Clear();
-            currentJobs = (TJob[])JobCos.Clone();
-            currentUsers = null;
-            currentDevices = null;
+            currentJobs = (TJob[])jobs.Clone();
+            currentUsers = new User<TJob>[] { new User<TJob>(jobs) };
+            currentDevices = new Device<TJob>[] { new Device<TJob>() };
         }
 
         public TJob[] ExecuteDefault() => Execute(new Parser($@"Assets\Default JobCos\{GetType().Name}.json").ParseJobsFromJSON<TJob>());
-        public abstract TJob[] Execute(TJob[] JobCos);
+        public abstract TJob[] Execute(TJob[] jobs);
         public override string ToString() => "Resultat de l'algorithme: ";
 
         public abstract void Draw(Canvas c);

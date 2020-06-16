@@ -10,28 +10,28 @@ using OrdonnancementsEquitables.Drawing;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public class ShortestProcessingTime : Algorithme<JobCo>, IMultipleDevices<JobCo>, IMultipleUsers<JobCo>, IMultipleDevicesAndUsers<JobCo>
+    public class ShortestProcessingTime : Algorithme<Job>, IMultipleDevices<Job>, IMultipleUsers<Job>, IMultipleDevicesAndUsers<Job>
     {
         public double AverageTime { get => Devices.Average(d => d.TimeReady); }
         public int ShortestTimeReady { get => Devices.OrderBy(d => d.TimeReady).FirstOrDefault().TimeReady; }
         public int LongestTimeReady { get => Devices.OrderByDescending(d => d.TimeReady).FirstOrDefault().TimeReady; }
-        public User<JobCo>[] Users { get => (User<JobCo>[])currentUsers.Clone(); }
-        public Device<JobCo>[] Devices { get => (Device<JobCo>[])currentDevices.Clone(); }
+        public User<Job>[] Users { get => (User<JobCo>[])currentUsers.Clone(); }
+        public Device<Job>[] Devices { get => (Device<JobCo>[])currentDevices.Clone(); }
 
-        public override JobCo[] Execute(JobCo[] JobCos) => Execute(JobCos, 1);
+        public override Job[] Execute(Job[] jobs) => Execute(jobs, 1);
 
-        public JobCo[] Execute(JobCo[] JobCos, int nbDevices)
+        public Job[] Execute(Job[] jobs, int nbDevices)
         {
-            currentJobs = JobCos.OrderBy(j => j.Time).ToArray();
-            currentDevices = new Device<JobCo>[nbDevices];
+            currentJobs = jobs.OrderBy(j => j.Time).ToArray();
+            currentDevices = new Device<Job>[nbDevices];
 
             for (int i = 0; i < nbDevices; i++)
-                currentDevices[i] = new Device<JobCo>();
+                currentDevices[i] = new Device<Job>();
 
-            foreach (JobCo j in currentJobs)
+            foreach (Job j in currentJobs)
             {
-                Device<JobCo> d = currentDevices.OrderBy(d => d.TimeReady).FirstOrDefault();
-                d.AddJobCo(j);
+                Device<Job> d = currentDevices.OrderBy(d => d.TimeReady).FirstOrDefault();
+                d.AddJob(j);
 
                 if (d.TimeReady + j.Time < j.Deadline)
                     onTime.Add(j);
@@ -39,37 +39,35 @@ namespace OrdonnancementsEquitables.Algos
                     late.Add(j);
             }
 
-            return JobCos;
+            return Jobs;
         }
 
-        public JobCo[] Execute(User<JobCo>[] users)
+        public Job[] Execute(User<Job>[] users)
         {
+            Job[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
+            var res = Execute(jobs);
+         
             currentUsers = users;
-            JobCo[] JobCos = currentUsers.SelectMany(u => u.Jobs).ToArray();
-
-            return Execute(JobCos);
+            return res;
         }
 
-        public JobCo[] Execute(User<JobCo>[] users, int nbDevices)
+        public Job[] Execute(User<Job>[] users, int nbDevices)
         {
             currentUsers = users;
-            JobCo[] JobCos = currentUsers.SelectMany(u => u.Jobs).ToArray();
+            Job[] JobCos = currentUsers.SelectMany(u => u.Jobs).ToArray();
 
             return Execute(JobCos, nbDevices);
         }
 
         public override void Draw(Canvas c)
         {
-            Drawer dr = new Drawer(c, currentUsers == null ? 1 : currentUsers.Length, currentDevices == null ? 1 : currentDevices.Length);
-            foreach (JobCo j in currentJobs)
+            Drawer dr = new Drawer(c, currentUsers.Length, currentDevices.Length);
+            foreach (Job j in currentJobs)
             {
-                int userIndex = 0, deviceIndex = 0;
                 bool isLate = late.Contains(j);
 
-                if (currentUsers != null)
-                    userIndex = currentUsers.Select(u => u.Contains(j)).ToList().IndexOf(true);
-                if (currentDevices != null)
-                    deviceIndex = currentDevices.Select(d => d.Contains(j)).ToList().IndexOf(true);
+                int userIndex = currentUsers.Select(u => u.Contains(j)).ToList().IndexOf(true);
+                int deviceIndex = currentDevices.Select(d => d.Contains(j)).ToList().IndexOf(true);
 
                 dr.AddJob(j, isLate, userIndex, deviceIndex);
             }

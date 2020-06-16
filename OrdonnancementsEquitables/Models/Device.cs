@@ -9,18 +9,18 @@ namespace OrdonnancementsEquitables.Models
 {
     public class Device<TJob> where TJob : Job
     {
-        private readonly List<TJob> _JobCos;
+        private readonly List<TJob> _jobs;
 
-        public TJob[] JobCos { get => _JobCos.ToArray(); }
-        public int TimeReady { get => _JobCos.Sum(j => j is JobCo ? (j as JobCo).ExecTime : j.Time); }
+        public TJob[] Jobs { get => _jobs.ToArray(); }
+        public int TimeReady { get => _jobs.Sum(j => j is JobCo ? (j as JobCo).ExecTime : j.Time); }
 
         public Device()
         {
-            _JobCos = new List<TJob>();
+            _jobs = new List<TJob>();
         }
 
-        public void AddJobCo(TJob JobCo) => _JobCos.Add(JobCo);
+        public void AddJob(TJob JobCo) => _jobs.Add(JobCo);
 
-        public bool Contains(TJob JobCo) => _JobCos.Contains(JobCo);
+        public bool Contains(TJob JobCo) => _jobs.Contains(JobCo);
     }
 }

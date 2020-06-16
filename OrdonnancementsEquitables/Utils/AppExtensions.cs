@@ -22,7 +22,7 @@ namespace OrdonnancementsEquitables.Utils
 
         public static TJob FromId<TJob>(this IEnumerable<TJob> enumerable, int id) where TJob : Job => enumerable.Where(j => j.Id == id).FirstOrDefault();
 
-        public static void Swap<T>(this List<T> list, int index1, int index2)
+        public static void Swap<T>(this IList<T> list, int index1, int index2)
         {
             var tmp = list[index1];
             list[index1] = list[index2];

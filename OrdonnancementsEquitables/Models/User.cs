@@ -9,13 +9,15 @@ namespace OrdonnancementsEquitables.Models
 {
     public class User<TJob> where TJob : Job
     {
-        public TJob[] Jobs { get; set; }
+        private readonly TJob[] _jobs;
+
+        public TJob[] Jobs => _jobs.ToArray();
 
         public User(TJob[] jobs)
         {
-            Jobs = jobs;
+            _jobs = jobs.ToArray();
         }
 
-        public bool Contains(TJob job) => Jobs.Contains(job);
+        public bool Contains(TJob job) => _jobs.Contains(job);
     }
 }

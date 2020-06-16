@@ -66,19 +66,19 @@ namespace OrdonnancementsEquitables.Models
                 DeleteConnection(Jobs.FromId(id), job);
         }
 
-        public void UnExecuteJobCo(JobCo JobCo)
+        public void UnExecuteJob(JobCo JobCo)
         {
             CreateConnections(JobCo);
-            ActualiseConnectedJobCos(JobCo);
+            ActualiseConnectedJobs(JobCo);
         }
 
-        public void ExecuteJobCo(JobCo JobCo)
+        public void ExecuteJob(JobCo JobCo)
         {
             DeleteConnections(JobCo);
-            ActualiseConnectedJobCos(JobCo);
+            ActualiseConnectedJobs(JobCo);
         }
 
-        public abstract void ActualiseConnectedJobCos(JobCo JobCo);
+        public abstract void ActualiseConnectedJobs(JobCo JobCo);
 
         /* Cherche un JobCo de dégré sortant *deg* qui est pas Lock, dans les temps et qui a le plus petit ExecTime; sinon renvoie null */
         protected JobCo GetHigherOutDegreeOnTime(int deg, int time)
@@ -95,26 +95,26 @@ namespace OrdonnancementsEquitables.Models
             //    JobCodeg.add(JobCos.where(j => j.id == i).firstordefault());
             //}
 
-            List<JobCo> JobCoDeg = new List<JobCo>();
+            List<JobCo> jobCoDeg = new List<JobCo>();
             for (int id = 0; id < L.Length; id++)
             {
                 if (L[id].Count == deg)
-                    JobCoDeg.Add(Jobs.FromId(id));
+                    jobCoDeg.Add(Jobs.FromId(id));
             }
 
             /*if (JobCoDeg.Count == 0 && JobCoDeg.Where(j => j.IsLocked == false).Count() == 0)
                 return null;*/
 
             JobCo onTime;
-            JobCoDeg = JobCoDeg.Where(j => j.IsLocked == false).OrderBy(j => j.ExecTime).ToList();
+            jobCoDeg = jobCoDeg.Where(j => j.IsLocked == false).OrderBy(j => j.ExecTime).ToList();
 
-            while (JobCoDeg.Count != 0)
+            while (jobCoDeg.Count != 0)
             {
-                onTime = JobCoDeg.FirstOrDefault();
+                onTime = jobCoDeg.FirstOrDefault();
                 if (time + onTime.ExecTime < onTime.Deadline)
                     return onTime;
 
-                JobCoDeg.RemoveAt(0);
+                jobCoDeg.RemoveAt(0);
             }
 
             return null;
@@ -132,7 +132,7 @@ namespace OrdonnancementsEquitables.Models
             return null;
         }
 
-        public List<JobCo> GetAllLeftJobCos() => Jobs.Where(j => L[j.Id].Count > 0).ToList();
+        public List<JobCo> GetAllLeftJobs() => Jobs.Where(j => L[j.Id].Count > 0).ToList();
     }
 
 /* GraphLock */
@@ -143,7 +143,7 @@ namespace OrdonnancementsEquitables.Models
             : base(JobCos)
         { }
         
-        public override void ActualiseConnectedJobCos(JobCo JobCoCo)
+        public override void ActualiseConnectedJobs(JobCo JobCoCo)
         {
             foreach (JobCo JobCo in Jobs.Where(j => j.Depend.Contains(JobCoCo.Id)))
                 JobCo.ActualiseIsLocked(L);
@@ -160,7 +160,7 @@ namespace OrdonnancementsEquitables.Models
             : base(JobCos)
         { }
 
-        public override void ActualiseConnectedJobCos(JobCo JobCoCo)
+        public override void ActualiseConnectedJobs(JobCo JobCoCo)
         {
             foreach (JobCo JobCo in Jobs.Where(j => j.Depend.Contains(JobCoCo.Id)))
                 JobCo.ActualiseExecTime(L);

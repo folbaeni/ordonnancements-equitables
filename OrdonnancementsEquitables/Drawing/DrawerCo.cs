@@ -87,7 +87,6 @@ namespace OrdonnancementsEquitables.Drawing
         {
             int exeT = j.ExecTime;
             int t = j.Time;
-            int dif = maxTime[machine] - maxExecTime[machine];
             // Dessin forme
             Rectangle Alpha = new Rectangle
             {

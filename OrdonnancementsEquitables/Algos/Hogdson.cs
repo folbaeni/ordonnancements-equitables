@@ -11,20 +11,20 @@ using System.Windows.Controls;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public class Hogdson : Algorithme<JobCo>, IMultipleUsers<JobCo>
+    public class Hogdson : Algorithme<Job>, IMultipleUsers<Job>
     {
         public string FormattedOnTime => string.Join("\n", OnTime.Select(j => j.ToString()));
         public string FormattedLate => string.Join("\n", Late.Select(j => j.ToString()));
 
-        public User<JobCo>[] Users => currentUsers.ToArray();
+        public User<Job>[] Users => currentUsers.ToArray();
 
-        public override JobCo[] Execute(JobCo[] JobCos)
+        public override Job[] Execute(Job[] jobs)
         {
-            Init(JobCos);
+            Init(jobs);
             int C = 0;
-            MaxHeap<JobCo> heap = new MaxHeap<JobCo>();
+            MaxHeap<Job> heap = new MaxHeap<Job>();
 
-            foreach (JobCo JobCo in currentJobs)
+            foreach (Job JobCo in currentJobs)
             {
                 heap.Insert(JobCo);
                 onTime.Add(JobCo);
@@ -33,53 +33,57 @@ namespace OrdonnancementsEquitables.Algos
                 if (C > JobCo.Deadline)
                 {
                     //JobCo biggest = onTime.OrderByDescending(j => j.Time).FirstOrDefault();
-                    JobCo biggest = heap.RemoveMax();
+                    Job biggest = heap.RemoveMax();
                     onTime.Remove(biggest);
                     late.Add(biggest);
                     C -= biggest.Time;
                 }
             }
-            return JobCos;
+            return jobs;
         }
 
-        public JobCo[] Execute(User<JobCo>[] users)
+        public Job[] Execute(User<Job>[] users)
         {
-            JobCo[] JobCos = users.SelectMany(u => u.Jobs).ToArray();
-            JobCo[] res = Execute(JobCos);
+            Job[] jobs = users.SelectMany(u => u.Jobs).ToArray();
+            Job[] res = Execute(jobs);
             currentUsers = users.ToArray();
             return res; 
         }
 
         public override void Draw(Canvas c)
         {
-            int nbUsers = currentUsers == null ? 1 : currentUsers.Length;
-            Drawer dr = new Drawer(c, nbUsers);
+            Drawer dr = new Drawer(c, currentUsers.Length, currentDevices.Length);
 
-            foreach (JobCo j in OnTime)
+            for (int deviceIndex = 0; deviceIndex < currentDevices.Length; deviceIndex++)
             {
-                int index;
-                if (nbUsers == 1)
-                    index = 1;
-                else 
+                Device<Job> device = currentDevices[deviceIndex];
+                foreach (Job job in device.Jobs)
                 {
-                    User<JobCo> user = currentUsers.Where(u => u.Jobs.Contains(j)).FirstOrDefault();
-                    index = Array.IndexOf(currentUsers, user);
+                    User<Job> user = currentUsers.Where(u => u.Jobs.Contains(job)).FirstOrDefault();
+                    int userIndex = Array.IndexOf(currentUsers, user);
+
+                    bool isLate = late.Contains(job);
+
+                    dr.AddJob(job, isLate, userIndex, deviceIndex);
                 }
-                dr.AddJob(j, false, index);
             }
 
-            foreach (JobCo j in Late)
-            {
-                int index;
-                if (nbUsers == 1)
-                    index = 1;
-                else
-                {
-                    User<JobCo> user = currentUsers.Where(u => u.Jobs.Contains(j)).FirstOrDefault();
-                    index = Array.IndexOf(currentUsers, user);
-                }
-                dr.AddJob(j, true, index);
-            }
+            //foreach (Job j in onTime)
+            //{
+            //    User<Job> user = currentUsers.Where(u => u.Jobs.Contains(j)).FirstOrDefault();
+            //    int index = Array.IndexOf(currentUsers, user);
+
+            //    int deviceIndex = currentDevices.Select(d => d.Contains(j)).ToList().IndexOf(true);
+
+            //    dr.AddJob(j, false, index);
+            //}
+
+            //foreach (Job j in late)
+            //{
+            //    User<Job> user = currentUsers.Where(u => u.Jobs.Contains(j)).FirstOrDefault();
+            //    int index = Array.IndexOf(currentUsers, user);
+            //    dr.AddJob(j, true, index);
+            //}
         }
 
         public override string ToString() => base.ToString() + "Hogdson\n\nOn time:\n" + FormattedOnTime + "\nLate:\n" + FormattedLate + Separation;

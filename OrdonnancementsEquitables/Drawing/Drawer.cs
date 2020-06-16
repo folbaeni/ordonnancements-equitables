@@ -19,8 +19,6 @@ namespace OrdonnancementsEquitables.Drawing
     /// Class containing tools in order to draw graphs representing task's order in machines.
     /// </summary>
 
-
-
     public class Drawer
     {
         /// <summary>
@@ -76,6 +74,7 @@ namespace OrdonnancementsEquitables.Drawing
         public Drawer(Canvas can, int nbUsers, int nbMachines)
         {
             Panel = can;
+            CleanCanvas();
             Panel.Height = HeightCal(nbMachines + 1);
             Panel.Width = 100;
             maxTime = new int[nbMachines];
@@ -83,7 +82,6 @@ namespace OrdonnancementsEquitables.Drawing
             {
                 maxTime[i] = 10;
             }
-            CleanCanvas();
 
             userColors = new Brush[nbUsers];
             for (int i = 0; i < userColors.Length; i++)
@@ -97,7 +95,7 @@ namespace OrdonnancementsEquitables.Drawing
         /// </summary>
         /// <param name="j">Parameter of the JobCo that will be added. </param>
         /// <param name="late">Boolean indicating if the JobCo is late or not.</param>
-        public void AddJob(JobCo j, bool late) => AddJob(j, late, PickBrush(), 0);
+        public void AddJob(Job j, bool late) => AddJob(j, late, PickBrush(), 0);
 
         /// <summary>
         /// This method adds the rectangle representing the JobCo <paramref name="j"/> in the graphic for the case where there is one machine and many users.
@@ -106,7 +104,7 @@ namespace OrdonnancementsEquitables.Drawing
         /// <param name="j">Parameter of the JobCo that will be added. </param>
         /// <param name="couleur"> Brush of the color of the JobCo, which has to be defined by the userId (UserColor). </param>
         /// <param name="late">Boolean indicating if the JobCo is late or not.</param>
-        public void AddJob(JobCo j, bool late, int user) => AddJob(j, late, userColors.Length == 1 ? PickBrush() : userColors[user], 0);
+        public void AddJob(Job j, bool late, int user) => AddJob(j, late, userColors.Length == 1 ? PickBrush() : userColors[user], 0);
 
         /// <summary>
         /// This method adds the rectangle representing the JobCo <paramref name="j"/> for <paramref name="machine"/> in the graphic. Case with one or many users and many machines.
@@ -114,7 +112,7 @@ namespace OrdonnancementsEquitables.Drawing
         /// <param name="machine"> Integer representing which machine has the JobCo.</param>
         /// <param name="j">Parameter of the JobCo that will be added. </param>
         /// <param name="late">Boolean indicating if the JobCo is late or not.</param>
-        public void AddJob(JobCo j, bool late, int user, int machine) => AddJob(j, late, userColors.Length == 1 ? PickBrush() : userColors[user], machine);
+        public void AddJob(Job j, bool late, int user, int machine) => AddJob(j, late, userColors.Length == 1 ? PickBrush() : userColors[user], machine);
 
         /// <summary>
         /// This method adds the rectangle representing the JobCo <paramref name="j"/> for <paramref name="machine"/> in the graphic.
@@ -123,7 +121,7 @@ namespace OrdonnancementsEquitables.Drawing
         /// <param name="late">Boolean indicating if the JobCo is late or not.</param>
         /// <param name="couleur"> Brush of the color of the JobCo, which has to be defined by the userId (UserColor). </param>
         /// <param name="machine"> Integer representing which machine has the JobCo.</param>
-        private void AddJob(JobCo j, bool late, Brush couleur, int machine)
+        private void AddJob(Job j, bool late, Brush couleur, int machine)
         {
             Rectangle rect = new Rectangle
             {

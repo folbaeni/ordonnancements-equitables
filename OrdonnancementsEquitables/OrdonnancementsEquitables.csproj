@@ -79,7 +79,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Algos\HigherLockDegree.cs" />
-    <Compile Include="Algos\HigherTimeDegree.cs" />
+    <Compile Include="Algos\HigherTimeDecrease.cs" />
     <Compile Include="Algos\LongestProcessingTime.cs" />
     <Compile Include="Algos\ShortestProcessingTime.cs" />
     <Compile Include="Drawing\DrawerCo.cs" />
