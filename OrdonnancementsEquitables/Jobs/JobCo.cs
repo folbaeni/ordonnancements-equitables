@@ -23,13 +23,6 @@ namespace OrdonnancementsEquitables.Jobs
             isLocked = false;
         }
 
-        public JobCo(int time, int execTime)
-            : base(time, 40)
-        {
-            this.execTime = execTime;
-            isLocked = false;
-        }
-
         public bool ActualiseIsLocked(List<int>[] L)
         {
             foreach (var id in Depend)
@@ -52,7 +45,7 @@ namespace OrdonnancementsEquitables.Jobs
         }
 
 
-        protected override string JobType() => "JobCoCo";
-        protected override string Prefixe() => base.Prefixe() + $", Depend: {Depend}";
+        protected override string JobType() => "JobCo";
+        protected override string Prefixe() => base.Prefixe() + $", Depend: [ {string.Join(", ", Depend)} ]";
     }
 }

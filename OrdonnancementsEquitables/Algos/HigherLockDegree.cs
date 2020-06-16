@@ -77,7 +77,7 @@ namespace OrdonnancementsEquitables.Algos
                 G.ExecuteJob(higher);
                 
                 int i = 0;
-                while (i < trOrder.Length && trOrder[i].TimeReady > trOrder[i + 1].TimeReady)
+                while (i < trOrder.Length - 1 && trOrder[i].TimeReady > trOrder[i + 1].TimeReady)
                 {
                     trOrder.Swap(i, i + 1);
                     i++;
@@ -90,7 +90,7 @@ namespace OrdonnancementsEquitables.Algos
                 trOrder[0].AddJob(jobCo);
 
                 int i = 0;
-                while (i < trOrder.Length && trOrder[i].TimeReady > trOrder[i + 1].TimeReady)
+                while (i < trOrder.Length - 1 && trOrder[i].TimeReady > trOrder[i + 1].TimeReady)
                 {
                     trOrder.Swap(i, i + 1);
                     i++;

@@ -1,5 +1,6 @@
 ﻿using OrdonnancementsEquitables.Jobs;
 using OrdonnancementsEquitables.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +9,7 @@ namespace OrdonnancementsEquitables.Models
     public abstract class Graph
     {
         protected JobCo[] Jobs;
-
+        protected List<JobCo> leftJobs;
         /// <summary>
         /// Vertices-vertices matrix of the graph. <br/>
         /// If j1 -> j2 then M[j1.Id, j2.Id] = 1 and M[j1.Id, j2.Id] = -1 <br/>
@@ -21,8 +22,10 @@ namespace OrdonnancementsEquitables.Models
         public Graph(JobCo[] jobs)
         {
             Jobs = jobs;
+            leftJobs = jobs.ToList();
             L = new List<int>[Jobs.Length];
-            L.Initialize();             
+            for (int i = 0; i < L.Length; i++)
+                L[i] = new List<int>();
             //M = new int[JobCos.Length, JobCos.Length];
             //for(int i = 0; i < JobCos.Length; i++)
             //    for(int j = 0; j < JobCos.Length; j++)
@@ -33,15 +36,15 @@ namespace OrdonnancementsEquitables.Models
         }
 
         /// <summary>
-        /// Creates the edge from <paramref name="JobCo1"/> to <paramref name="JobCo2"/>
+        /// Creates the edge from <paramref name="jobCo1"/> to <paramref name="jobCo2"/>
         /// </summary>
-        protected void CreateConnection(JobCo JobCo1, JobCo JobCo2) 
+        protected void CreateConnection(JobCo jobCo1, JobCo jobCo2) 
         {
             //M[JobCo1.Id, JobCo2.Id] = 1;
             //if (M[JobCo2.Id, JobCo1.Id] != 1)
             //    M[JobCo2.Id, JobCo1.Id] = -1;
 
-            L[JobCo1.Id].Add(JobCo2.Id);
+            L[jobCo1.Id].Add(jobCo2.Id);
         }
 
         protected void CreateConnections(JobCo job)
@@ -50,32 +53,34 @@ namespace OrdonnancementsEquitables.Models
                 CreateConnection(Jobs.FromId(id), job);
         }
 
-        protected void DeleteConnection(JobCo JobCo1, JobCo JobCo2)
+        protected void DeleteConnection(JobCo jobCo1, JobCo jobCo2)
         {
             //M[JobCo1.Id, JobCo2.Id] = 0;
             //if (M[JobCo2.Id, JobCo1.Id] == 1)
             //    M[JobCo1.Id, JobCo2.Id] = -1;
             //else
             //    M[JobCo2.Id, JobCo1.Id] = 0;
-            L[JobCo1.Id].Remove(JobCo2.Id);
+            bool b = L[jobCo1.Id].Remove(jobCo2.Id);
         }
 
         protected void DeleteConnections(JobCo job)
         {
-            foreach(int id in job.Depend)
-                DeleteConnection(Jobs.FromId(id), job);
+            L[job.Id].Clear();
+            //foreach(int id in job.Depend)
+            //    DeleteConnection(Jobs.FromId(id), job);
         }
 
-        public void UnExecuteJob(JobCo JobCo)
+        public void UnExecuteJob(JobCo jobCo)
         {
-            CreateConnections(JobCo);
-            ActualiseConnectedJobs(JobCo);
+            CreateConnections(jobCo);
+            ActualiseConnectedJobs(jobCo);
         }
 
-        public void ExecuteJob(JobCo JobCo)
+        public void ExecuteJob(JobCo jobCo)
         {
-            DeleteConnections(JobCo);
-            ActualiseConnectedJobs(JobCo);
+            leftJobs.Remove(jobCo);
+            DeleteConnections(jobCo);
+            ActualiseConnectedJobs(jobCo);
         }
 
         public abstract void ActualiseConnectedJobs(JobCo JobCo);
@@ -124,7 +129,7 @@ namespace OrdonnancementsEquitables.Models
         public JobCo GetHigherOutDegreeOnTime(int time)
         {
             JobCo higher;
-            for (int degree = L.Length; degree > 0; degree--)
+            for (int degree = L.Length; degree >= 0; degree--)
             {
                 if ((higher = GetHigherOutDegreeOnTime(degree, time)) != null)
                     return higher;
@@ -132,7 +137,7 @@ namespace OrdonnancementsEquitables.Models
             return null;
         }
 
-        public List<JobCo> GetAllLeftJobs() => Jobs.Where(j => L[j.Id].Count > 0).ToList();
+        public List<JobCo> GetAllLeftJobs() => leftJobs.ToList();// Jobs.Where(j => L[j.Id].Count > 0 || j.IsLocked).ToList();
     }
 
 /* GraphLock */
