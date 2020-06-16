@@ -75,7 +75,7 @@ namespace OrdonnancementsEquitables.Drawing
         {
             Panel = can;
             CleanCanvas();
-            Panel.Height = HeightCal(nbMachines + 1);
+            Panel.Height = HeightCal(nbMachines + 1) > 300 ? HeightCal(nbMachines + 1) : 300 ;
             Panel.Width = 100;
             maxTime = new int[nbMachines];
             for (int i = 0; i < maxTime.Length; i++)
