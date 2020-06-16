@@ -10,6 +10,7 @@ namespace OrdonnancementsEquitables.Algos
 {
     public interface IMultipleDevices<TJob> where TJob : Job
     {
+        int NumberOfDevices { get; }
         double AverageTime { get; }
         int ShortestTimeReady { get; }
         int LongestTimeReady { get; }

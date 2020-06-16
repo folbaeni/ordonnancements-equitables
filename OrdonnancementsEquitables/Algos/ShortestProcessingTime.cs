@@ -19,6 +19,9 @@ namespace OrdonnancementsEquitables.Algos
         public User<Job>[] Users => currentUsers.ToArray();
         public Device<Job>[] Devices => currentDevices.ToArray();
 
+        public int NumberOfDevices => currentDevices.Length;
+        public int NumberOfUsers => currentUsers.Length;
+
         public override Job[] Execute(Job[] jobs) => Execute(jobs, 1);
 
         public Job[] Execute(Job[] jobs, int nbDevices)
@@ -54,10 +57,10 @@ namespace OrdonnancementsEquitables.Algos
 
         public Job[] Execute(User<Job>[] users, int nbDevices)
         {
-            currentUsers = users;
             Job[] JobCos = currentUsers.SelectMany(u => u.Jobs).ToArray();
-
-            return Execute(JobCos, nbDevices);
+            var res = Execute(JobCos, nbDevices);
+            currentUsers = users;
+            return res;
         }
 
         public override void Draw(Canvas c)

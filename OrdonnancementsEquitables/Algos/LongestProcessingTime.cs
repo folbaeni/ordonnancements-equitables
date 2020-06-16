@@ -10,7 +10,7 @@ using System.Windows.Controls;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public class LongestProcessingTime : Algorithme<Job>, IMultipleDevices<Job>, IMultipleUsers<Job>
+    public class LongestProcessingTime : Algorithme<Job>, IMultipleDevices<Job>, IMultipleUsers<Job>, IMultipleDevicesAndUsers<Job>
     {
         public double AverageTime => Devices.Average(d => d.TimeReady);
         public int ShortestTimeReady => Devices.OrderBy(d => d.TimeReady).FirstOrDefault().TimeReady;
@@ -18,6 +18,9 @@ namespace OrdonnancementsEquitables.Algos
 
         public User<Job>[] Users => currentUsers.ToArray();
         public Device<Job>[] Devices => currentDevices.ToArray();
+
+        public int NumberOfDevices => currentDevices.Length;
+        public int NumberOfUsers => currentUsers.Length;
 
         public override Job[] Execute(Job[] jobs) => Execute(jobs, 1);
         
@@ -47,10 +50,10 @@ namespace OrdonnancementsEquitables.Algos
 
         public Job[] Execute(User<Job>[] users, int nbDevices)
         {
+            Job[] JobCos = currentUsers.SelectMany(u => u.Jobs).ToArray();
+            var res = Execute(JobCos, nbDevices);
             currentUsers = users;
-            Job[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
-
-            return Execute(jobs, nbDevices);
+            return res;
         }
 
         public override void Draw(Canvas c)
