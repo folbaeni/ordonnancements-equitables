@@ -28,6 +28,7 @@ namespace OrdonnancementsEquitables
     public partial class MainWindow : Window
     {
         Parser fileParser;
+        private double _zoomValue = 1.0;
 
         public MainWindow()
         {
@@ -147,6 +148,24 @@ namespace OrdonnancementsEquitables
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+        }
+
+        private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+
+            ScaleTransform st = new ScaleTransform();
+            if (e.Delta > 0)
+            {
+                st.ScaleX = st.ScaleY = _zoomValue = _zoomValue * 1.25;
+                if (st.ScaleX > 64) st.ScaleX = st.ScaleY = _zoomValue = 64;
+            }
+            else
+            {
+                st.ScaleX = st.ScaleY = st.ScaleX = _zoomValue = _zoomValue / 1.25;
+                if (st.ScaleX < 1) st.ScaleX = st.ScaleY = _zoomValue = 1;
+            }
+            screen.LayoutTransform = st;
+            e.Handled = true;
         }
     }
 }
