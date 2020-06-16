@@ -150,7 +150,6 @@ namespace OrdonnancementsEquitables.Drawing
             maxTime[machine] += j.Time * pixelMultiplier;
             Panel.Width = maxTime.Max() + 10;
             Panel.Children.Add(rect);
-
         }
 
         /*

@@ -12,11 +12,12 @@ namespace OrdonnancementsEquitables.Algos
 {
     public class ShortestProcessingTime : Algorithme<Job>, IMultipleDevices<Job>, IMultipleUsers<Job>, IMultipleDevicesAndUsers<Job>
     {
-        public double AverageTime { get => Devices.Average(d => d.TimeReady); }
-        public int ShortestTimeReady { get => Devices.OrderBy(d => d.TimeReady).FirstOrDefault().TimeReady; }
-        public int LongestTimeReady { get => Devices.OrderByDescending(d => d.TimeReady).FirstOrDefault().TimeReady; }
-        public User<Job>[] Users { get => (User<JobCo>[])currentUsers.Clone(); }
-        public Device<Job>[] Devices { get => (Device<JobCo>[])currentDevices.Clone(); }
+        public double AverageTime => Devices.Average(d => d.TimeReady);
+        public int ShortestTimeReady => Devices.OrderBy(d => d.TimeReady).FirstOrDefault().TimeReady;
+        public int LongestTimeReady => Devices.OrderByDescending(d => d.TimeReady).FirstOrDefault().TimeReady;
+
+        public User<Job>[] Users => currentUsers.ToArray();
+        public Device<Job>[] Devices => currentDevices.ToArray();
 
         public override Job[] Execute(Job[] jobs) => Execute(jobs, 1);
 

@@ -19,7 +19,6 @@ namespace OrdonnancementsEquitables.Algos
         public User<Job>[] Users => currentUsers.ToArray();
         public Device<Job>[] Devices => currentDevices.ToArray();
 
-
         public override Job[] Execute(Job[] jobs) => Execute(jobs, 1);
         
         public Job[] Execute(Job[] JobCos, int nbDevices)
