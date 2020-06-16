@@ -93,11 +93,33 @@ namespace OrdonnancementsEquitables
             //}
             //return;
 
-
-
             string nomAlgo = SelAlgo.SelectedItem.ToString().AffToSyst();
             Type algoType = Type.GetType(typeof(Algorithme<>).Namespace + "." + nomAlgo);
             var algo = Activator.CreateInstance(algoType);
+            Job.CountToZero();
+
+            if (filePath.Text == Properties.Resources.InitText)
+            {
+                switch (algo.GetType().BaseType.GetGenericArguments()[0].Name)
+                {
+                    case "Job":
+                        Algorithme<Job> algorithmeJ = (Algorithme<Job>)algo;
+                        algorithmeJ.ExecuteDefault();
+                        algorithmeJ.Draw(screen);
+                        break;
+                    case "JobP":
+                        Algorithme<JobP> algorithmeJP = (Algorithme<JobP>)algo;
+                        algorithmeJP.ExecuteDefault();
+                        algorithmeJP.Draw(screen);
+                        break;
+                    case "JobCo":
+                        Algorithme<JobCo> algorithmeJC = (Algorithme<JobCo>)algo;
+                        algorithmeJC.ExecuteDefault();
+                        algorithmeJC.Draw(screen);
+                        break;
+                }
+                return;
+            }
 
             Job.CountToZero();
             switch (fileParser.JobType.Name)
@@ -106,21 +128,18 @@ namespace OrdonnancementsEquitables
                     Algorithme<JobCo> algorithmeJ = (Algorithme<JobCo>)algo;
                     var jobs = fileParser.ParseJobsFromJSON<JobCo>();
                     algorithmeJ.Execute(jobs);
-                    Console.WriteLine(algorithmeJ);
                     algorithmeJ.Draw(screen);
                     break;
                 case "JobP":
                     Algorithme<JobP> algorithmeJP = (Algorithme<JobP>)algo;
                     var jobsP = fileParser.ParseJobsFromJSON<JobP>();
                     algorithmeJP.Execute(jobsP);
-                    Console.WriteLine(algorithmeJP);
                     algorithmeJP.Draw(screen);
                     break;
                 case "JobCo":
                     Algorithme<JobCo> algorithmeJC = (Algorithme<JobCo>)algo;
                     var jobsJC = fileParser.ParseJobsFromJSON<JobCo>();
                     algorithmeJC.Execute(jobsJC);
-                    Console.WriteLine(algorithmeJC);
                     algorithmeJC.Draw(screen);
                     break;
             }

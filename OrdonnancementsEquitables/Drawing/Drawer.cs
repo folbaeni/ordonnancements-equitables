@@ -82,6 +82,7 @@ namespace OrdonnancementsEquitables.Drawing
             {
                 maxTime[i] = 10;
             }
+            CleanCanvas();
 
             userColors = new Brush[nbUsers];
             for (int i = 0; i < userColors.Length; i++)
@@ -150,7 +151,6 @@ namespace OrdonnancementsEquitables.Drawing
             maxTime[machine] += j.Time * pixelMultiplier;
             Panel.Width = maxTime.Max() + 10;
             Panel.Children.Add(rect);
-
         }
 
         /*
