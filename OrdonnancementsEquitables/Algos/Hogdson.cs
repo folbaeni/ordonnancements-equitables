@@ -13,11 +13,27 @@ namespace OrdonnancementsEquitables.Algos
 {
     public class Hogdson : Algorithme<Job>, IMultipleUsers<Job>
     {
+
+        /// <summary>
+        /// Parameter of type Device<Job> represening the main device, aka the first device of currentDevices from Algorithme
+        /// </summary>
         private Device<Job> MainDevice => currentDevices[0];
 
+        /// <summary>
+        /// Parameter of type User<Job>[] witch is the conversion of currentUsers to an Array
+        /// </summary>
         public User<Job>[] Users => currentUsers.ToArray();
+
+        /// <summary>
+        /// Parameter of type int corresponding to the number of users
+        /// </summary>
         public int NumberOfUsers => currentUsers.Length;
 
+
+        /// <summary>
+        /// Execute the algorithme Hogdson with <paramref name="jobs"/>
+        /// </summary>
+        /// <param name="jobs"></param>
         public override void Execute(Job[] jobs)
         {
             Init(jobs);
