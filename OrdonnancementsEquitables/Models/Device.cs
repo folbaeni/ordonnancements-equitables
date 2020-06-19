@@ -12,19 +12,22 @@ namespace OrdonnancementsEquitables.Models
     /// </summary>
     public class Device<TJob> where TJob : Job
     {
-        /// <value>
+        /// <summary>
         /// Private field representing the list of jobs of the device.
-        /// </value>
+        /// </summary>
         private readonly List<TJob> _jobs;
 
+        /// <summary>
+        /// All jobs in the device.
+        /// </summary>
         /// <value>
         /// A shallow copy of the jobs in the device.
         /// </value>
         public TJob[] Jobs { get => _jobs.ToArray(); }
 
-        /// <value>
-        /// Property showing when will the jobs of the devices be ready.
-        /// </value>
+        /// <summary>
+        /// Property telling when will the jobs of the devices be finished.
+        /// </summary>
         public int TimeReady { get => _jobs.Sum(j => j is JobCo jobCo ? jobCo.ExecTime : j.Time); }
 
 

@@ -12,43 +12,34 @@ using System.Windows.Controls;
 
 namespace OrdonnancementsEquitables.Algos
 {
-
-    public class GloutonParProfits : Algorithme<JobP>, IMultipleUsers<JobP>
+    public class GloutonParProfits : Algorithm<JobP>, IMultipleUsers<JobP>
     {
-
         /// <summary>
-        /// Parameter of type Device<JobP> used to stock the jobs for the algorithme witch uses only one device here 
+        /// The only device used for this algorithm.
         /// </summary>
+        /// <value>
+        /// Alias for the first element of <see cref="Algorithm{TJob}.currentDevices"/>.
+        /// </value>
         private Device<JobP> MainDevice => currentDevices[0];
         /// <summary>
-        /// Parameter of type int used to know the final profit of Glouton Par Profit
+        /// Parameter of type int used to know the final profit of Glouton Par Profit.
         /// </summary>
-        private int Profit;
+        public int Profit { get; private set; }
 
-        /// <summary>
-        /// Parameter of type int used to know how many users are using GloutonParrofit
-        /// </summary>
         public int NumberOfUsers => currentUsers.Length;
-
-        /// <summary>
-        /// Parameter of type User<JobP>[] used to stock the current users in an Array
-        /// </summary>
         public User<JobP>[] Users => currentUsers.ToArray();
 
         /// <summary>
-        /// Constructor of GloutonParProfit, sets Profit at 0
+        /// Creates a new GloutonParProfits algorithm
         /// </summary>
-        public GloutonParProfits()
+        public GloutonParProfits() { }
+
+        protected override void Init(JobP[] jobs)
         {
+            base.Init(jobs);
             Profit = 0;
         }
 
-        //public override JobP[] ExecuteDefault() => Execute(Parser.ParseFromContent<JobP>(Properties.Resources.GloutonParProfits));
-
-        /// <summary>
-        /// Execute the algorithme GloutonParProfit with <paramref name="jobs"/> and one device
-        /// </summary>
-        /// <param name="jobs"></param> used to execute GloutonParProfit
         public override void Execute(JobP[] jobs)
         {
             Init(jobs);
@@ -76,10 +67,6 @@ namespace OrdonnancementsEquitables.Algos
             }
         }
 
-        /// <summary>
-        /// Method used to execute GloutonParProfit with many users
-        /// </summary>
-        /// <param name="users"></param> is the table of users used to execute GloutonParPrrofit
         public void Execute(User<JobP>[] users)
         {
             JobP[] jobs = users.SelectMany(u => u.Jobs).ToArray();
@@ -87,21 +74,5 @@ namespace OrdonnancementsEquitables.Algos
 
             currentUsers = users;
         }
-
-        //public override void Draw(Canvas c)
-        //{
-        //    Drawer dr = new Drawer(c, currentUsers.Length);
-
-        //    foreach (JobP jobP in currentJobs)
-        //    {
-        //        User<JobP> user = currentUsers.Where(u => u.Jobs.Contains(jobP)).FirstOrDefault();
-        //        int index = Array.IndexOf(currentUsers, user);
-        //        bool isLate = late.Contains(jobP);
-
-        //        dr.AddJob(jobP, isLate, index);
-        //    }
-        //}
-
-        //public override string ToString() => base.ToString() + "Glouton Par Profit\nListe triée:\n" + FormattedJobs + "\nProfit obtenu = " + Profit + Separation;
     }
 }

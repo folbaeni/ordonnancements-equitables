@@ -96,7 +96,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Algos\Algorithme.cs" />
+    <Compile Include="Algos\Algorithm.cs" />
     <Compile Include="Algos\IMultipleDevices.cs" />
     <Compile Include="Algos\IMultipleDevicesAndUsers.cs" />
     <Compile Include="Algos\IMultipleUsers.cs" />

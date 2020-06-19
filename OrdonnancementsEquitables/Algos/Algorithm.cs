@@ -14,54 +14,52 @@ using System.Windows.Media;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public abstract class Algorithme<TJob> where TJob : Job
+    /// <summary>
+    /// Abstract modeling any basic algorithm.
+    /// </summary>
+    /// <typeparam name="TJob">Job type accepted by the algorithm</typeparam>
+    public abstract class Algorithm<TJob> where TJob : Job
     {
         /// <summary>
-        /// Public parameter of type TJob[] containing the currentJobs of the algorithme
+        /// Shallow copy of the algorithm's current jobs.
         /// </summary>
         public TJob[] Jobs => currentJobs.ToArray();
         /// <summary>
-        /// Public parameter of type TJob[] containing the jobs witch are on time
+        /// Shallow copy of the algorithm's on time jobs.
         /// </summary>
         public TJob[] OnTime => onTime.ToArray();
         /// <summary>
-        /// Public parameter of type TJob[] containing the late jobs 
+        /// Shallow copy of the algorithm's late jobs.
         /// </summary>
         public TJob[] Late => late.ToArray();
 
-        /// <summary>
-        /// Protected parameter of type TJob containing the jobs of the algorithme
-        /// </summary>
+
         protected TJob[] currentJobs;
-
-        /// <summary>
-        /// Protected parameter of type User<TJob>[] containing the users
-        /// </summary>
         protected User<TJob>[] currentUsers;
-
-        /// <summary>
-        /// Protected parameter of type Device<TJob>[] containing the devices
-        /// </summary>
         protected Device<TJob>[] currentDevices;
 
         /// <summary>
-        /// Parameters of type List<TJob> containing on time and late jobs
+        /// List of <see cref="TJob"/> containing all on time executed jobs.
         /// </summary>
-        protected List<TJob> onTime, late;
+        protected List<TJob> onTime;
+        /// <summary>
+        /// List of <see cref="TJob"/> containing all late executed jobs.
+        /// </summary>
+        protected List<TJob> late;
 
         /// <summary>
-        /// Initialize new lists of TJobs OnTime and Late
+        /// Creates a new Algorithm.
         /// </summary>
-        public Algorithme()
+        public Algorithm()
         {
             onTime = new List<TJob>(); 
             late = new List<TJob>();
         }
 
         /// <summary>
-        /// Initialize the lists of jobs of the algorithme with <paramref name="jobs"/>
+        /// Initialization method called before every execution/>.
         /// </summary>
-        /// <param name="jobs"></param> jobs to initialize
+        /// <param name="jobs">Jobs passed as the execution parameter.</param>
         protected virtual void Init(TJob[] jobs)
         {
             onTime.Clear();
@@ -72,23 +70,23 @@ namespace OrdonnancementsEquitables.Algos
         }
 
         /// <summary>
-        /// Execute the jobs of a .json file
+        /// Default execution for the algorithme from a .json file.
         /// </summary>
         public void ExecuteDefault() => Execute(new Parser($@"Assets\Default Jobs\{GetType().Name}.json").ParseJobsFromJSON<TJob>());
         
         /// <summary>
-        /// Execute the algorithme with the TJob[] <paramref name="jobs"/>
+        /// Execute the algorithm with <paramref name="jobs"/> on one device.
         /// </summary>
-        /// <param name="jobs"></param>
+        /// <param name="jobs">Array of jobs to execute.</param>
         public abstract void Execute(TJob[] jobs);
 
         /// <summary>
-        /// Creates the image of the execution of the algorithme
+        /// Draws the algorithm execution on <paramref name="canvas"/>.
         /// </summary>
-        /// <param name="c"></param>
-        public virtual void Draw(Canvas c)
+        /// <param name="canvas">The canvas on where to draw.</param>
+        public virtual void Draw(Canvas canvas)
         {
-            Drawer dr = new Drawer(c, currentUsers.Length, currentDevices.Length);
+            Drawer dr = new Drawer(canvas, currentUsers.Length, currentDevices.Length);
 
             for (int deviceIndex = 0; deviceIndex < currentDevices.Length; deviceIndex++)
             {

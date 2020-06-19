@@ -11,29 +11,19 @@ using System.Windows.Controls;
 
 namespace OrdonnancementsEquitables.Algos
 {
-    public class Hogdson : Algorithme<Job>, IMultipleUsers<Job>
+    public class Hogdson : Algorithm<Job>, IMultipleUsers<Job>
     {
-
         /// <summary>
-        /// Parameter of type Device<Job> represening the main device, aka the first device of currentDevices from Algorithme
+        /// The only device used for this algorithm.
         /// </summary>
+        /// <value>
+        /// Alias for the first element of <see cref="Algorithm{TJob}.currentDevices"/>.
+        /// </value>
         private Device<Job> MainDevice => currentDevices[0];
 
-        /// <summary>
-        /// Parameter of type User<Job>[] witch is the conversion of currentUsers to an Array
-        /// </summary>
         public User<Job>[] Users => currentUsers.ToArray();
-
-        /// <summary>
-        /// Parameter of type int corresponding to the number of users
-        /// </summary>
         public int NumberOfUsers => currentUsers.Length;
 
-
-        /// <summary>
-        /// Execute the algorithme Hogdson with <paramref name="jobs"/>
-        /// </summary>
-        /// <param name="jobs"></param>
         public override void Execute(Job[] jobs)
         {
             Init(jobs);
@@ -48,7 +38,6 @@ namespace OrdonnancementsEquitables.Algos
 
                 if (C > job.Deadline)
                 {
-                    //JobCo biggest = onTime.OrderByDescending(j => j.Time).FirstOrDefault();
                     Job biggest = heap.RemoveMax();
                     onTime.Remove(biggest);
                     late.Add(biggest);
@@ -69,24 +58,5 @@ namespace OrdonnancementsEquitables.Algos
             
             currentUsers = users.ToArray();
         }
-
-        //public override void Draw(Canvas c)
-        //{
-        //    Drawer dr = new Drawer(c, currentUsers.Length, currentDevices.Length);
-
-        //    for (int deviceIndex = 0; deviceIndex < currentDevices.Length; deviceIndex++)
-        //    {
-        //        Device<Job> device = currentDevices[deviceIndex];
-        //        foreach (Job job in device.Jobs)
-        //        {
-        //            User<Job> user = currentUsers.Where(u => u.Jobs.Contains(job)).FirstOrDefault();
-        //            int userIndex = Array.IndexOf(currentUsers, user);
-
-        //            bool isLate = late.Contains(job);
-
-        //            dr.AddJob(job, isLate, userIndex, deviceIndex);
-        //        }
-        //    }
-        //}
     }
 }

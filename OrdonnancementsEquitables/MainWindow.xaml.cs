@@ -34,8 +34,8 @@ namespace OrdonnancementsEquitables
         {
             InitializeComponent();
 
-            var assembly = Assembly.GetAssembly(typeof(Algorithme<>)).GetTypes().ToList();
-            var typed = assembly.Where(t => t.IsClass && t.Namespace == typeof(Algorithme<>).Namespace && t.IsPublic && t != typeof(Algorithme<>)).ToList();
+            var assembly = Assembly.GetAssembly(typeof(Algorithm<>)).GetTypes().ToList();
+            var typed = assembly.Where(t => t.IsClass && t.Namespace == typeof(Algorithm<>).Namespace && t.IsPublic && t != typeof(Algorithm<>)).ToList();
 
             if (typed.Count > 0)
             {
@@ -50,8 +50,8 @@ namespace OrdonnancementsEquitables
             filePath.Text = filename;
             fileParser = new Parser(filePath.Text);
 
-            var assembly = Assembly.GetAssembly(typeof(Algorithme<>)).GetTypes().ToList();
-            var children = assembly.Where(t => t.IsClass && t.Namespace == typeof(Algorithme<>).Namespace && t.IsPublic).ToList();
+            var assembly = Assembly.GetAssembly(typeof(Algorithm<>)).GetTypes().ToList();
+            var children = assembly.Where(t => t.IsClass && t.Namespace == typeof(Algorithm<>).Namespace && t.IsPublic).ToList();
             var typed = children.Where(t => t.BaseType.IsGenericType && t.BaseType.GetGenericArguments().FirstOrDefault() == fileParser.JobType).ToList();
 
             if (typed.Count > 0)
@@ -95,7 +95,7 @@ namespace OrdonnancementsEquitables
             //return;
 
             string nomAlgo = SelAlgo.SelectedItem.ToString().AffToSyst();
-            Type algoType = Type.GetType(typeof(Algorithme<>).Namespace + "." + nomAlgo);
+            Type algoType = Type.GetType(typeof(Algorithm<>).Namespace + "." + nomAlgo);
             var algo = Activator.CreateInstance(algoType);
             Job.CountToZero();
 
@@ -104,17 +104,17 @@ namespace OrdonnancementsEquitables
                 switch (algo.GetType().BaseType.GetGenericArguments()[0].Name)
                 {
                     case "Job":
-                        Algorithme<Job> algorithmeJ = (Algorithme<Job>)algo;
+                        Algorithm<Job> algorithmeJ = (Algorithm<Job>)algo;
                         algorithmeJ.ExecuteDefault();
                         algorithmeJ.Draw(screen);
                         break;
                     case "JobP":
-                        Algorithme<JobP> algorithmeJP = (Algorithme<JobP>)algo;
+                        Algorithm<JobP> algorithmeJP = (Algorithm<JobP>)algo;
                         algorithmeJP.ExecuteDefault();
                         algorithmeJP.Draw(screen);
                         break;
                     case "JobCo":
-                        Algorithme<JobCo> algorithmeJC = (Algorithme<JobCo>)algo;
+                        Algorithm<JobCo> algorithmeJC = (Algorithm<JobCo>)algo;
                         algorithmeJC.ExecuteDefault();
                         algorithmeJC.Draw(screen);
                         break;
@@ -126,19 +126,19 @@ namespace OrdonnancementsEquitables
             switch (fileParser.JobType.Name)
             {
                 case "Job":
-                    Algorithme<JobCo> algorithmeJ = (Algorithme<JobCo>)algo;
+                    Algorithm<JobCo> algorithmeJ = (Algorithm<JobCo>)algo;
                     var jobs = fileParser.ParseJobsFromJSON<JobCo>();
                     algorithmeJ.Execute(jobs);
                     algorithmeJ.Draw(screen);
                     break;
                 case "JobP":
-                    Algorithme<JobP> algorithmeJP = (Algorithme<JobP>)algo;
+                    Algorithm<JobP> algorithmeJP = (Algorithm<JobP>)algo;
                     var jobsP = fileParser.ParseJobsFromJSON<JobP>();
                     algorithmeJP.Execute(jobsP);
                     algorithmeJP.Draw(screen);
                     break;
                 case "JobCo":
-                    Algorithme<JobCo> algorithmeJC = (Algorithme<JobCo>)algo;
+                    Algorithm<JobCo> algorithmeJC = (Algorithm<JobCo>)algo;
                     var jobsJC = fileParser.ParseJobsFromJSON<JobCo>();
                     algorithmeJC.Execute(jobsJC);
                     algorithmeJC.Draw(screen);

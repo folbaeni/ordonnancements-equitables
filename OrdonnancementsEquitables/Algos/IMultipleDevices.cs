@@ -10,37 +10,36 @@ namespace OrdonnancementsEquitables.Algos
 {
     public interface IMultipleDevices<TJob> where TJob : Job
     {
-
-        /// <summary>
-        /// Parameter of type int representing the number of devices, this parameter is defined as readonly
-        /// </summary>
+        /// <value>
+        /// Number of devices on the current execution.
+        /// </value>
         int NumberOfDevices { get; }
 
         /// <summary>
-        /// Parameter of type double representing the average time of execution of an algorithme, this parameter is defined as readonly
+        /// Average end of execution time on every devices.
         /// </summary>
         double AverageTime { get; }
 
         /// <summary>
-        /// Parameter of type int representing the shortest time of execution of an algorithme, this parameter is defined as readonly
+        /// Shortest end of execution time.
         /// </summary>
         int ShortestTimeReady { get; }
 
         /// <summary>
-        /// Parameter of type int reoresenting the longest time of execution of an algorithme, this parameter is defined as readonly
+        /// Longest end of execution time.
         /// </summary>
         int LongestTimeReady { get; }
 
         /// <summary>
-        /// Parameter of type Device<TJob>[] representing the devices used, this parameter is defined as readonly
+        /// Shallow copy of all devices.
         /// </summary>
         Device<TJob>[] Devices { get; }
 
         /// <summary>
-        /// Method of execution of an algorithme with <paramref name="nbDevices"/> apply on TJob[] <paramref name="jobs"/>
+        /// Execute the algorithm with <paramref name="jobs"/> on <paramref name="nbDevices"/> devices.
         /// </summary>
-        /// <param name="jobs"></param>
-        /// <param name="nbDevices"></param>
+        /// <param name="jobs">Array of jobs to execute.</param>
+        /// <param name="nbDevices">Number of devices.</param>
         void Execute(TJob[] jobs, int nbDevices);
     }
 }

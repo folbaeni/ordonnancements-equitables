@@ -11,21 +11,20 @@ namespace OrdonnancementsEquitables.Algos
     public interface IMultipleUsers<TJob> where TJob : Job
     {
 
-        /// <summary>
-        /// Parameter of type in showing the number of users, this parmaeter is defined as readonly
-        /// </summary>
+        /// <value>
+        /// Number of user in the current execution.
+        /// </value>
         int NumberOfUsers { get; }
 
-        /// <summary>
-        /// Parameter of type User<TJob>[] representing the users for an algorithme, this parameter is defined as readonly
-        /// </summary>
+        /// <value>
+        /// Shallow copy of the current users.
+        /// </value>
         public User<TJob>[] Users { get; }
 
-
         /// <summary>
-        /// Execution function of an algorithme with <paramref name="users"/>
+        /// Execution function of an algorithme with <paramref name="users"/> on one device.
         /// </summary>
-        /// <param name="users"></param>
+        /// <param name="users">Array of the users containing the jobs to execute.</param>
         void Execute(User<TJob>[] users);
     }
 }
