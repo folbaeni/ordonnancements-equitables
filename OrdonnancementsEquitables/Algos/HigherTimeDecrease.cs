@@ -1,4 +1,5 @@
-﻿using OrdonnancementsEquitables.Jobs;
+﻿using OrdonnancementsEquitables.Drawing;
+using OrdonnancementsEquitables.Jobs;
 using OrdonnancementsEquitables.Models;
 using OrdonnancementsEquitables.Utils;
 using System;
@@ -53,7 +54,7 @@ namespace OrdonnancementsEquitables.Algos
                 G.ExecuteJob(higher);
 
                 int i = 0;
-                while (i < trOrder.Length && trOrder[i].TimeReady > trOrder[i + 1].TimeReady)
+                while (i < trOrder.Length - 1 && trOrder[i].TimeReady > trOrder[i + 1].TimeReady)
                 {
                     trOrder.Swap(i, i + 1);
                     i++;
@@ -66,10 +67,29 @@ namespace OrdonnancementsEquitables.Algos
                 trOrder[0].AddJob(jobCo);
 
                 int i = 0;
-                while (i < trOrder.Length && trOrder[i].TimeReady > trOrder[i + 1].TimeReady)
+                while (i < trOrder.Length - 1 && trOrder[i].TimeReady > trOrder[i + 1].TimeReady)
                 {
                     trOrder.Swap(i, i + 1);
                     i++;
+                }
+            }
+        }
+
+        public override void Draw(Canvas canvas)
+        {
+            DrawerCo dr = new DrawerCo(canvas, currentUsers.Length, currentDevices.Length);
+
+            for (int deviceIndex = 0; deviceIndex < currentDevices.Length; deviceIndex++)
+            {
+                Device<JobCo> device = currentDevices[deviceIndex];
+                foreach (JobCo job in device.Jobs)
+                {
+                    User<JobCo> user = currentUsers.Where(u => u.Jobs.Contains(job)).FirstOrDefault();
+                    int userIndex = Array.IndexOf(currentUsers, user);
+
+                    bool isLate = late.Contains(job);
+
+                    dr.AddJobCo(job, isLate, userIndex, deviceIndex);
                 }
             }
         }

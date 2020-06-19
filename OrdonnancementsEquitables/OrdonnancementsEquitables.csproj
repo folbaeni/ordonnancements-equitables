@@ -176,7 +176,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Default Jobs\HigherTimeDegree.json">
+    <None Include="Assets\Default Jobs\HigherTimeDecrease.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -62,9 +62,9 @@
                 </Style>
             </StackPanel.Resources>
 
-            <CheckBox Content="CheckBox" VerticalAlignment="Top"/>
-            <CheckBox Content="CheckBox" VerticalAlignment="Top"/>
-            <CheckBox Content="CheckBox" VerticalAlignment="Top"/>
+            <CheckBox Content="CheckBox1" VerticalAlignment="Top"/>
+            <CheckBox Content="CheckBox2" VerticalAlignment="Top"/>
+            <CheckBox Content="CheckBox3" VerticalAlignment="Top"/>
         </StackPanel>
         <Button 
             Content="START" Background="Red" Click="StartAlgo"
@@ -75,8 +75,8 @@
             <Label Content="Number of devices:" HorizontalAlignment="Left" VerticalAlignment="Top" DockPanel.Dock="Top"/>
             <Slider HorizontalAlignment="Left" VerticalAlignment="Top" Width="200"
                 Minimum="1" Maximum="10" Value="1"
-                IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight" x:Name="slValue" DockPanel.Dock="Bottom"/>
-            <TextBox Text="{Binding Value, ElementName=slValue, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Margin="0,0,0,-19" DockPanel.Dock="Right" Width="30" Height="20" />
+                IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight" Name="DevicesSlider" DockPanel.Dock="Bottom"/>
+            <TextBox Text="{Binding Value, ElementName=DevicesSlider, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Margin="0,0,0,-19" DockPanel.Dock="Right" Width="30" Height="20" />
         </DockPanel>
 
 

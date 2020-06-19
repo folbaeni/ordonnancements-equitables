@@ -130,7 +130,7 @@ namespace OrdonnancementsEquitables.Models
                     jobCoDeg.Add(Jobs.FromId(id));
             }
 
-            jobCoDeg = jobCoDeg.Where(j => j.IsLocked == false).OrderBy(j => j.ExecTime).ToList();
+            jobCoDeg = jobCoDeg.Where(j => j.IsLocked == false).Where(j => leftJobs.Contains(j)).OrderBy(j => j.ExecTime).ToList();
 
             foreach (JobCo onTime in jobCoDeg)
             {

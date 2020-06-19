@@ -81,19 +81,6 @@ namespace OrdonnancementsEquitables
 
         private void StartAlgo(object sender, RoutedEventArgs e)
         {
-            //DrawerCo dr = new DrawerCo(screen, 4, 4);
-            //dr.CleanCanvas();
-            //Random rrr = new Random();
-            //int i;
-            //for (i = 0; i < 100; i++)
-            //{
-            //    int rand = rrr.Next(1, 15);
-            //    JobCo tmp = new JobCo(rand, rrr.Next(1, rand));
-            //    //JobCo tmp = new JobCo(3, 2);
-            //    dr.AddJob(tmp, false, rrr.Next(0, 4), rrr.Next(0, 4));
-            //}
-            //return;
-
             string nomAlgo = SelAlgo.SelectedItem.ToString().AffToSyst();
             Type algoType = Type.GetType(typeof(Algorithm<>).Namespace + "." + nomAlgo);
             var algo = Activator.CreateInstance(algoType);
@@ -126,21 +113,30 @@ namespace OrdonnancementsEquitables
             switch (fileParser.JobType.Name)
             {
                 case "Job":
-                    Algorithm<JobCo> algorithmeJ = (Algorithm<JobCo>)algo;
-                    var jobs = fileParser.ParseJobsFromJSON<JobCo>();
-                    algorithmeJ.Execute(jobs);
+                    Algorithm<Job> algorithmeJ = (Algorithm<Job>)algo;
+                    var jobs = fileParser.ParseJobsFromJSON<Job>();
+                    if (algorithmeJ is IMultipleDevices<Job> mdJ)
+                        mdJ.Execute(jobs, (int)DevicesSlider.Value);
+                    else
+                        algorithmeJ.Execute(jobs);
                     algorithmeJ.Draw(screen);
                     break;
                 case "JobP":
                     Algorithm<JobP> algorithmeJP = (Algorithm<JobP>)algo;
                     var jobsP = fileParser.ParseJobsFromJSON<JobP>();
-                    algorithmeJP.Execute(jobsP);
+                    if (algorithmeJP is IMultipleDevices<JobP> mdJP)
+                        mdJP.Execute(jobsP, (int)DevicesSlider.Value);
+                    else
+                        algorithmeJP.Execute(jobsP);
                     algorithmeJP.Draw(screen);
                     break;
                 case "JobCo":
                     Algorithm<JobCo> algorithmeJC = (Algorithm<JobCo>)algo;
                     var jobsJC = fileParser.ParseJobsFromJSON<JobCo>();
-                    algorithmeJC.Execute(jobsJC);
+                    if (algorithmeJC is IMultipleDevices<JobCo> mdJC)
+                        mdJC.Execute(jobsJC, (int)DevicesSlider.Value);
+                    else
+                        algorithmeJC.Execute(jobsJC);
                     algorithmeJC.Draw(screen);
                     break;
             }
