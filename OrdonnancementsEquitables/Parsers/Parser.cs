@@ -19,6 +19,7 @@ namespace OrdonnancementsEquitables.Parsers
         public Type JobType { get; }
 
         private Parser() { }
+
         public Parser(string filePath) 
         {
             string content = File.ReadAllText(filePath);
