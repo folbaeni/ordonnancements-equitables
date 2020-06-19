@@ -9,18 +9,18 @@ namespace OrdonnancementsEquitables.Jobs
 {
     public class JobCo : Job
     {
-        private int execTime;
-        private bool isLocked;
+        private int _execTime;
+        private bool _isLocked;
 
         public int[] Depend { get; } /* JobCos dont il depend */
-        public int ExecTime { get => execTime; }
-        public bool IsLocked { get => isLocked; }
+        public int ExecTime { get => _execTime; }
+        public bool IsLocked { get => _isLocked; }
         
         public JobCo(int time, int deadline, int[] depend) : base(time, deadline)
         {
             Depend = depend.ToArray();
-            execTime = Time;
-            isLocked = false;
+            _execTime = Time;
+            _isLocked = false;
         }
 
         public bool ActualiseIsLocked(List<int>[] L)
@@ -28,10 +28,10 @@ namespace OrdonnancementsEquitables.Jobs
             foreach (var id in Depend)
             {
                 if (L[id].Contains(Id))
-                    return isLocked = true;
+                    return _isLocked = true;
             }
 
-            return isLocked = false;
+            return _isLocked = false;
         }
 
         public int ActualiseExecTime(List<int>[] L)
@@ -41,7 +41,7 @@ namespace OrdonnancementsEquitables.Jobs
                 if (!L[id].Contains(Id))
                     time--;
 
-            return execTime = Math.Max(time, 1);
+            return _execTime = Math.Max(time, 1);
         }
 
 

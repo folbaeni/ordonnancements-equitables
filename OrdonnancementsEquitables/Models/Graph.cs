@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace OrdonnancementsEquitables.Models
 {
-
     /// <summary>
     /// Abstract class modeling oriented graphs.
     /// </summary>
@@ -14,7 +13,6 @@ namespace OrdonnancementsEquitables.Models
     {
         protected JobCo[] Jobs;
         protected List<JobCo> leftJobs;
-        
         
         /// <summary>
         /// List of adjencies of the oriented graph.

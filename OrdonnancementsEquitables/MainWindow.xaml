@@ -8,13 +8,11 @@
         xmlns:resx="clr-namespace:OrdonnancementsEquitables.Properties"
         Title="{x:Static resx:Resources.AppName}"
         WindowStartupLocation="CenterScreen"
-        Height="450" Width="800" MinHeight="370" MinWidth="800"
-        >
-    <!--
-        Icon="{x:Static resx:Resources.AppIcon}"
+        Height="450" Width="800" MinHeight="370" MinWidth="800">
+        <!--
+            Icon="{x:Static resx:Resources.AppIcon}"
         -->
     <Grid>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="3*" />
@@ -30,8 +28,7 @@
         <ComboBox 
             Name="SelAlgo" Text="select algo"
             Grid.Column="0" Grid.Row="0"
-            VerticalAlignment="Center" Margin="10,0"
-            SelectionChanged="ComboBox_SelectionChanged"/>
+            VerticalAlignment="Center" Margin="10,0"/>
         <TextBox
             MaxLines="1"
             Grid.Column="1" Grid.Row="0"
@@ -47,11 +44,8 @@
             Name="ZoomTool"
             VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible"
             Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" CanContentScroll="False">
-
             <Canvas MouseWheel="ScrollViewer_MouseWheel" Width="800" Height="500" Name="screen">
             </Canvas>
-
-
         </ScrollViewer>
 
         <StackPanel Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Stretch">
@@ -81,13 +75,10 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Number of devices:" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Slider Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200"
-                Minimum="1" Maximum="10" Value="1"
-                IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight" Name="DevicesSlider"/>
+            <Slider Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Name="DevicesSlider"
+                Minimum="1" Maximum="10" Value="1" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight" />
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Value, ElementName=DevicesSlider, UpdateSourceTrigger=PropertyChanged}"
-                     TextAlignment="Center" Margin="0,0,0,-19" Width="30" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                     TextAlignment="Center" Width="30" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center"/>
         </Grid>
-
-
     </Grid>
 </Window>
