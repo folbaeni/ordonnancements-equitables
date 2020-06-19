@@ -91,55 +91,47 @@ namespace OrdonnancementsEquitables
                 switch (algo.GetType().BaseType.GetGenericArguments()[0].Name)
                 {
                     case "Job":
-                        Algorithm<Job> algorithmeJ = (Algorithm<Job>)algo;
-                        algorithmeJ.ExecuteDefault();
-                        algorithmeJ.Draw(screen);
+                        DefaultExecution(algo as Algorithm<Job>);
                         break;
                     case "JobP":
-                        Algorithm<JobP> algorithmeJP = (Algorithm<JobP>)algo;
-                        algorithmeJP.ExecuteDefault();
-                        algorithmeJP.Draw(screen);
+                        DefaultExecution(algo as Algorithm<JobP>);
                         break;
                     case "JobCo":
-                        Algorithm<JobCo> algorithmeJC = (Algorithm<JobCo>)algo;
-                        algorithmeJC.ExecuteDefault();
-                        algorithmeJC.Draw(screen);
+                        DefaultExecution(algo as Algorithm<JobCo>);
                         break;
                 }
-                return;
-            }
-
-            Job.CountToZero();
-            switch (fileParser.JobType.Name)
+            } 
+            else
             {
-                case "Job":
-                    Algorithm<Job> algorithmeJ = (Algorithm<Job>)algo;
-                    var jobs = fileParser.ParseJobsFromJSON<Job>();
-                    if (algorithmeJ is IMultipleDevices<Job> mdJ)
-                        mdJ.Execute(jobs, (int)DevicesSlider.Value);
-                    else
-                        algorithmeJ.Execute(jobs);
-                    algorithmeJ.Draw(screen);
-                    break;
-                case "JobP":
-                    Algorithm<JobP> algorithmeJP = (Algorithm<JobP>)algo;
-                    var jobsP = fileParser.ParseJobsFromJSON<JobP>();
-                    if (algorithmeJP is IMultipleDevices<JobP> mdJP)
-                        mdJP.Execute(jobsP, (int)DevicesSlider.Value);
-                    else
-                        algorithmeJP.Execute(jobsP);
-                    algorithmeJP.Draw(screen);
-                    break;
-                case "JobCo":
-                    Algorithm<JobCo> algorithmeJC = (Algorithm<JobCo>)algo;
-                    var jobsJC = fileParser.ParseJobsFromJSON<JobCo>();
-                    if (algorithmeJC is IMultipleDevices<JobCo> mdJC)
-                        mdJC.Execute(jobsJC, (int)DevicesSlider.Value);
-                    else
-                        algorithmeJC.Execute(jobsJC);
-                    algorithmeJC.Draw(screen);
-                    break;
+                switch (fileParser.JobType.Name)
+                {
+                    case "Job":
+                        Execution(algo as Algorithm<Job>);
+                        break;
+                    case "JobP":
+                        Execution(algo as Algorithm<JobP>);
+                        break;
+                    case "JobCo":
+                        Execution(algo as Algorithm<JobCo>);
+                        break;
+                }
             }
+        }
+
+        private void DefaultExecution<TJob>(Algorithm<TJob> algo) where TJob : Job
+        {
+            algo.ExecuteDefault();
+            algo.Draw(screen);
+        }
+
+        private void Execution<TJob>(Algorithm<TJob> algo) where TJob : Job
+        {
+            var jobsP = fileParser.ParseJobsFromJSON<TJob>();
+            if (algo is IMultipleDevices<TJob> mdJP)
+                mdJP.Execute(jobsP, (int)DevicesSlider.Value);
+            else
+                algo.Execute(jobsP);
+            algo.Draw(screen);
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
