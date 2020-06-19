@@ -126,21 +126,16 @@ namespace OrdonnancementsEquitables
 
         private void Execution<TJob>(Algorithm<TJob> algo) where TJob : Job
         {
-            var jobsP = fileParser.ParseJobsFromJSON<TJob>();
+            var jobs = fileParser.ParseJobsFromJSON<TJob>();
             if (algo is IMultipleDevices<TJob> mdJP)
-                mdJP.Execute(jobsP, (int)DevicesSlider.Value);
+                mdJP.Execute(jobs, (int)DevicesSlider.Value);
             else
-                algo.Execute(jobsP);
+                algo.Execute(jobs);
             algo.Draw(screen);
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
         }
 
         private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-
             ScaleTransform st = new ScaleTransform();
             if (e.Delta > 0)
             {
