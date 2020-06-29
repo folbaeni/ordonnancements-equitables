@@ -26,7 +26,7 @@ namespace OrdonnancementsEquitables.Drawing
         /// </summary>
         protected Canvas Panel;
         /// <summary>
-        /// The last pixel in width of each machine to add next JobCo.
+        /// The last pixel in width of each machine to add next Job.
         /// </summary>
         protected int[] maxTime;
         /// <summary>
@@ -92,36 +92,36 @@ namespace OrdonnancementsEquitables.Drawing
         }
 
         /// <summary>
-        /// This method adds the rectangle representing the JobCo <paramref name="j"/> in the graphic for the case where there is one machine ad one user.
+        /// This method adds the rectangle representing the Job <paramref name="j"/> in the graphic for the case where there is one machine ad one user.
         /// </summary>
-        /// <param name="j">Parameter of the JobCo that will be added. </param>
-        /// <param name="late">Boolean indicating if the JobCo is late or not.</param>
+        /// <param name="j">Parameter of the Job that will be added. </param>
+        /// <param name="late">Boolean indicating if the Job is late or not.</param>
         public void AddJob(Job j, bool late) => AddJob(j, late, PickBrush(), 0);
 
         /// <summary>
-        /// This method adds the rectangle representing the JobCo <paramref name="j"/> in the graphic for the case where there is one machine and many users.
+        /// This method adds the rectangle representing the Job <paramref name="j"/> in the graphic for the case where there is one machine and many users.
         /// </summary>
-        /// <param name="machine"> Integer representing which machine has the JobCo.</param>
-        /// <param name="j">Parameter of the JobCo that will be added. </param>
-        /// <param name="couleur"> Brush of the color of the JobCo, which has to be defined by the userId (UserColor). </param>
-        /// <param name="late">Boolean indicating if the JobCo is late or not.</param>
+        /// <param name="machine"> Integer representing which machine has the Job.</param>
+        /// <param name="j">Parameter of the Job that will be added. </param>
+        /// <param name="couleur"> Brush of the color of the Job, which has to be defined by the userId (UserColor). </param>
+        /// <param name="late">Boolean indicating if the Job is late or not.</param>
         public void AddJob(Job j, bool late, int user) => AddJob(j, late, userColors.Length == 1 ? PickBrush() : userColors[user], 0);
 
         /// <summary>
-        /// This method adds the rectangle representing the JobCo <paramref name="j"/> for <paramref name="machine"/> in the graphic. Case with one or many users and many machines.
+        /// This method adds the rectangle representing the Job <paramref name="j"/> for <paramref name="machine"/> in the graphic. Case with one or many users and many machines.
         /// </summary>
-        /// <param name="machine"> Integer representing which machine has the JobCo.</param>
-        /// <param name="j">Parameter of the JobCo that will be added. </param>
-        /// <param name="late">Boolean indicating if the JobCo is late or not.</param>
+        /// <param name="machine"> Integer representing which machine has the Job.</param>
+        /// <param name="j">Parameter of the Job that will be added. </param>
+        /// <param name="late">Boolean indicating if the Job is late or not.</param>
         public void AddJob(Job j, bool late, int user, int machine) => AddJob(j, late, userColors.Length == 1 ? PickBrush() : userColors[user], machine);
 
         /// <summary>
-        /// This method adds the rectangle representing the JobCo <paramref name="j"/> for <paramref name="machine"/> in the graphic.
+        /// This method adds the rectangle representing the Job <paramref name="j"/> for <paramref name="machine"/> in the graphic.
         /// </summary>
-        /// <param name="j">Parameter of the JobCo that will be added. </param>
-        /// <param name="late">Boolean indicating if the JobCo is late or not.</param>
-        /// <param name="couleur"> Brush of the color of the JobCo, which has to be defined by the userId (UserColor). </param>
-        /// <param name="machine"> Integer representing which machine has the JobCo.</param>
+        /// <param name="j">Parameter of the Job that will be added. </param>
+        /// <param name="late">Boolean indicating if the Job is late or not.</param>
+        /// <param name="couleur"> Brush of the color of the Job, which has to be defined by the userId (UserColor). </param>
+        /// <param name="machine"> Integer representing which machine has the Job.</param>
         private void AddJob(Job j, bool late, Brush couleur, int machine)
         {
             Rectangle rect = new Rectangle
