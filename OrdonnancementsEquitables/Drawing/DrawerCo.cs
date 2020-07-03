@@ -92,7 +92,7 @@ namespace OrdonnancementsEquitables.Drawing
             {
                 Fill = couleur,
                 Stroke = Brushes.Black,
-                Height = hauteur / 2,
+                Height = height / 2,
                 Width = exeT * pixelMultiplier
             };
 
@@ -100,7 +100,7 @@ namespace OrdonnancementsEquitables.Drawing
             {
                 Fill = couleur,
                 Stroke = Brushes.Black,
-                Height = hauteur / 2,
+                Height = height / 2,
                 Width = t * pixelMultiplier
             };
 
@@ -160,6 +160,6 @@ namespace OrdonnancementsEquitables.Drawing
         /// </summary>
         /// <param name="machine">This parameter identifies the machine.</param>
         /// <returns>Returns the <c>x</c> coordinate in pixels.</returns>
-        private int HeightCalCo(int machine) => machine * 60 + 10 + (hauteur / 2);
+        private int HeightCalCo(int machine) => machine * 60 + 10 + (height / 2);
     }
 }

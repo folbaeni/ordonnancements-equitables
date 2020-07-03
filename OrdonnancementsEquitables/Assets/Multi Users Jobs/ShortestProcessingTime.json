@@ -1,0 +1,51 @@
+﻿{
+  "job_type": "Job",
+  "job_list": [
+    [
+      {
+        "time": 6,
+        "deadline": 8
+      },
+      {
+        "time": 4,
+        "deadline": 9
+      },
+      {
+        "time": 7,
+        "deadline": 15
+      }
+    ],
+    [
+      {
+        "time": 8,
+        "deadline": 20
+      },
+      {
+        "time": 3,
+        "deadline": 21
+      },
+      {
+        "time": 5,
+        "deadline": 22
+      }
+    ],
+    [
+      {
+        "time": 15,
+        "deadline": 20
+      },
+      {
+        "time": 12,
+        "deadline": 25
+      },
+      {
+        "time": 11,
+        "deadline": 19
+      },
+      {
+        "time": 14,
+        "deadline": 18
+      }
+    ]
+  ]
+}

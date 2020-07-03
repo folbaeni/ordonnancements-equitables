@@ -85,53 +85,52 @@ namespace OrdonnancementsEquitables
             Type algoType = Type.GetType(typeof(Algorithm<>).Namespace + "." + nomAlgo);
             var algo = Activator.CreateInstance(algoType);
             Job.CountToZero();
-
+            
             if (filePath.Text == Properties.Resources.InitText)
             {
-                switch (algo.GetType().BaseType.GetGenericArguments()[0].Name)
+                _ = algo.GetType().BaseType.GetGenericArguments()[0].Name switch
                 {
-                    case "Job":
-                        DefaultExecution(algo as Algorithm<Job>);
-                        break;
-                    case "JobP":
-                        DefaultExecution(algo as Algorithm<JobP>);
-                        break;
-                    case "JobCo":
-                        DefaultExecution(algo as Algorithm<JobCo>);
-                        break;
-                }
+                    "Job" => DefaultExecution(algo as Algorithm<Job>),
+                    "JobP" => DefaultExecution(algo as Algorithm<JobP>),
+                    "JobCo" => DefaultExecution(algo as Algorithm<JobCo>),
+                    _ => false
+                };
             } 
             else
             {
-                switch (fileParser.JobType.Name)
-                {
-                    case "Job":
-                        Execution(algo as Algorithm<Job>);
-                        break;
-                    case "JobP":
-                        Execution(algo as Algorithm<JobP>);
-                        break;
-                    case "JobCo":
-                        Execution(algo as Algorithm<JobCo>);
-                        break;
-                }
+                _ = fileParser.JobType.Name switch 
+                { 
+                    "Job" => Execution(algo as Algorithm<Job>),
+                    "JobP" => Execution(algo as Algorithm<JobP>),
+                    "JobCo" => Execution(algo as Algorithm<JobCo>),
+                    _ => false
+                };
             }
         }
 
-        private void DefaultExecution<TJob>(Algorithm<TJob> algo) where TJob : Job
+        private bool DefaultExecution<TJob>(Algorithm<TJob> algo) where TJob : Job
         {
             algo.ExecuteDefault();
             algo.Draw(screen);
+
+            return true;
         }
 
-        private void Execution<TJob>(Algorithm<TJob> algo) where TJob : Job
+        private bool Execution<TJob>(Algorithm<TJob> algo) where TJob : Job
         {
             var jobs = fileParser.ParseJobsFromJSON<TJob>();
-            if (algo is IMultipleDevices<TJob> mdJP)
-                mdJP.Execute(jobs, (int)DevicesSlider.Value);
+            var users = fileParser.ParseUsersFromJSON<TJob>();
+            if (fileParser.IsSingleUser == false && algo is IMultipleDevicesAndUsers<TJob> mduJ)
+                mduJ.Execute(users, (int)DevicesSlider.Value);
+            else if (fileParser.IsSingleUser == false && algo is IMultipleUsers<TJob> muJ)
+                muJ.Execute(users);
+            else if (algo is IMultipleDevices<TJob> mdJ)
+                mdJ.Execute(jobs, (int)DevicesSlider.Value);
             else
                 algo.Execute(jobs);
             algo.Draw(screen);
+
+            return true;
         }
 
         private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)

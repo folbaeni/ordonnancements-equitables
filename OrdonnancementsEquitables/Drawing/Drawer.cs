@@ -18,7 +18,6 @@ namespace OrdonnancementsEquitables.Drawing
     /// <summary>
     /// Class containing tools in order to draw graphs representing task's order in machines.
     /// </summary>
-
     public class Drawer
     {
         /// <summary>
@@ -45,7 +44,7 @@ namespace OrdonnancementsEquitables.Drawing
         /// </summary>
         protected static readonly int pixelMultiplier = 50;
 
-        protected static readonly int hauteur = 50;
+        protected static readonly int height = 50;
 
 
         /// <summary>
@@ -128,7 +127,7 @@ namespace OrdonnancementsEquitables.Drawing
             {
                 Fill = couleur,
                 Stroke = Brushes.Black,
-                Height = hauteur,
+                Height = height,
                 Width = j.Time * pixelMultiplier
             };
             Canvas.SetTop(rect, HeightCal(machine));
@@ -152,55 +151,6 @@ namespace OrdonnancementsEquitables.Drawing
             Panel.Width = maxTime.Max() + 10;
             Panel.Children.Add(rect);
         }
-
-        /*
-        private void MakeInterlap(int time, Brush colA, Brush colB, int machine)
-        {
-            /// Initialisation triangle A
-            PointCollection pAlpha = new PointCollection
-            {
-                new Point(0, 0),
-                new Point(1, 0),
-                new Point(0, 1)
-            };
-            Polygon Alpha = new Polygon
-            {
-                Points = pAlpha,
-                Fill = colA,
-                Height = 50,
-                Width = pixelMultiplier * time
-            };
-
-            /// Initialisation triangle B
-            PointCollection pBeta = new PointCollection
-            {
-                new Point(1, 1),
-                new Point(1, 0),
-                new Point(0, 1)
-            };
-            Polygon Beta = new Polygon
-            {
-                Points = pBeta,
-                Fill = colB,
-                Height = 50,
-                Width = pixelMultiplier * time
-            };
-
-
-            //Insertion in canvas
-            Canvas.SetTop(Alpha, HeightCal(machine));
-            Canvas.SetLeft(Alpha, WidthCal(machine));
-
-            Canvas.SetTop(Beta, HeightCal(machine));
-            Canvas.SetLeft(Beta, WidthCal(machine));
-
-            maxtime[machine] += time * pixelMultiplier;
-            Panel.Width = maxtime.Max() + 10;
-
-            Panel.Children.Add(Alpha);
-            Panel.Children.Add(Beta);
-        }
-        */
 
         /// <summary>
         /// This method is dedicated to generate the background of a rectangle which is late adding red stripes on his actual color.

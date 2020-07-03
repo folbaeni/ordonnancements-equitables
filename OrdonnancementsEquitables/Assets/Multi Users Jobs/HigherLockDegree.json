@@ -1,0 +1,61 @@
+﻿{
+  "job_type": "JobCo",
+  "job_list": [
+    [
+      {
+        "time": 5,
+        "deadline": 7,
+        "depend": []
+      },
+      {
+        "time": 4,
+        "deadline": 20,
+        "depend": [ 0 ]
+      },
+      {
+        "time": 7,
+        "deadline": 12,
+        "depend": [ 1 ]
+      }
+    ],
+    [
+      {
+        "time": 8,
+        "deadline": 19,
+        "depend": [ 1, 2 ]
+      },
+      {
+        "time": 3,
+        "deadline": 15,
+        "depend": [ 0, 2 ]
+      },
+      {
+        "time": 5,
+        "deadline": 25,
+        "depend": [ 2 ]
+      }
+    ],
+    [
+      {
+        "time": 15,
+        "deadline": 17,
+        "depend": [ 8 ]
+      },
+      {
+        "time": 12,
+        "deadline": 27,
+        "depend": [ 6, 9 ]
+      },
+      {
+        "time": 11,
+        "deadline": 26,
+        "depend": [ 9 ]
+      },
+      {
+        "time": 14,
+        "deadline": 30,
+        "depend": []
+      }
+    ]
+  ]
+}

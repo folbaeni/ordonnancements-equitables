@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using OrdonnancementsEquitables.Jobs;
+using OrdonnancementsEquitables.Models;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace OrdonnancementsEquitables.Parsers
         readonly JArray list;
 
         public Type JobType { get; }
+        public bool? IsSingleUser { get; }
 
         private Parser() { }
 
@@ -26,6 +28,14 @@ namespace OrdonnancementsEquitables.Parsers
             JObject obj = ParseToJSON(content);
             JobType = GetTypeFromJSON(obj);
             list = GetJobsArrayFromJSON(obj);
+
+            var childType = list.First.Type;
+            IsSingleUser = childType switch
+            {
+                JTokenType.Object => true,
+                JTokenType.Array => false,
+                _ => null
+            };
         }
 
         JObject ParseToJSON(string content) => JObject.Parse(content);
@@ -35,16 +45,31 @@ namespace OrdonnancementsEquitables.Parsers
             Type jobType = Type.GetType(typeof(Job).Namespace + "." + type);
             return jobType;
         }
+
         JArray GetJobsArrayFromJSON(JObject obj) => (JArray)obj["job_list"];
+
+        TJob[] GetJobArray<TJob>(JArray token) => token.Select(t => t.ToObject<TJob>()).ToArray();
 
         public TJob[] ParseJobsFromJSON<TJob>() where TJob : Job
         {
+            if (IsSingleUser == false)
+                return null;
             if (JobType != typeof(TJob))
             {
                 throw new ParserTypeException();
             }
-            var arr = list.Select(t => t.ToObject<TJob>()).ToArray();
+            var arr = GetJobArray<TJob>(list);
             return arr;
+        }
+
+        public User<TJob>[] ParseUsersFromJSON<TJob>() where TJob : Job
+        {
+            if (IsSingleUser == true)
+                return null;
+
+            var users = list.Select(u => new User<TJob>(GetJobArray<TJob>((JArray)u))).ToArray();
+            
+            return users;
         }
     }
 }
