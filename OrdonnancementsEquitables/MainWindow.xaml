@@ -8,7 +8,8 @@
         xmlns:resx="clr-namespace:OrdonnancementsEquitables.Properties"
         Title="{x:Static resx:Resources.AppName}"
         WindowStartupLocation="CenterScreen"
-        Height="450" Width="800" MinHeight="370" MinWidth="800">
+        Height="450" Width="800" MinHeight="370" MinWidth="800"
+        KeyDown="Window_KeyDown" KeyUp="Window_KeyUp">
         <!--
             Icon="{x:Static resx:Resources.AppIcon}"
         -->
@@ -41,7 +42,7 @@
             Grid.Column="2" Grid.Row="0" 
             Content="Select file"/>
         <ScrollViewer 
-            Name="ZoomTool"
+            Name="Scroller"
             VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible"
             Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" CanContentScroll="False">
             <Canvas MouseWheel="ScrollViewer_MouseWheel" Width="800" Height="500" Name="screen">

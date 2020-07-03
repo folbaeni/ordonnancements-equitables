@@ -29,6 +29,10 @@ namespace OrdonnancementsEquitables
     {
         Parser fileParser;
         private double _zoomValue = 1.0;
+        private bool isCtrlPressed = false;
+        private const double ZoomScale = 1.25;
+        private const double MaxZoom = 4;
+        private const double MinZoom = 0.5;
 
         public MainWindow()
         {
@@ -135,19 +139,33 @@ namespace OrdonnancementsEquitables
 
         private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (!isCtrlPressed)
+                return;
             ScaleTransform st = new ScaleTransform();
             if (e.Delta > 0)
             {
-                st.ScaleX = st.ScaleY = _zoomValue = _zoomValue * 1.25;
-                if (st.ScaleX > 64) st.ScaleX = st.ScaleY = _zoomValue = 64;
+                st.ScaleX = st.ScaleY = _zoomValue = _zoomValue * ZoomScale;
+                if (st.ScaleX > MaxZoom) st.ScaleX = st.ScaleY = _zoomValue = MaxZoom;
             }
             else
             {
-                st.ScaleX = st.ScaleY = st.ScaleX = _zoomValue = _zoomValue / 1.25;
-                if (st.ScaleX < 1) st.ScaleX = st.ScaleY = _zoomValue = 1;
+                st.ScaleX = st.ScaleY = st.ScaleX = _zoomValue = _zoomValue / ZoomScale;
+                if (st.ScaleX < MinZoom) st.ScaleX = st.ScaleY = _zoomValue = MinZoom;
             }
             screen.LayoutTransform = st;
             e.Handled = true;
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            isCtrlPressed = (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl);
+            Scroller.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            isCtrlPressed = !(e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl);
+            Scroller.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
         }
     }
 }
