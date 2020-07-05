@@ -115,7 +115,7 @@ namespace OrdonnancementsEquitables
         private bool DefaultExecution<TJob>(Algorithm<TJob> algo) where TJob : Job
         {
             algo.ExecuteDefault();
-            algo.Draw(screen);
+            algo.Draw(Canvas);
 
             return true;
         }
@@ -132,12 +132,12 @@ namespace OrdonnancementsEquitables
                 mdJ.Execute(jobs, (int)DevicesSlider.Value);
             else
                 algo.Execute(jobs);
-            algo.Draw(screen);
+            algo.Draw(Canvas);
 
             return true;
         }
 
-        private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
+        private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (!isCtrlPressed)
                 return;
@@ -152,20 +152,22 @@ namespace OrdonnancementsEquitables
                 st.ScaleX = st.ScaleY = st.ScaleX = _zoomValue = _zoomValue / ZoomScale;
                 if (st.ScaleX < MinZoom) st.ScaleX = st.ScaleY = _zoomValue = MinZoom;
             }
-            screen.LayoutTransform = st;
+            Canvas.LayoutTransform = st;
             e.Handled = true;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             isCtrlPressed = (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl);
-            Scroller.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+            if (isCtrlPressed)
+                Scroller.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
             isCtrlPressed = !(e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl);
-            Scroller.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+            if (!isCtrlPressed)
+                Scroller.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
         }
     }
 }

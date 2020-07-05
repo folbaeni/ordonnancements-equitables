@@ -46,7 +46,7 @@ namespace OrdonnancementsEquitables.Algos
 
         public void Execute(User<Job>[] users, int nbDevices)
         {
-            Job[] jobs = currentUsers.SelectMany(u => u.Jobs).ToArray();
+            Job[] jobs = users.SelectMany(u => u.Jobs).ToArray();
             Execute(jobs, nbDevices);
 
             currentUsers = users;
