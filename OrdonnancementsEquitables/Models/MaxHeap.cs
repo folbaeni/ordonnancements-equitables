@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace OrdonnancementsEquitables.Models
 {
-    public class MaxHeap<TJobCo> where TJobCo : Job
+    public class MaxHeap<TJob> where TJob : Job
     {
         public int Count => table.Count;
         
-        private readonly List<TJobCo> table;
+        private readonly List<TJob> table;
 
         public MaxHeap()
         {
-            table = new List<TJobCo>();
+            table = new List<TJob>();
         } 
 
-        public void Insert(TJobCo item)
+        public void Insert(TJob item)
         {
             table.Add(item);
             int index = Count - 1;
@@ -30,14 +30,14 @@ namespace OrdonnancementsEquitables.Models
             }
         }
 
-        public TJobCo RemoveMax()
+        public TJob RemoveMax()
         {
             if (Count == 0) 
                 return null;
 
             table.Swap(0, Count - 1);
             int index = 0;
-            TJobCo res = table[Count - 1];
+            TJob res = table[Count - 1];
             table.RemoveAt(Count - 1);
 
             while (index < Count)
