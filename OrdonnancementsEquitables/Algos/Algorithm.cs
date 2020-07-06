@@ -93,7 +93,7 @@ namespace OrdonnancementsEquitables.Algos
                 Device<TJob> device = currentDevices[deviceIndex];
                 foreach (TJob job in device.Jobs)
                 {
-                    User<TJob> user = currentUsers.Where(u => u.Jobs.Contains(job)).FirstOrDefault();
+                    User<TJob> user = currentUsers.Where(u => u.Contains(job)).FirstOrDefault();
                     int userIndex = Array.IndexOf(currentUsers, user);
 
                     bool isLate = late.Contains(job);
