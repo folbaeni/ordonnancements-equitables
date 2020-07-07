@@ -37,7 +37,7 @@ namespace OrdonnancementsEquitables.Algos
                 Device<Job> d = currentDevices.OrderBy(d => d.TimeReady).FirstOrDefault();
                 d.AddJob(j);
 
-                if (d.TimeReady + j.Time < j.Deadline)
+                if (d.TimeReady < j.Deadline)
                     onTime.Add(j);
                 else
                     late.Add(j);
