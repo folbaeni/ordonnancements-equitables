@@ -8,22 +8,22 @@
 
 1. Introduction
 2. Jobs
-   2.1 Job
-   2.2 JobP
-   2.3 JobCo
+   - 2.1 Job
+   - 2.2 JobP
+   - 2.3 JobCo
 3. Modèles
-   3.1 User
-   3.2 Device
+   - 3.1 User
+   - 3.2 Device
 4. Structures de données
-   4.1 MaxHeap
-   4.2 Graph
+   - 4.1 MaxHeap
+   - 4.2 Graph
     * 4.2.1 GraphLock
     * 4.2.2 GraphTimeD
 5. Algorithmes
-   5.1 Hogdson
-   5.2 Glouton Par Profit
-   5.3 Shortest Processing Time et Longest Processing Time
-   5.4 Higher Lock degree et Higher Time Decrease
+   - 5.1 Hogdson
+   - 5.2 Glouton Par Profit
+   - 5.3 Shortest Processing Time et Longest Processing Time
+   - 5.4 Higher Lock degree et Higher Time Decrease
 6. Parser
 7. Interface Utilisateur
 8. Annexes
