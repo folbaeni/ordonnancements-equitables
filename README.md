@@ -32,7 +32,7 @@
 
 Les problèmes d’ordonnancement prennent comme données un ensemble de tâches, un ensemble de machines, et une fonction objectif, un but. Ils consistent à exécuter les tâches sur les machines de façon à optimiser la fonction objectif, sachant qu’une machine ne peut exécuter qu’une seule tâche à la fois. Par exemple, chaque tâche peut avoir une durée d’exécution et une deadline, un date limite, à laquelle elle doit être exécutée, et le but peut être d’exécuter les tâches de manière à minimiser le nombre de tâches en retard, ou la somme des retards des tâches. Dans le cadre de notre projet, nous n’avons pas de fonction objectif fixe.
 
-Pour la conception de ce projet, nous avons coder des algorithmes d’ordonnancements existant et également conçu de nouveau. En présence de plusieurs utilisateurs qui chacun possèdent des tâches à ordonnancer sur des machines partagées.
+Pour la conception de ce projet, nous avons codé des algorithmes d’ordonnancements existant et également conçu de nouveau. En présence de plusieurs utilisateurs qui chacun possèdent des tâches à ordonnancer sur des machines partagées.
 
 Afin d’avoir une meilleur compréhension sur ce que fais les algorithmes, nous avons construit une interface graphique permettant de visualiser les ordonnancements obtenus.
 
