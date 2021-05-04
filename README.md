@@ -26,7 +26,6 @@
    - 5.4 Higher Lock degree et Higher Time Decrease
 6. Parser
 7. Interface Utilisateur
-8. Annexes
 
 ## 1 Introduction
 
@@ -238,7 +237,3 @@ L’exécution de l’algorithme Higher Time Decrease est très particulière ca
 Fig. 6 – Interface Utilisateur - Exécution De Higher Time Decrease
 
 Il est par ailleurs possible d’exécuter un algorithme sans avoir sélectionné de fichier au préalable. Cela va alors faire une exécution par défaut avec une liste de tâches déjà faite. En revanche, les exécutions par défaut ne se font qu’avec un seul utilisateur.
-
-### 8 Annexes
-
-Il est possible de voir tous le code de notre projet au lien Github ci-contre: [www.github.com/VetFalco/ordonnancements-equitables](www.github.com/VetFalco/ordonnancements-equitables)
