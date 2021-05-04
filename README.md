@@ -17,8 +17,8 @@
 4. Structures de données
    - 4.1 MaxHeap
    - 4.2 Graph
-    * 4.2.1 GraphLock
-    * 4.2.2 GraphTimeD
+      - 4.2.1 GraphLock
+      - 4.2.2 GraphTimeD
 5. Algorithmes
    - 5.1 Hogdson
    - 5.2 Glouton Par Profit
